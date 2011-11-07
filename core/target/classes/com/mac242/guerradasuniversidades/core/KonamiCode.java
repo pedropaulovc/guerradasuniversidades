@@ -34,15 +34,22 @@ public class KonamiCode extends TipoTela {
 	public void init() {
 		iniciarBase();
 		desenharFundo(Color.rgb(0, 0, 0));
+		desenharKonamiCode();
+	}
+
+	private void desenharKonamiCode() {
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 60f);
         TextFormat format = new TextFormat().
         		withFont(font).
         		withTextColor(Color.rgb(255, 255, 255));
         TextLayout layout = graphics().layoutText("THE GAME", format);
+        
         int width = (int) Math.ceil(layout.width());
         int height = (int) Math.ceil(layout.height());
+        
         CanvasLayer layer = graphics().createCanvasLayer(width, height);
         layer.canvas().drawText(layout, 0, 0);
+        
         layer.setTranslation(graphics().width()/2 - width/2, graphics().height()/2 - height/2);
         base.add(layer);
 	}

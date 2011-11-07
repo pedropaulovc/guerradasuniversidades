@@ -4,10 +4,8 @@ import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
 import playn.core.Color;
 import playn.core.Font;
-import playn.core.GroupLayer;
 import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
-import tripleplay.ui.Background;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
@@ -19,53 +17,82 @@ import tripleplay.ui.Stylesheet;
 
 enum Dificuldade{FACIL, MEDIO, DIFICIL};
 
-
 public class Opcoes extends TipoTela {
+	
+	class TratadorBotaoOpcao extends UnitSlot {
+		protected Button novo;
+		
+		public TratadorBotaoOpcao(Button novo){
+			this.novo = novo;
+		}
+		
+		public void atualizarBotoes(Button atual) {
+			atual.setStyles(obterEstiloBotao());
+			novo.addStyles(obterEstiloBotaoSelecionado());
+		}
+
+		public void onEmit() { }
+	}
+	
+	class TratadorDificuldade extends TratadorBotaoOpcao {
+		
+		private Dificuldade difSelec;
+
+		public TratadorDificuldade(Button botaoSelec, Dificuldade difSelec){
+			super(botaoSelec);
+			this.difSelec = difSelec;
+		}
+		
+		@Override
+		public void onEmit() {
+			atualizarBotoes(dificuldadeAtual);
+			dificuldadeAtual = novo;
+			dificuldade = difSelec;
+		}
+	}
+	
+	class TratadorMusica extends TratadorBotaoOpcao {
+		
+		private boolean musicaSelec;
+
+		public TratadorMusica(Button botaoSelec, boolean musicaSelec){
+			super(botaoSelec);
+			this.musicaSelec = musicaSelec;
+		}
+		
+		@Override
+		public void onEmit() {
+			atualizarBotoes(musicaAtual);
+			musicaAtual = novo;
+			musica = musicaSelec;
+		}
+	}
+	
+	class TratadorEfeitos extends TratadorBotaoOpcao {
+		
+		private boolean efeitosSelec;
+
+		public TratadorEfeitos(Button botaoSelec, boolean efeitosSelec){
+			super(botaoSelec);
+			this.efeitosSelec = efeitosSelec;
+		}
+		
+		@Override
+		public void onEmit() {
+			atualizarBotoes(efeitoAtual);
+			efeitoAtual = novo;
+			efeitos = efeitosSelec;
+		}
+	}
 	
 	private Interface iface;
 	private Dificuldade dificuldade = Dificuldade.MEDIO;
 	private boolean musica = true;
 	private boolean efeitos = true;
-	private Button dificuldadeatual, musicaatual, efeitoatual;
+	private Button dificuldadeAtual, musicaAtual, efeitoAtual;
 	
-	private Styles selecionado,naoselecionado;
-	
-	
-	
-	public Dificuldade getDificuldade() {
-		return dificuldade;
-	}
-
-	public void setDificuldade(Dificuldade dificuldade) {
-		this.dificuldade = dificuldade;
-	}
-
-	public boolean isMusica() {
-		return musica;
-	}
-
-	public void setMusica(boolean musica) {
-		this.musica = musica;
-	}
-
-	public boolean isEfeitos() {
-		return efeitos;
-	}
-
-	public void setEfeitos(boolean efeitos) {
-		this.efeitos = efeitos;
-	}
-
 	public Opcoes(GuerraDasUniversidades jogo){
 		super(jogo);
-		naoselecionado = Styles.none().
-				add(Style.BACKGROUND.is(Background.solid(0xFFCCCCCC, 5))).
-				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.PLAIN, 18))).
-				addSelected(Style.BACKGROUND.is(Background.solid(0xFFBBBBBB, 6, 4, 4, 6)));
-		selecionado = Styles.none().
-				add(Style.BACKGROUND.is(Background.solid(0xFFDDCCCC, 5))).
-				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.PLAIN, 18))).
-				addSelected(Style.BACKGROUND.is(Background.solid(0xFFBBBBBB, 6, 4, 4, 6)));
 	}
 	
 	@Override
@@ -74,143 +101,102 @@ public class Opcoes extends TipoTela {
 		desenharFundo(Color.rgb(255, 255, 255));
 		desenharMenu();
 	}
-
+	
 	private void desenharMenu() {
-		GroupLayer layerMenu = graphics().createGroupLayer();
-		base.add(layerMenu);
-		
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
 		
-		Styles labelStyles = Styles.none().
+		Styles estiloLabel = Styles.none().
 			add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.BOLD, 20)));
 		Stylesheet rootSheet = Stylesheet.builder().
-			add(Button.class, naoselecionado).
-			add(Label.class, labelStyles).
+			add(Button.class, obterEstiloBotao()).
+			add(Label.class, estiloLabel).
 			create();
 
 		Root root = iface.createRoot(AxisLayout.vertical().gap(80), rootSheet);
 		root.setSize(graphics().width(), graphics().height());
-		layerMenu.add(root.layer);
+		base.add(root.layer);
 
+		root.add(gerarMenuDificuldade(), gerarMenuMusica(), 
+				gerarMenuEfeitos(), gerarMenuInfo());
+	}
+
+	private Group gerarMenuDificuldade(){
 		Group dificuldade = new Group(AxisLayout.horizontal().offStretch());
-		Group musica = new Group(AxisLayout.horizontal().offStretch());
-		Group efeitos = new Group(AxisLayout.horizontal().offStretch());
-		Group info = new Group(AxisLayout.horizontal().offStretch());
-		root.add(dificuldade, musica, efeitos, info);
-
 		dificuldade.add(new Label("Dificuldade: "));
 		
-		final Button facil = new Button().setText("Fácil");
-		facil.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				dificuldadeatual.setStyles(naoselecionado);
-				facil.addStyles(selecionado);
-				dificuldadeatual = facil;
-				
-			}
-		});
-
-			
-		final Button medio = new Button().setText("Médio");
-		medio.addStyles(selecionado);
-		dificuldadeatual = medio;
+		Button facil = new Button().setText("Fácil");
+		Button medio = new Button().setText("Médio");
+		Button dificil = new Button().setText("Difícil");
 		
-		medio.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				dificuldadeatual.setStyles(naoselecionado);
-				medio.addStyles(selecionado);
-				dificuldadeatual = medio;
-				
-			}
-		});
-				
-		final Button dificil = new Button().setText("Difícil");
-		dificil.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				dificuldadeatual.setStyles(naoselecionado);
-				dificil.addStyles(selecionado);
-				dificuldadeatual = dificil;
-				
-			}
-		});
+		dificuldadeAtual = medio;
+		
+		facil.clicked().connect(new TratadorDificuldade(facil, Dificuldade.FACIL));
+		medio.clicked().connect(new TratadorDificuldade(medio, Dificuldade.MEDIO));	
+		dificil.clicked().connect(new TratadorDificuldade(dificil, Dificuldade.DIFICIL));
+		
+		medio.addStyles(obterEstiloBotaoSelecionado());
 
 		dificuldade.add(facil, medio, dificil);
-		
+		return dificuldade;
+	}
+	
+	private Group gerarMenuMusica() {
+		Group musica = new Group(AxisLayout.horizontal().offStretch());
 		musica.add(new Label("Música: "));
-		final Button ligada = new Button().setText("Ligada");
-		ligada.addStyles(selecionado);
-		musicaatual = ligada;
-		ligada.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				musicaatual.setStyles(naoselecionado);
-				ligada.addStyles(selecionado);
-				musicaatual = ligada;
-				
-			}
-		});
-		final Button desligada = new Button().setText("Desligada");
-		desligada.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				musicaatual.setStyles(naoselecionado);
-				desligada.addStyles(selecionado);
-				musicaatual = desligada;
-				
-			}
-		});		
+		
+		Button ligada = new Button().setText("Ligada");
+		Button desligada = new Button().setText("Desligada");
+
+		musicaAtual = ligada;
+		
+		ligada.clicked().connect(new TratadorMusica(ligada, true));		
+		desligada.clicked().connect(new TratadorMusica(desligada, false));		
+		
+		ligada.addStyles(obterEstiloBotaoSelecionado());
+		
 		musica.add(ligada, desligada);
-		
+		return musica;
+	}
+
+	private Group gerarMenuEfeitos() {
+		Group efeitos = new Group(AxisLayout.horizontal().offStretch());
 		efeitos.add(new Label("Efeitos: "));
-		final Button ligados = new Button().setText("Ligados");
-		efeitoatual = ligados;
 		
-		ligados.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				efeitoatual.setStyles(naoselecionado);
-				ligados.addStyles(selecionado);
-				efeitoatual = ligados;
-				
-			}
-		});
-		
-		ligados.addStyles(selecionado);
+		Button ligados = new Button().setText("Ligados");
 		final Button desligados = new Button().setText("Desligados");
-		desligados.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				efeitoatual.setStyles(naoselecionado);
-				desligados.addStyles(selecionado);
-				efeitoatual = desligados;
-				
-			}
-		});
+		
+		efeitoAtual = ligados;
+		
+		ligados.clicked().connect(new TratadorEfeitos(ligados, true));
+		desligados.clicked().connect(new TratadorEfeitos(desligados, false));
+		
+		ligados.addStyles(obterEstiloBotaoSelecionado());
+		
 		efeitos.add(ligados, desligados);
+		return efeitos;
+	}
+
+	private Group gerarMenuInfo() {
+		Group info = new Group(AxisLayout.horizontal().offStretch());
 		Button creditos = new Button().setText("Créditos");
 		Button voltar = new Button().setText("Voltar");
 		voltar.clicked().connect(new UnitSlot() {
-			
 			@Override
 			public void onEmit() {
 				jogo.exibirTela(jogo.obterMenu());
-				
+			}
+		});
+		creditos.clicked().connect(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				jogo.exibirTela(jogo.obterCreditos());
 			}
 		});
 		info.add(voltar, creditos);
-		
+		return info;
 	}
+
 	
 	@Override
 	public void update(float delta) {

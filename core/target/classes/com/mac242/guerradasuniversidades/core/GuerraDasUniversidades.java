@@ -14,7 +14,9 @@ public class GuerraDasUniversidades implements Game {
 	private KonamiCode kc;
 	private Iniciar iniciar;
 	private Universidades universidades;
-	private TelaPrincipal telaprincipal;
+	private TelaPrincipal telaPrincipal;
+	private Ajuda ajuda;
+	private Creditos creditos;
 		
 	public GuerraDasUniversidades(){
 		menu = new Menu(this);
@@ -23,7 +25,9 @@ public class GuerraDasUniversidades implements Game {
 		kc = new KonamiCode(this);
 		iniciar = new Iniciar(this);
 		universidades = new Universidades(this);
-		telaprincipal = new TelaPrincipal(this);
+		telaPrincipal = new TelaPrincipal(this);
+		ajuda = new Ajuda(this);
+		creditos = new Creditos(this);
 	}
 	
 	@Override
@@ -90,8 +94,15 @@ public class GuerraDasUniversidades implements Game {
 	}
 
 	
-	public TelaPrincipal obterTelaprincipal(){
-		return telaprincipal;
+	public TelaPrincipal obterTelaPrincipal(){
+		return telaPrincipal;
+	}
+
+	public Ajuda obterAjuda() {
+		return ajuda;
 	}
 	
+	public Creditos obterCreditos(){
+		return creditos;
+	}
 }

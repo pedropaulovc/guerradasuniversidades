@@ -2,14 +2,10 @@ package com.mac242.guerradasuniversidades.core;
 
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
-
 import playn.core.Color;
 import playn.core.Font;
-import playn.core.GroupLayer;
-import pythagoras.f.Rectangle;
 import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
-import tripleplay.ui.Background;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
@@ -29,16 +25,79 @@ public class Iniciar extends TipoTela{
 	
 	public Iniciar(GuerraDasUniversidades jogo) {
 		super(jogo);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void init() {
 		iniciarBase();
 		desenharFundo(Color.rgb(255, 255, 255));
-		desenhamenu();
-		// TODO Auto-generated method stub
+		desenhaMenu();
+	}
+
+	public void desenhaMenu(){
+		iface = new Interface(null);
+		pointer().setListener(iface.plistener);
 		
+		Styles estiloLabel = Styles.none().
+				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.BOLD, 20)));
+		
+		Styles estiloTitulo = Styles.none().
+				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.BOLD, 32)));
+			
+		Stylesheet rootSheet = Stylesheet.builder().
+				add(Button.class, obterEstiloBotao()).
+				add(Label.class, estiloLabel).
+				create();
+		
+		Root root = iface.createRoot(AxisLayout.vertical().gap(15), rootSheet);
+		root.setSize(graphics().width(), graphics().height());
+		base.add(root.layer);
+
+		Label titulo = new Label("Escolha seu personagem:").setStyles(estiloTitulo);
+		
+		Label nomeReitor = new Label("Nome do Reitor: _______________________");
+		
+		Button botaoEsportes = new Button().setText("Esportes");
+		Label infoEsportes = new Label("Upgrades de Velocidade e Força mais baratos");
+		Group esportes = new Group(AxisLayout.vertical());
+		esportes.add(botaoEsportes, infoEsportes);
+		
+		Button botaoHumanas = new Button().setText("Humanas");
+		Label infoHumanas = new Label("Upgrades de Poder de Ensino mais baratos");
+		Group humanas = new Group(AxisLayout.vertical());
+		humanas.add(botaoHumanas, infoHumanas);
+		
+		Button botaoExatas = new Button().setText("Exatas");
+		Label infoExatas = new Label("Upgrades de Estratégia e Foco mais baratos");
+		Group exatas = new Group(AxisLayout.vertical());
+		exatas.add(botaoExatas, infoExatas);
+		
+		Button botaoBiomedicas = new Button().setText("Biomédicas");
+		Label infoBiomedicas = new Label("Upgrades de Pontos de Vida e Foco mais baratos");
+		Group biomedicas = new Group(AxisLayout.vertical());
+		biomedicas.add(botaoBiomedicas, infoBiomedicas);
+		
+		UnitSlot tratadorPersonagem = new UnitSlot() {
+			@Override
+			public void onEmit() {
+				jogo.exibirTela(jogo.obterUniversidades());
+			}
+		};
+		
+		botaoEsportes.clicked().connect(tratadorPersonagem);
+		botaoHumanas.clicked().connect(tratadorPersonagem);
+		botaoExatas.clicked().connect(tratadorPersonagem);
+		botaoBiomedicas.clicked().connect(tratadorPersonagem);
+	
+		Button voltar = new Button().setText("Voltar");
+		voltar.clicked().connect(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				jogo.exibirTela(jogo.obterMenu());
+			}
+		});
+		
+		root.add(titulo, nomeReitor, esportes, humanas, exatas, biomedicas, voltar);
 	}
 	
 	@Override
@@ -63,100 +122,5 @@ public class Iniciar extends TipoTela{
 		}
 		
 		destruirBase();
-	}
-	
-	public void desenhamenu(){
-		GroupLayer layerMenu = graphics().createGroupLayer();
-		base.add(layerMenu);
-		
-		iface = new Interface(null);
-		pointer().setListener(iface.plistener);
-		
-		Styles labelpadrao = Styles.none().
-				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.BOLD, 20)));
-		
-		Styles botaopadrao = Styles.none().
-				add(Style.BACKGROUND.is(Background.solid(0xFFCCCCCC, 5))).
-				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.PLAIN, 18))).
-				addSelected(Style.BACKGROUND.is(Background.solid(0xFFBBBBBB, 6, 4, 4, 6)));;
-		
-		Styles titulopadrao = Styles.none().
-				add(Style.FONT.is(graphics().createFont("Helvetica", Font.Style.BOLD, 32)));
-			
-		Stylesheet rootSheet = Stylesheet.builder().
-				add(Button.class, botaopadrao).
-				add(Label.class, labelpadrao).
-				create();
-		
-		Root root = iface.createRoot(AxisLayout.vertical().gap(15), rootSheet);
-		root.setSize(graphics().width(), graphics().height());
-		layerMenu.add(root.layer);
-			
-			
-		Label titulo = new Label("Escolha seu personagem:");
-		
-		titulo.setStyles(titulopadrao);
-		
-		Label nomereitor = new Label("Nome do Reitor: _______________________");
-		Button esportes = new Button().setText("Esportes");
-		Label infoesportes = new Label("Upgrades de Velocidade e Força mais baratos");
-		Button humanas = new Button().setText("Humanas");
-		Label infohumanas = new Label("Upgrades de Poder de Ensino mais baratos");
-		Button exatas = new Button().setText("Exatas");
-		Label infoexatas = new Label("Upgrades de Estratégia e Foco mais baratos");
-		Button biomedicas = new Button().setText("Biomedicas");
-/*		Rectangle retangulo = new Rectangle(20,20,120,120);
-		
-		biomedicas.bounds(retangulo);*/
-		
-		esportes.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterUniversidades());
-
-			}
-		});
-		
-		humanas.clicked().connect(new UnitSlot() {
-
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterUniversidades());
-
-			}
-		});
-		
-		exatas.clicked().connect(new UnitSlot() {
-
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterUniversidades());
-
-			}
-		});
-		
-		biomedicas.clicked().connect(new UnitSlot() {
-
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterUniversidades());
-
-			}
-		});		
-		
-		Label infobiomedicas = new Label("Upgrades de Pontos de Vida e Foco mais baratos");
-	
-		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new UnitSlot() {
-			
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterMenu());
-				
-			}
-		});
-		
-		root.add(titulo, nomereitor, esportes, infoesportes, humanas, infohumanas, exatas, infoexatas, biomedicas, infobiomedicas, voltar);
-		
 	}
 }

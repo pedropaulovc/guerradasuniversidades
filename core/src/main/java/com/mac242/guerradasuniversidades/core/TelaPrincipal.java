@@ -11,13 +11,10 @@ import playn.core.Canvas;
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;
-import playn.core.GroupLayer;
 import playn.core.Image;
 import playn.core.ImageLayer;
-import playn.core.SurfaceLayer;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
-import playn.core.Font.Style;
 import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
 import tripleplay.ui.Button;
@@ -25,14 +22,15 @@ import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
+import tripleplay.ui.Stylesheet;
 
 enum Estrutura {
-	B1(136, 142, "blocoEnsino"), B2(302, 342, "blocoEnsino"), 
-	B3(469, 141, "blocoEnsino"), B4(98, 301, "blocoEnsino"), B5(515, 300, "blocoEnsino"),
-	BANDEJAO(453, 223, "bandejao"), SETOR_DADOS(435, 322, "setorDados"), 
-	PRACA_CENTRAL(303, 251, "pracaCentral"), 
-	CENTRO_ESPORTES(148, 224, "centroEsportes"), GUARDA(224, 330, "guarda");
-	
+	B1(102, 0, "blocoEnsino.png"), B2(430, 0, "blocoEnsino.png"), 
+	B3(50, 150, "blocoEnsino.png"), B4(280, 150, "blocoEnsino.png"), B5(500, 150, "blocoEnsino.png"),
+	BANDEJAO(180, 80, "bandejao.png"), SETOR_DADOS(350, 80, "setorDados.png"), 
+	PRACA_CENTRAL(303, 111, "pracaCentral.jpg"), 
+	CENTRO_ESPORTES(148, 84, "centroEsportes.jpg"), GUARDA(224, 190, "guarda.jpg");
+
 	private int x;
 	private int y;
 	private Image imagem;
@@ -40,7 +38,7 @@ enum Estrutura {
 	Estrutura(int x, int y, String nome){
 		this.x = x;
 		this.y = y;
-		imagem = assetManager().getImage("images/" + nome + ".jpg");
+		imagem = assetManager().getImage("images/" + nome);
 	}
 
 	public int getX() {
@@ -51,9 +49,14 @@ enum Estrutura {
 		return y;
 	}
 
-	/**
-	 * @return the imagem
-	 */
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+	
 	public Image getImagem() {
 		return imagem;
 	}
@@ -62,29 +65,52 @@ enum Estrutura {
 
 public class TelaPrincipal extends TipoTela {
 
+	class TratadorBotaoEstrutura extends UnitSlot {
+
+		private Estrutura estrutura;
+
+		public TratadorBotaoEstrutura(Estrutura estrutura){
+			this.estrutura = estrutura;
+		}
+		
+		@Override
+		public void onEmit() {
+			estruturas.put(estrutura, true);
+		}
+	}
+	
 	private Interface iface;
+	
 	private int contaUpdates = 0;
 	private int dia = 1;
+	private int segundos = 0;
+	
 	private String avisoAtual;
-	private Canvas canvasDia;
-	private Canvas canvasAvisos;
 	private int PE = 1000;
 	private int FO = 0;
+	private int HP = 10;
+	
 	private int taxaPE = 15;
 	private int taxaManutencao = 0;
 	private int taxaFuncionarios = 0;
+	
 	private int maxPE = 9000;
+	
 	private Canvas canvasFO;
-	private int segundos = 0;
+	private Canvas canvasTaxas;
+	private Canvas canvasCampus;
+	private Canvas canvasDia;
+	private Canvas canvasAvisos;
+	private Canvas canvasHP;
+	
+	private Map<Estrutura, Boolean> estruturas;
+	private static Map<Float, TextFormat> fontes;
+	
 	private String[] avisosExemplo = {
 			"Funcionários entraram em greve (Foco zerado)",
 			"Unicamp atacou você (-1 HP)", " ", "-- Avisos exemplo --",
 			"USP atacou UFSC (-1 HP)", };
-	private Canvas canvasTaxas;
-	private Canvas canvasCampus;
-	private Map<Estrutura, Boolean> estruturas;
-	
-	
+
 	public TelaPrincipal(GuerraDasUniversidades jogo) {
 		super(jogo);
 		
@@ -92,58 +118,36 @@ public class TelaPrincipal extends TipoTela {
 		for(Estrutura e : Estrutura.values()){
 			estruturas.put(e, false);
 		}
-	}
-
-	public String toString() {
-		return "Tela Principal";
+		
+		fontes = new HashMap<Float, TextFormat>();
 	}
 
 	@Override
 	public void init() {
 		iniciarBase();
 		desenharFundo(Color.rgb(255, 255, 255));
-		desenhaEsqueleto();
-
-		GroupLayer layerMenu = graphics().createGroupLayer();
-		base.add(layerMenu);
+		desenharTelaFundo();
 
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
 
-		desenhaBarraSuperior();
+		inicializarBarraSuperior();
 		desenharLogo();
 
-		CanvasLayer layerDia = graphics().createCanvasLayer(71, 25);
-		layerDia.setTranslation(505, 498);
-		base.add(layerDia);
-		canvasDia = layerDia.canvas();
-		desenharDia();
-
-		desenharHP();
-
-		CanvasLayer layerAvisos = graphics().createCanvasLayer(500, 39);
-		layerAvisos.setTranslation(32, 396);
-		base.add(layerAvisos);
-		canvasAvisos = layerAvisos.canvas();
-
-		CanvasLayer layerFO = graphics().createCanvasLayer(150, 15);
-		layerFO.setTranslation(534, 473);
-		base.add(layerFO);
-		canvasFO = layerFO.canvas();
-
-		CanvasLayer layerTaxas = graphics().createCanvasLayer(140, 51);
-		layerTaxas.setTranslation(570, 395);
-		base.add(layerTaxas);
-		canvasTaxas = layerTaxas.canvas();
-		desenharTaxas();
-
-		CanvasLayer layerCampus = graphics().createCanvasLayer(671, 290);
-		layerCampus.setTranslation(20, 154);
-		base.add(layerCampus);
-		canvasCampus = layerCampus.canvas();
+		inicializarDia();
+		atualizarDia();
+		
+		inicializarHP();
+		inicializarAvisos();
+		inicializarFO();
+		
+		inicializarTaxas();
+		atualizarTaxas();
+		
+		inicializarCampus();
 	}
 
-	private void desenharCampus() {
+	private void atualizarCampus() {
 		canvasCampus.clear();
 		for(Estrutura e : estruturas.keySet()){
 			if(estruturas.get(e)){
@@ -152,38 +156,20 @@ public class TelaPrincipal extends TipoTela {
 		}
 	}
 
-	private void desenharTaxas() {
+	private void atualizarTaxas() {
 		String texto = "Manutenção: " + taxaManutencao + "/dia\nFuncionários: "
 				+ taxaFuncionarios + "/dia\nPE: " + taxaPE + "/seg";
-		Font font = graphics().createFont("Helvetica",
-				playn.core.Font.Style.BOLD, 10f);
-		TextFormat format = new TextFormat().withFont(font);
-		TextLayout layout = graphics().layoutText(texto, format);
-		canvasTaxas.clear();
-		canvasTaxas.drawText(layout, 0, 0);
+		atualizarTexto(texto, 10f, canvasTaxas);
 	}
 
-	private void desenharFO() {
+	private void atualizarFO() {
 		canvasFO.clear();
-		canvasFO.setFillColor(Color.rgb(255, 255, 0));
+		canvasFO.setFillColor(Color.rgb(255, 255, 255));
 		canvasFO.fillRect(10 * (segundos % 16), 0, canvasFO.width() - 10
 				* (segundos % 16), canvasFO.height());
 	}
 
-	private void desenharHP() {
-		Font font = graphics().createFont("Helvetica",
-				playn.core.Font.Style.BOLD, 15f);
-		TextFormat format = new TextFormat().withFont(font);
-		TextLayout layout = graphics().layoutText("HP 10/10", format);
-		int width = (int) Math.ceil(layout.width());
-		int height = (int) Math.ceil(layout.height());
-		CanvasLayer layer = graphics().createCanvasLayer(width, height);
-		layer.canvas().drawText(layout, 0, 0);
-		layer.setTranslation(612, 498);
-		base.add(layer);
-	}
-
-	private void desenharAviso(String aviso) {
+	private void atualizarAviso(String aviso) {
 		if (aviso.length() == 0)
 			aviso = " ";
 		Font font = graphics().createFont("Helvetica",
@@ -195,13 +181,131 @@ public class TelaPrincipal extends TipoTela {
 		canvasAvisos.drawText(layout, 0, 0);
 	}
 
-	private void desenharDia() {
-		Font font = graphics().createFont("Helvetica",
-				playn.core.Font.Style.BOLD, 15f);
-		TextFormat format = new TextFormat().withFont(font);
-		TextLayout layout = graphics().layoutText("Dia: " + dia, format);
-		canvasDia.clear();
-		canvasDia.drawText(layout, 0, 0);
+	private void atualizarDia() {
+		String texto = "Dia: " + dia;
+		atualizarTexto(texto, 15f, canvasDia);
+	}
+	
+	private void atualizarHP() {
+		String texto = "HP " + HP + "/10";
+		atualizarTexto(texto, 15f, canvasHP);
+	}
+	
+	private void inicializarCampus() {
+		canvasCampus = inicializarCanvas(671, 290, 20, 154);
+	}
+
+	private void inicializarTaxas() {
+		canvasTaxas = inicializarCanvas(140, 51, 570, 395);
+	}
+
+	private void inicializarFO() {
+		canvasFO = inicializarCanvas(150, 15, 534, 473);
+	}
+
+	private void inicializarAvisos() {
+		canvasAvisos = inicializarCanvas(500, 39, 32, 396);
+	}
+
+	private void inicializarDia() {
+		canvasDia = inicializarCanvas(71, 25, 505, 498);
+	}
+
+	private void inicializarHP() {
+		canvasHP = inicializarCanvas(80, 20, 612, 498);
+	}
+
+	private void inicializarBarraSuperior() {
+		Button esquerda = new Button();
+		esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
+
+		Button direita = new Button();
+		direita.setIcon(assetManager().getImage("images/setaDireita.png"));
+
+		Styles estiloLegenda = Styles.none().
+				add(tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
+						Font.Style.BOLD, 10)));
+		Stylesheet rootStyle = Stylesheet.builder().
+				add(Button.class, estiloLegenda).
+				create();
+		
+		Group blocoEnsino = inicializarBlocoEnsino();
+		Group setorDados = inicializarSetorDados();
+		Group bandejao = inicializarBandejao();
+		Group professor = inicializarProfessor();
+
+		Group botoes = new Group(AxisLayout.horizontal().gap(-2));
+		botoes.add(esquerda, blocoEnsino, setorDados, bandejao, professor,
+				direita);
+
+		Root root = iface.createRoot(AxisLayout.horizontal().gap(-2), rootStyle);
+		root.setSize(graphics().width(), graphics().height());
+		root.layer.setTranslation(56, -190);
+		base.add(root.layer);
+		root.add(botoes);
+	}
+
+	private Group inicializarProfessor() {
+		Button itemProfessor = new Button();
+		
+		itemProfessor.setIcon(assetManager().getImage("images/professor.jpg"));
+		Button textoProfessor = new Button().setText("Professor\n$600");
+		
+		Group professor = new Group(AxisLayout.vertical());
+		professor.add(itemProfessor, textoProfessor);
+		return professor;
+	}
+
+	private Group inicializarBandejao() {
+		Button itemBandejao = new Button();
+		itemBandejao.setIcon(Estrutura.BANDEJAO.getImagem());
+		Button textoBandejao = new Button().setText("Bandejão\n$600 / FO MAX +3");
+		
+		itemBandejao.clicked().connect(new TratadorBotaoEstrutura(Estrutura.BANDEJAO));
+		textoBandejao.clicked().connect(new TratadorBotaoEstrutura(Estrutura.BANDEJAO));
+		
+		Group bandejao = new Group(AxisLayout.vertical());
+		bandejao.add(itemBandejao, textoBandejao);
+		return bandejao;
+	}
+
+	private Group inicializarSetorDados() {
+		Button itemSetorDados = new Button();
+		
+		itemSetorDados.setIcon(Estrutura.SETOR_DADOS.getImagem());
+		Button textoSetorDados = new Button().setText("Setor Dados\n$500 / PE +4/seg");
+		
+		itemSetorDados.clicked().connect(new TratadorBotaoEstrutura(Estrutura.SETOR_DADOS));
+		textoSetorDados.clicked().connect(new TratadorBotaoEstrutura(Estrutura.SETOR_DADOS));
+		
+		Group setorDados = new Group(AxisLayout.vertical());
+		setorDados.add(itemSetorDados, textoSetorDados);
+		return setorDados;
+	}
+
+	private Group inicializarBlocoEnsino() {
+		Button itemBlocoEnsino = new Button();
+		itemBlocoEnsino.setIcon(Estrutura.B1.getImagem());
+		Button textoBlocoEnsino = new Button().setText("Bloco Ensino\n$400 / Salas +1");
+		
+		UnitSlot tratadorBlocoEnsino = new UnitSlot() {
+			@Override
+			public void onEmit() {
+				for(int i = 0; i < 5; i++){
+					if(!estruturas.get(Estrutura.values()[i])){
+						estruturas.put(Estrutura.values()[i], true);
+						return;
+					}
+				}
+			}
+		};
+		
+		itemBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
+		textoBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
+		
+		Group blocoEnsino = new Group(AxisLayout.vertical());
+		blocoEnsino.add(itemBlocoEnsino, textoBlocoEnsino);
+		return blocoEnsino;
 	}
 
 	private void desenharLogo() {
@@ -224,82 +328,32 @@ public class TelaPrincipal extends TipoTela {
 		base.add(layer);
 
 	}
-
-	private void desenhaBarraSuperior() {
-		GroupLayer layerBotoes = graphics().createGroupLayer();
-		//layerBotoes.setTranslation(56, -190);
-		layerBotoes.setOrigin(100, 100);
-		base.add(layerBotoes);
-
-		Button esquerda = new Button();
-		esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
-
-		Button direita = new Button();
-		direita.setIcon(assetManager().getImage("images/setaDireita.png"));
-
-		Styles estiloLegenda = Styles.none().add(
-				tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
-						Font.Style.BOLD, 10)));
-		
-		Button itemBlocoEnsino = new Button();
-		itemBlocoEnsino.setIcon(assetManager().getImage(
-				"images/blocoEnsino.jpg"));
-		Button textoBlocoEnsino = new Button()
-				.setText("Bloco Ensino\n$400 / Salas +1");
-		textoBlocoEnsino.setStyles(estiloLegenda);
-		
-		UnitSlot tratadorBlocoEnsino = new UnitSlot() {
-			@Override
-			public void onEmit() {
-				for(int i = 0; i < 4; i++){
-					if(!estruturas.get(Estrutura.values()[i])){
-						estruturas.put(Estrutura.values()[i], true);
-						return;
-					}
-				}
-			}
-		};
-		itemBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
-		textoBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
-		
-		Group blocoEnsino = new Group(AxisLayout.vertical());
-		blocoEnsino.add(itemBlocoEnsino, textoBlocoEnsino);
-
-		
-		Button itemSetorDados = new Button();
-		itemSetorDados
-				.setIcon(assetManager().getImage("images/setorDados.jpg"));
-		Button textoSetorDados = new Button()
-				.setText("Setor Dados\n$500 / PE +4/seg");
-		textoSetorDados.setStyles(estiloLegenda);
-		Group setorDados = new Group(AxisLayout.vertical());
-		setorDados.add(itemSetorDados, textoSetorDados);
-
-		Button itemBandejao = new Button();
-		itemBandejao.setIcon(assetManager().getImage("images/bandejao.jpg"));
-		Button textoBandejao = new Button()
-				.setText("Bandejão\n$600 / FO MAX +3");
-		textoBandejao.setStyles(estiloLegenda);
-		Group bandejao = new Group(AxisLayout.vertical());
-		bandejao.add(itemBandejao, textoBandejao);
-
-		Button itemProfessor = new Button();
-		itemProfessor.setIcon(assetManager().getImage("images/professor.jpg"));
-		Button textoProfessor = new Button().setText("Professor\n$600");
-		textoProfessor.setStyles(estiloLegenda);
-		Group professor = new Group(AxisLayout.vertical());
-		professor.add(itemProfessor, textoProfessor);
-
-		Group botoes = new Group(AxisLayout.horizontal().gap(-2));
-		botoes.add(esquerda, blocoEnsino, setorDados, bandejao, professor,
-				direita);
-
-		Root root = iface.createRoot(AxisLayout.horizontal().gap(-2));
-		root.setSize(graphics().width(), graphics().height());
-		layerBotoes.add(root.layer);
-		root.add(botoes);
+	
+	public void desenharTelaFundo() {
+		Image fundo = assetManager().getImage("images/fundomain.png");
+		ImageLayer layerFundo = graphics().createImageLayer(fundo);
+		base.add(layerFundo);
 	}
-
+	
+	private Canvas inicializarCanvas(int h, int l, int x, int y) {
+		CanvasLayer layerCanvas = graphics().createCanvasLayer(h, l);
+		layerCanvas.setTranslation(x, y);
+		base.add(layerCanvas);
+		return layerCanvas.canvas();
+	}
+	
+	private void atualizarTexto(String texto, float tamanho, Canvas canvas){
+		TextFormat formato = fontes.get(tamanho);
+		if(formato == null){
+			Font font = graphics().createFont("Helvetica", Font.Style.BOLD, tamanho);
+			formato = new TextFormat().withFont(font);
+			fontes.put(tamanho, formato);
+		}
+		
+		canvas.clear();
+		canvas.drawText(graphics().layoutText(texto, formato), 0, 0);
+	}
+	
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
@@ -314,17 +368,19 @@ public class TelaPrincipal extends TipoTela {
 
 			if (segundos % 240 == 0) {
 				dia++;
-				desenharDia();
+				atualizarDia();
 			}
 
 			if (segundos % 3 == 0) {
-				desenharAviso(avisosExemplo[segundos % avisosExemplo.length]);
+				atualizarAviso(avisosExemplo[segundos % avisosExemplo.length]);
 			}
 
 		}
 
-		desenharFO();
-		desenharCampus();
+		atualizarFO();
+		atualizarHP();
+		atualizarCampus();
+
 	}
 
 	@Override
@@ -344,9 +400,7 @@ public class TelaPrincipal extends TipoTela {
 		destruirBase();
 	}
 
-	public void desenhaEsqueleto() {
-		Image fundo = assetManager().getImage("images/fundomain.png");
-		ImageLayer layerFundo = graphics().createImageLayer(fundo);
-		base.add(layerFundo);
+	public String toString() {
+		return "Tela Principal";
 	}
 }
