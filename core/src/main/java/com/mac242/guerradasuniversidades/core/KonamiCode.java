@@ -12,7 +12,11 @@ import playn.core.TextLayout;
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327 
+ * 
+ * Classe criada para exibição de uma tela "Easter Egg" no jogo, implementada como forma de aprendizado.
+ * 
  */
+
 
 public class KonamiCode extends TipoTela {
 	

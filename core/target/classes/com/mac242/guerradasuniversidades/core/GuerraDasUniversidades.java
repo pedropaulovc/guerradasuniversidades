@@ -75,7 +75,7 @@ public class GuerraDasUniversidades implements Game {
 		atual.init();
 	}
 	
-	//=======================parte do codigo onde se faz a atualizacao dos graficos, redesenhado =============
+	//=======================parte do codigo onde se faz a atualizacao dos graficos, redesenhando =============
 	@Override
 	public void update(float delta) {
 		atual.update(delta);

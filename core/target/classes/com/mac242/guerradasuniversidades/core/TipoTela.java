@@ -33,7 +33,7 @@ public abstract class TipoTela {
 	}
 
 	/**
-	* Cria a camada hierarquica e adiciona uma nova camada no fundo do grupo
+	* Cria a camada hieraquica e adiciona uma nova camada no fundo do grupo
 	*/
 	protected void iniciarBase() {
 		base = graphics().createGroupLayer();
