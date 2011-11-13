@@ -8,6 +8,14 @@ import playn.core.Font.Style;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe para uma tela "Easter Egg", que foi implementada como forma de aprendizado.
+ */
+
 public class KonamiCode extends TipoTela {
 	
 	private static final int[] konami = {38, 38, 40, 40, 37, 39, 37, 39, 66, 65};

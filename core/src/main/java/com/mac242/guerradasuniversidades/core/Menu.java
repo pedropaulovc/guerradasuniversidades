@@ -14,6 +14,14 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe reponsavel pela tela de menu do jogo.
+ */
+
 public class Menu extends TipoTela {
 	private Interface iface;
 
@@ -21,6 +29,9 @@ public class Menu extends TipoTela {
 		super(jogo);
 	}
 
+	/**
+	*  Inicializa a tela de menu setando, as opcoes de menu, fundo, logo.
+	*/
 	@Override
 	public void init() {
 		iniciarBase();
@@ -29,6 +40,9 @@ public class Menu extends TipoTela {
 		desenharMenu();
 	}
 
+	/**
+	*  Desenha a tela de menu do jogo, setando os botoes de menu
+	*/
 	private void desenharMenu() {
 		Root root = inicializarInterface();
 
@@ -62,6 +76,9 @@ public class Menu extends TipoTela {
 		return root;
 	}
 
+	/**
+	* Desenha a imagem que sera visivel na tela de menu 
+	*/
 	private void desenharLogo() {
 		Image logo = assetManager().getImage("images/logo.jpg");
 		ImageLayer layerLogo = graphics().createImageLayer(logo);

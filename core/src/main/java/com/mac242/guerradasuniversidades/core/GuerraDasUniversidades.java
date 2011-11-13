@@ -1,9 +1,17 @@
 package com.mac242.guerradasuniversidades.core;
 
-import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.graphics; 
 import static playn.core.PlayN.keyboard;
 import playn.core.Game;
 import playn.core.Keyboard;
+
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pelo main loop do jogo, setando o display e a atualizacao dos graficos.
+ */
 
 public class GuerraDasUniversidades implements Game {
 	
@@ -30,13 +38,19 @@ public class GuerraDasUniversidades implements Game {
 		creditos = new Creditos(this);
 	}
 	
+	/**
+	 * Seta o tamanho da tela e exibe a tela de menu
+	 */
 	@Override
 	public void init() {
 		graphics().setSize(711, 531);
 		tratarTeclado();
 		exibirTela(menu);
 	}
-
+	
+	/**
+	 * Trato dos eventos do teclado
+	 */
 	private void tratarTeclado() {
 		keyboard().setListener(new Keyboard.Adapter() {
 			public void onKeyDown(Keyboard.Event event) {
@@ -50,6 +64,9 @@ public class GuerraDasUniversidades implements Game {
 		});
 	}
 
+	/**
+	 * Exibe a tela
+	 */
 	public void exibirTela(TipoTela tela){
 		if(atual != null){
 			atual.shutdown();
@@ -58,6 +75,7 @@ public class GuerraDasUniversidades implements Game {
 		atual.init();
 	}
 	
+	//=======================parte do codigo onde se faz a atualizacao dos graficos, redesenhado =============
 	@Override
 	public void update(float delta) {
 		atual.update(delta);
@@ -72,7 +90,7 @@ public class GuerraDasUniversidades implements Game {
 	public int updateRate() {
 		return 100;
 	}
-
+	//===========================================================================================================
 	public Menu obterMenu(){
 		return menu;
 	}

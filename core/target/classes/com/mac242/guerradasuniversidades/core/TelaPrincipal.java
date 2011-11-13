@@ -24,7 +24,15 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
-enum Estrutura {
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela principal do jogo (onde o usuario ira jogar de fato).
+ */
+
+enum Estrutura { // setando as imagens dos edificios que serao visiveis no jogo
 	B1(102, 0, "blocoEnsino.png"), B2(430, 0, "blocoEnsino.png"), 
 	B3(50, 150, "blocoEnsino.png"), B4(280, 150, "blocoEnsino.png"), B5(500, 150, "blocoEnsino.png"),
 	BANDEJAO(180, 80, "bandejao.png"), SETOR_DADOS(350, 80, "setorDados.png"), 
@@ -35,12 +43,13 @@ enum Estrutura {
 	private int y;
 	private Image imagem;
 	
-	Estrutura(int x, int y, String nome){
+	Estrutura(int x, int y, String nome){// carregando a imagem de fundo
 		this.x = x;
 		this.y = y;
 		imagem = assetManager().getImage("images/" + nome);
 	}
 
+	//getter and setters
 	public int getX() {
 		return x;
 	}
@@ -64,7 +73,10 @@ enum Estrutura {
 };
 
 public class TelaPrincipal extends TipoTela {
-
+	
+	/**
+	 * 
+	 */
 	class TratadorBotaoEstrutura extends UnitSlot {
 
 		private Estrutura estrutura;
@@ -169,6 +181,7 @@ public class TelaPrincipal extends TipoTela {
 				* (segundos % 16), canvasFO.height());
 	}
 
+	
 	private void atualizarAviso(String aviso) {
 		if (aviso.length() == 0)
 			aviso = " ";
