@@ -248,7 +248,8 @@ public class Opcoes extends TipoTela {
 		return info;
 	}
 
-	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

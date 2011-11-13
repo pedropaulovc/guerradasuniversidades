@@ -122,6 +122,8 @@ public class Iniciar extends TipoTela{
 		root.add(titulo, nomeReitor, esportes, humanas, exatas, biomedicas, voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

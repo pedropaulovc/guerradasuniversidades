@@ -21,7 +21,7 @@ import tripleplay.ui.Stylesheet;
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
  * 
- * Classe responsavel pela tela de creditos do jogo.
+ * Classe responsavel pela tela de creditos obtidos pelos jogadores no jogo.
  */
 
 public class Creditos extends TipoTela {
@@ -93,6 +93,8 @@ public class Creditos extends TipoTela {
 		grupoVoltar.add(voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

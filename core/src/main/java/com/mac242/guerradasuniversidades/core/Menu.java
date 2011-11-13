@@ -86,6 +86,8 @@ public class Menu extends TipoTela {
 		base.add(layerLogo);
 	}
 
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

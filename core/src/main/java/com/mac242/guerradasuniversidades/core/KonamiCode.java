@@ -1,6 +1,6 @@
 package com.mac242.guerradasuniversidades.core;
 
-import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.graphics; 
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;
@@ -11,9 +11,7 @@ import playn.core.TextLayout;
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
- * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe para uma tela "Easter Egg", que foi implementada como forma de aprendizado.
+ * @author Antonio Rui Castro Junior   NUSP: 5984327 
  */
 
 public class KonamiCode extends TipoTela {

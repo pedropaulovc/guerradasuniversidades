@@ -98,6 +98,8 @@ public class Ajuda extends TipoTela {
 		grupoVoltar.add(voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
@@ -111,7 +113,7 @@ public class Ajuda extends TipoTela {
 			iface.paint(alpha);
 		}
 	}
-	
+	//==================================================================================
 	@Override
 	public void shutdown() {
 		if (iface != null) {
