@@ -16,6 +16,14 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela de recordes no jogo.
+ */
+
 public class Recordes extends TipoTela {
 
 	private Interface iface;
@@ -24,6 +32,9 @@ public class Recordes extends TipoTela {
 		super(jogo);
 	}
 	
+	/**
+	 * Inicializa a tela de recordes 
+	 */
 	@Override
 	public void init() {
 		iniciarBase();
@@ -32,6 +43,9 @@ public class Recordes extends TipoTela {
 		desenharVoltar();
 	}
 
+	/**
+	 * Desenha a tela de recordes
+	 */
 	private void desenharRecordes() {
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 20f);
 		TextFormat format = new TextFormat().withFont(font);
@@ -49,6 +63,9 @@ public class Recordes extends TipoTela {
         		graphics().height()/2 - height/2);
 	}
 
+	/**
+	* Desenha o botao voltar na tela de recordes
+	*/
 	private void desenharVoltar() {
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -75,6 +92,8 @@ public class Recordes extends TipoTela {
 		grupoVoltar.add(voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

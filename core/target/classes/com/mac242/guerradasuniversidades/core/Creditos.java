@@ -16,6 +16,14 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela de creditos do jogo.
+ */
+
 public class Creditos extends TipoTela {
 
 	private Interface iface;
@@ -23,6 +31,10 @@ public class Creditos extends TipoTela {
 	public Creditos(GuerraDasUniversidades jogo){
 		super(jogo);
 	}
+	
+	/**
+	*  Inicializa a tela de creditos do jogo.
+	*/
 	
 	@Override
 	public void init() {
@@ -32,6 +44,9 @@ public class Creditos extends TipoTela {
 		desenharVoltar();
 	}
 
+	/**
+	* Desenha os recordes do jogo 
+	*/
 	private void desenharRecordes() {
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 20f);
 		TextFormat format = new TextFormat().withFont(font);
@@ -49,6 +64,9 @@ public class Creditos extends TipoTela {
         		graphics().height()/2 - height/2);
 	}
 
+	/**
+	* Desenha o botao voltar na tela de creditos
+	*/
 	private void desenharVoltar() {
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -75,6 +93,8 @@ public class Creditos extends TipoTela {
 		grupoVoltar.add(voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

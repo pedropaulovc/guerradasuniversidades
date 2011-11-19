@@ -1,6 +1,6 @@
 package com.mac242.guerradasuniversidades.core;
 
-import static playn.core.PlayN.graphics;
+import static playn.core.PlayN.graphics; 
 import static playn.core.PlayN.pointer;
 import playn.core.CanvasLayer;
 import playn.core.Color;
@@ -16,14 +16,29 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela ajuda do jogo
+ */
+
 public class Ajuda extends TipoTela {
 
 	private Interface iface;
 
+	/**
+	* Construtor
+	* @param jogo 
+	*/
 	public Ajuda(GuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 
+	/**
+	* inicializa a tela de ajuda 
+	*/
 	@Override
 	public void init() {
 		iniciarBase();
@@ -32,6 +47,10 @@ public class Ajuda extends TipoTela {
 		desenharVoltar();
 	}
 
+	/**
+	* Configurando, a tela de ajuda.
+	* Setando o formato, fonte tamanho... 
+	*/
 	private void desenharAjuda() {
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 20f);
 		TextFormat format = new TextFormat().withFont(font);
@@ -49,6 +68,10 @@ public class Ajuda extends TipoTela {
         		graphics().height()/2 - height/2);
 	}
 
+	/**
+	* Criando a opcao(botao) voltar na tela de ajuda.
+	* (voltar = tela de menu) 
+	*/
 	private void desenharVoltar() {
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -75,6 +98,8 @@ public class Ajuda extends TipoTela {
 		grupoVoltar.add(voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
@@ -88,7 +113,7 @@ public class Ajuda extends TipoTela {
 			iface.paint(alpha);
 		}
 	}
-	
+	//==================================================================================
 	@Override
 	public void shutdown() {
 		if (iface != null) {
@@ -99,6 +124,9 @@ public class Ajuda extends TipoTela {
 		destruirBase();
 	}
 
+	/**
+	* @return ajuda - string
+	*/
 	@Override
 	public String toString() {
 		return "Ajuda";

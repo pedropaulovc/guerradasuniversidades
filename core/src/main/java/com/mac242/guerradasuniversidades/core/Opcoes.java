@@ -17,8 +17,19 @@ import tripleplay.ui.Stylesheet;
 
 enum Dificuldade{FACIL, MEDIO, DIFICIL};
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela de opcoes.
+ */
+
 public class Opcoes extends TipoTela {
 	
+	/**
+	 * Classe que trata os eventos dos botoes na tela de opcao 
+	 */
 	class TratadorBotaoOpcao extends UnitSlot {
 		protected Button novo;
 		
@@ -34,6 +45,9 @@ public class Opcoes extends TipoTela {
 		public void onEmit() { }
 	}
 	
+	/**
+	 * Classe que trata os eventos dos botoes quando se escohe o nivel de dificuldades do jogo  
+	 */
 	class TratadorDificuldade extends TratadorBotaoOpcao {
 		
 		private Dificuldade difSelec;
@@ -43,6 +57,9 @@ public class Opcoes extends TipoTela {
 			this.difSelec = difSelec;
 		}
 		
+		/**
+		 * Atualiza para o botao selecionado  
+		 */
 		@Override
 		public void onEmit() {
 			atualizarBotoes(dificuldadeAtual);
@@ -51,6 +68,9 @@ public class Opcoes extends TipoTela {
 		}
 	}
 	
+	/**
+	 * Classe que trata os eventos dos botoes quando se escolhe musica on ou off  
+	 */
 	class TratadorMusica extends TratadorBotaoOpcao {
 		
 		private boolean musicaSelec;
@@ -60,6 +80,9 @@ public class Opcoes extends TipoTela {
 			this.musicaSelec = musicaSelec;
 		}
 		
+		/**
+		 * Atualiza para o botao selecionado  
+		 */
 		@Override
 		public void onEmit() {
 			atualizarBotoes(musicaAtual);
@@ -68,6 +91,9 @@ public class Opcoes extends TipoTela {
 		}
 	}
 	
+	/**
+	 * Classe que trata os eventos dos botoes de efeitos do jogo  
+	 */
 	class TratadorEfeitos extends TratadorBotaoOpcao {
 		
 		private boolean efeitosSelec;
@@ -77,6 +103,9 @@ public class Opcoes extends TipoTela {
 			this.efeitosSelec = efeitosSelec;
 		}
 		
+		/**
+		 * Atualiza para o botao selecionado  
+		 */
 		@Override
 		public void onEmit() {
 			atualizarBotoes(efeitoAtual);
@@ -95,6 +124,9 @@ public class Opcoes extends TipoTela {
 		super(jogo);
 	}
 	
+	/**
+	 * Inicializa a tela de opcoes  
+	 */
 	@Override
 	public void init() {
 		iniciarBase();
@@ -102,6 +134,9 @@ public class Opcoes extends TipoTela {
 		desenharMenu();
 	}
 	
+	/**
+	 * Desenha na tela de opcoes, o menu de opcoes. Seta fonte, tamanho, adiciona botoes a tela de opcoes   
+	 */
 	private void desenharMenu() {
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -121,6 +156,10 @@ public class Opcoes extends TipoTela {
 				gerarMenuEfeitos(), gerarMenuInfo());
 	}
 
+	/**
+	 * Gera o menu(opcoes de dificuldade) de dificuldades do jogo 
+	 * @return  dificuldade
+	 */
 	private Group gerarMenuDificuldade(){
 		Group dificuldade = new Group(AxisLayout.horizontal().offStretch());
 		dificuldade.add(new Label("Dificuldade: "));
@@ -141,6 +180,10 @@ public class Opcoes extends TipoTela {
 		return dificuldade;
 	}
 	
+	/**
+	 * Gera o menu(opcoes de musica) de musica do jogo 
+	 * @return  musica
+	 */
 	private Group gerarMenuMusica() {
 		Group musica = new Group(AxisLayout.horizontal().offStretch());
 		musica.add(new Label("Música: "));
@@ -158,7 +201,11 @@ public class Opcoes extends TipoTela {
 		musica.add(ligada, desligada);
 		return musica;
 	}
-
+	
+	/**
+	 * Gera o menu(opcoes de efeitos) de efeitos do jogo 
+	 * @return  efeitos
+	 */
 	private Group gerarMenuEfeitos() {
 		Group efeitos = new Group(AxisLayout.horizontal().offStretch());
 		efeitos.add(new Label("Efeitos: "));
@@ -176,7 +223,11 @@ public class Opcoes extends TipoTela {
 		efeitos.add(ligados, desligados);
 		return efeitos;
 	}
-
+	
+	/**
+	 * Gera o menu (opcoes) de voltar e creditos do jogo 
+	 * @return  info
+	 */
 	private Group gerarMenuInfo() {
 		Group info = new Group(AxisLayout.horizontal().offStretch());
 		Button creditos = new Button().setText("Créditos");
@@ -197,7 +248,8 @@ public class Opcoes extends TipoTela {
 		return info;
 	}
 
-	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

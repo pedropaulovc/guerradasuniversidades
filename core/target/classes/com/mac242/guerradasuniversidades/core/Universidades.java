@@ -20,12 +20,23 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
-enum NomesUniversidades {
+enum NomesUniversidades { // Universidades disponiveis no jogo
 	USP, UFSC, UNICAMP
 };
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela universidades(escolha de universidades).
+ */
+
 public class Universidades extends TipoTela {
 
+	/**
+	 *Trata dos eventos dos botoes das universidades (opcoes para a escolha de universidades) 
+	 */
 	class TratadorBotaoUniversidade extends UnitSlot {
 		private NomesUniversidades nome;
 
@@ -51,6 +62,9 @@ public class Universidades extends TipoTela {
 		super(jogo);
 	}
 
+	/**
+	 *Inicializa a tela de escolha de universidades 
+	 */
 	@Override
 	public void init() {
 		iniciarBase();
@@ -58,6 +72,9 @@ public class Universidades extends TipoTela {
 		desenharMapa();
 	}
 
+	/**
+	 *Desenha o menu com as opcoes de universidades 
+	 */
 	private void desenharMenu() {
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -98,6 +115,9 @@ public class Universidades extends TipoTela {
 		root.add(botaoUSP, botaoUFSC, botaoUnicamp);
 	}
 
+	/**
+	 *Desenha o mapa com a localizacao das universidades e logo das universidades 
+	 */
 	private void desenharMapa() {
 		final Image mapa = assetManager().getImage("images/mapa.jpg");
 		mapa.addCallback(new ResourceCallback<Image>() {
@@ -124,6 +144,8 @@ public class Universidades extends TipoTela {
 		return escolhida;
 	}
 
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {

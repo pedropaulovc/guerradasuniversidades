@@ -24,7 +24,15 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
-enum Estrutura {
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela principal do jogo( onde o usuario ira jogar mesmo).
+ */
+
+enum Estrutura { // setando as imagens dos edificios que serao visiveis no jogo
 	B1(102, 0, "blocoEnsino.png"), B2(430, 0, "blocoEnsino.png"), 
 	B3(50, 150, "blocoEnsino.png"), B4(280, 150, "blocoEnsino.png"), B5(500, 150, "blocoEnsino.png"),
 	BANDEJAO(180, 80, "bandejao.png"), SETOR_DADOS(350, 80, "setorDados.png"), 
@@ -35,12 +43,13 @@ enum Estrutura {
 	private int y;
 	private Image imagem;
 	
-	Estrutura(int x, int y, String nome){
+	Estrutura(int x, int y, String nome){// carregando a imagem de fundo
 		this.x = x;
 		this.y = y;
 		imagem = assetManager().getImage("images/" + nome);
 	}
 
+	//getter and setters
 	public int getX() {
 		return x;
 	}
@@ -64,7 +73,10 @@ enum Estrutura {
 };
 
 public class TelaPrincipal extends TipoTela {
-
+	
+	/**
+	 * 
+	 */
 	class TratadorBotaoEstrutura extends UnitSlot {
 
 		private Estrutura estrutura;
@@ -121,7 +133,10 @@ public class TelaPrincipal extends TipoTela {
 		
 		fontes = new HashMap<Float, TextFormat>();
 	}
-
+	
+	/**
+	 * Inicializa a tela de jogo
+	 */
 	@Override
 	public void init() {
 		iniciarBase();
@@ -169,6 +184,7 @@ public class TelaPrincipal extends TipoTela {
 				* (segundos % 16), canvasFO.height());
 	}
 
+	
 	private void atualizarAviso(String aviso) {
 		if (aviso.length() == 0)
 			aviso = " ";
@@ -215,6 +231,9 @@ public class TelaPrincipal extends TipoTela {
 		canvasHP = inicializarCanvas(80, 20, 612, 498);
 	}
 
+	/**
+	 * Inicializando a barra superior(setas esq e dir, edificios, professor, etc) da tela de principal
+	 */
 	private void inicializarBarraSuperior() {
 		Button esquerda = new Button();
 		esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
@@ -245,6 +264,7 @@ public class TelaPrincipal extends TipoTela {
 		root.add(botoes);
 	}
 
+	//============= Inicializacao dos objetos contidos na barra superior do jogo=======================
 	private Group inicializarProfessor() {
 		Button itemProfessor = new Button();
 		
@@ -307,7 +327,10 @@ public class TelaPrincipal extends TipoTela {
 		blocoEnsino.add(itemBlocoEnsino, textoBlocoEnsino);
 		return blocoEnsino;
 	}
-
+	//============================================================================================================
+	/**
+	 * Desenha as varias imagens na tela de jogo principal, seta fonte, ajust a posicao.
+	 */
 	private void desenharLogo() {
 		NomesUniversidades escolhida = jogo.obterUniversidades().getEscolhida();
 		String nome = escolhida.toString().toLowerCase();
@@ -328,7 +351,9 @@ public class TelaPrincipal extends TipoTela {
 		base.add(layer);
 
 	}
-	
+	/**
+	 * Desenha o fundo da tela de jogo
+	 */
 	public void desenharTelaFundo() {
 		Image fundo = assetManager().getImage("images/fundomain.png");
 		ImageLayer layerFundo = graphics().createImageLayer(fundo);
@@ -342,6 +367,12 @@ public class TelaPrincipal extends TipoTela {
 		return layerCanvas.canvas();
 	}
 	
+	/**
+	 * Atualiza textos da tela do jogo
+	 * @param texto
+	 * @param tamanho
+	 * @param canvas
+	 */
 	private void atualizarTexto(String texto, float tamanho, Canvas canvas){
 		TextFormat formato = fontes.get(tamanho);
 		if(formato == null){
@@ -354,6 +385,9 @@ public class TelaPrincipal extends TipoTela {
 		canvas.drawText(graphics().layoutText(texto, formato), 0, 0);
 	}
 	
+	/**
+	 * Atualiza os graficos
+	 */
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
@@ -382,7 +416,9 @@ public class TelaPrincipal extends TipoTela {
 		atualizarCampus();
 
 	}
-
+	/**
+	 * redesenha as animacoes, para refletir o estado atual do joog
+	 */
 	@Override
 	public void paint(float alpha) {
 		if (iface != null) {

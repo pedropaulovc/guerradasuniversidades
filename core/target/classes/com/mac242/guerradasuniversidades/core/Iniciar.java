@@ -15,10 +15,21 @@ import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsavel pela tela iniciar(escolha de personagem).
+ */
+
 public class Iniciar extends TipoTela{
 
 	private Interface iface;
-
+	
+	/**
+	* String que sera exibida num dos botoes da tela menu 
+	*/
 	public String toString(){
 		return "Iniciar";
 	}
@@ -27,13 +38,21 @@ public class Iniciar extends TipoTela{
 		super(jogo);
 	}
 
+	/**
+	* Inicia a tela de iniciar o jogo 
+	*/
 	@Override
 	public void init() {
 		iniciarBase();
 		desenharFundo(Color.rgb(255, 255, 255));
 		desenhaMenu();
 	}
-
+	
+	
+	/**
+	* Desenha a tela do menu iniciar, contendo as opcoes de escolha de personagem. Seta a fonte, o tamanho 
+	* a interface, os botoes para a escolha de personagem.
+	*/
 	public void desenhaMenu(){
 		iface = new Interface(null);
 		pointer().setListener(iface.plistener);
@@ -57,6 +76,7 @@ public class Iniciar extends TipoTela{
 		
 		Label nomeReitor = new Label("Nome do Reitor: _______________________");
 		
+		//botoes para escolha de personagem
 		Button botaoEsportes = new Button().setText("Esportes");
 		Label infoEsportes = new Label("Upgrades de Velocidade e Força mais baratos");
 		Group esportes = new Group(AxisLayout.vertical());
@@ -77,6 +97,7 @@ public class Iniciar extends TipoTela{
 		Group biomedicas = new Group(AxisLayout.vertical());
 		biomedicas.add(botaoBiomedicas, infoBiomedicas);
 		
+		//redirecionado o jogador para a proxima tela ao esolher o personagem
 		UnitSlot tratadorPersonagem = new UnitSlot() {
 			@Override
 			public void onEmit() {
@@ -89,6 +110,7 @@ public class Iniciar extends TipoTela{
 		botaoExatas.clicked().connect(tratadorPersonagem);
 		botaoBiomedicas.clicked().connect(tratadorPersonagem);
 	
+		// voltar ao menu
 		Button voltar = new Button().setText("Voltar");
 		voltar.clicked().connect(new UnitSlot() {
 			@Override
@@ -100,6 +122,8 @@ public class Iniciar extends TipoTela{
 		root.add(titulo, nomeReitor, esportes, humanas, exatas, biomedicas, voltar);
 	}
 	
+	//====== Redesenha as animacoes, para refletir o estado atual do tela =====
+	//====== Atualiza os graficos =============================================
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
