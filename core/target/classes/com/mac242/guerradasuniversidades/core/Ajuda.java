@@ -29,7 +29,7 @@ public class Ajuda extends TipoTela {
 		iniciarBase();
 		desenharFundo(Color.rgb(255, 255, 255));
 		desenharAjuda();
-		desenharVoltar()
+		desenharVoltar();
 	}
 
 	private void desenharAjuda() {
