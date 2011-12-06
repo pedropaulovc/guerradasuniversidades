@@ -32,7 +32,7 @@ public class Ajuda extends TipoTela {
 	* Construtor
 	* @param jogo 
 	*/
-	public Ajuda(GuerraDasUniversidades jogo) {
+	public Ajuda(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 

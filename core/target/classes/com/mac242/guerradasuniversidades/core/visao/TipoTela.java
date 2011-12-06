@@ -19,7 +19,7 @@ import tripleplay.ui.Styles;
 public abstract class TipoTela {
 
 	//GroupLayer agrupa os layers numa forma hierarquica.
-	protected GuerraDasUniversidades jogo;
+	protected VisaoGuerraDasUniversidades jogo;
 	protected GroupLayer base;
 	private static Styles estiloBotao;
 	private static Styles estiloBotaoSelecionado;
@@ -28,7 +28,7 @@ public abstract class TipoTela {
 	* Construtor
 	* @param jogo 
 	*/
-	public TipoTela(GuerraDasUniversidades jogo) {
+	public TipoTela(VisaoGuerraDasUniversidades jogo) {
 		this.jogo = jogo;
 	}
 

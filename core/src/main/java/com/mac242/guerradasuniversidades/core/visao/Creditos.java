@@ -28,7 +28,7 @@ public class Creditos extends TipoTela {
 
 	private Interface iface;
 
-	public Creditos(GuerraDasUniversidades jogo){
+	public Creditos(VisaoGuerraDasUniversidades jogo){
 		super(jogo);
 	}
 	

@@ -4,6 +4,9 @@ import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 import static playn.core.PlayN.pointer;
+
+import com.mac242.guerradasuniversidades.core.modelo.NomeUniversidade;
+
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;
@@ -20,10 +23,6 @@ import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
 
-enum NomesUniversidades { // Universidades disponiveis no jogo
-	USP, UFSC, UNICAMP
-};
-
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
@@ -38,27 +37,27 @@ public class Universidades extends TipoTela {
 	 *Trata dos eventos dos botoes das universidades (opcoes para a escolha de universidades) 
 	 */
 	class TratadorBotaoUniversidade extends UnitSlot {
-		private NomesUniversidades nome;
-
-		public TratadorBotaoUniversidade(NomesUniversidades nome) {
+		private NomeUniversidade nome;
+		
+		public TratadorBotaoUniversidade(NomeUniversidade nome) {
 			this.nome = nome;
 		}
 
 		@Override
 		public void onEmit() {
-			escolhida = nome;
+			jogo.getConstrutor().definirUniversidade(nome);
+			jogo.getJogo().iniciar(jogo.getConstrutor());
 			jogo.exibirTela(jogo.obterTelaPrincipal());
 		}
 	}
 
 	private Interface iface;
-	private NomesUniversidades escolhida;
 
 	public String toString() {
 		return "Universidades";
 	}
 
-	public Universidades(GuerraDasUniversidades jogo) {
+	public Universidades(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 
@@ -88,15 +87,15 @@ public class Universidades extends TipoTela {
 
 		Button botaoUSP = new Button().setText("USP");
 		botaoUSP.clicked().connect(
-				new TratadorBotaoUniversidade(NomesUniversidades.USP));
+				new TratadorBotaoUniversidade(NomeUniversidade.USP));
 
 		Button botaoUFSC = new Button().setText("UFSC");
 		botaoUFSC.clicked().connect(
-				new TratadorBotaoUniversidade(NomesUniversidades.UFSC));
+				new TratadorBotaoUniversidade(NomeUniversidade.UFSC));
 
 		Button botaoUnicamp = new Button().setText("UNICAMP");
 		botaoUnicamp.clicked().connect(
-				new TratadorBotaoUniversidade(NomesUniversidades.UNICAMP));
+				new TratadorBotaoUniversidade(NomeUniversidade.UNICAMP));
 
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 40f);
 		TextFormat format = new TextFormat().withFont(font);
@@ -135,13 +134,6 @@ public class Universidades extends TipoTela {
 				desenharMenu();
 			}
 		});
-	}
-
-	/**
-	 * @return the escolhida
-	 */
-	public NomesUniversidades getEscolhida() {
-		return escolhida;
 	}
 
 	//====== Redesenha as animacoes, para refletir o estado atual do tela =====

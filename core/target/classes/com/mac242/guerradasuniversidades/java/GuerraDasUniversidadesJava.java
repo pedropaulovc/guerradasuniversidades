@@ -3,7 +3,7 @@ package com.mac242.guerradasuniversidades.java;
 import playn.core.PlayN;
 import playn.java.JavaPlatform;
 
-import com.mac242.guerradasuniversidades.core.visao.GuerraDasUniversidades;
+import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
 
 
 /**
@@ -20,6 +20,6 @@ public class GuerraDasUniversidadesJava {
     JavaPlatform platform = JavaPlatform.register();
     platform.assetManager().setPathPrefix("src/main/java/com/mac242/guerradasuniversidades/resources");
     platform.setTitle("Guerra das Universidades");
-    PlayN.run(new GuerraDasUniversidades());
+    PlayN.run(new VisaoGuerraDasUniversidades());
   }
 }

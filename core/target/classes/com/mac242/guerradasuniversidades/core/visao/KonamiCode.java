@@ -23,7 +23,7 @@ public class KonamiCode extends TipoTela {
 	private static final int[] konami = {38, 38, 40, 40, 37, 39, 37, 39, 66, 65};
 	private int estado = 0; 
 	
-	public KonamiCode(GuerraDasUniversidades jogo) {
+	public KonamiCode(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 	

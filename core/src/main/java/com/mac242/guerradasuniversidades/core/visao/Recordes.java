@@ -28,7 +28,7 @@ public class Recordes extends TipoTela {
 
 	private Interface iface;
 
-	public Recordes(GuerraDasUniversidades jogo){
+	public Recordes(VisaoGuerraDasUniversidades jogo){
 		super(jogo);
 	}
 	

@@ -25,7 +25,7 @@ import tripleplay.ui.Stylesheet;
 public class Menu extends TipoTela {
 	private Interface iface;
 
-	public Menu(GuerraDasUniversidades jogo) {
+	public Menu(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 

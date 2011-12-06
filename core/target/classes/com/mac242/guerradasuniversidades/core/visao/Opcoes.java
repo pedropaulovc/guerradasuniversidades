@@ -120,7 +120,7 @@ public class Opcoes extends TipoTela {
 	private boolean efeitos = true;
 	private Button dificuldadeAtual, musicaAtual, efeitoAtual;
 	
-	public Opcoes(GuerraDasUniversidades jogo){
+	public Opcoes(VisaoGuerraDasUniversidades jogo){
 		super(jogo);
 	}
 	

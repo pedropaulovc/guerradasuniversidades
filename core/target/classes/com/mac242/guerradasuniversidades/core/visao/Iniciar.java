@@ -2,6 +2,9 @@ package com.mac242.guerradasuniversidades.core.visao;
 
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
+
+import com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao;
+
 import playn.core.Color;
 import playn.core.Font;
 import react.UnitSlot;
@@ -26,6 +29,21 @@ import tripleplay.ui.Stylesheet;
 public class Iniciar extends TipoTela{
 
 	private Interface iface;
+	private String nomejogador = "Lorem";
+	
+	
+	class TratadorBotaoFoco extends UnitSlot{
+		private FocoAdministracao foco;
+		public TratadorBotaoFoco(FocoAdministracao foco){
+			this.foco = foco;
+		}
+		@Override
+		public void onEmit() {
+			jogo.getConstrutor().definirFoco(foco).definirNome(nomejogador);
+			jogo.exibirTela(jogo.obterUniversidades());
+		}
+		
+	}
 	
 	/**
 	* String que sera exibida num dos botoes da tela menu 
@@ -34,7 +52,7 @@ public class Iniciar extends TipoTela{
 		return "Iniciar";
 	}
 	
-	public Iniciar(GuerraDasUniversidades jogo) {
+	public Iniciar(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
 	}
 
@@ -76,6 +94,7 @@ public class Iniciar extends TipoTela{
 		
 		Label nomeReitor = new Label("Nome do Reitor: _______________________");
 		
+		
 		//botoes para escolha de personagem
 		Button botaoEsportes = new Button().setText("Esportes");
 		Label infoEsportes = new Label("Upgrades de Velocidade e Força mais baratos");
@@ -97,18 +116,11 @@ public class Iniciar extends TipoTela{
 		Group biomedicas = new Group(AxisLayout.vertical());
 		biomedicas.add(botaoBiomedicas, infoBiomedicas);
 		
-		//redirecionado o jogador para a proxima tela ao esolher o personagem
-		UnitSlot tratadorPersonagem = new UnitSlot() {
-			@Override
-			public void onEmit() {
-				jogo.exibirTela(jogo.obterUniversidades());
-			}
-		};
 		
-		botaoEsportes.clicked().connect(tratadorPersonagem);
-		botaoHumanas.clicked().connect(tratadorPersonagem);
-		botaoExatas.clicked().connect(tratadorPersonagem);
-		botaoBiomedicas.clicked().connect(tratadorPersonagem);
+		botaoEsportes.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.ESPORTES));
+		botaoHumanas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.HUMANAS));
+		botaoExatas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.EXATAS));
+		botaoBiomedicas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.BIOMEDICAS));
 	
 		// voltar ao menu
 		Button voltar = new Button().setText("Voltar");
