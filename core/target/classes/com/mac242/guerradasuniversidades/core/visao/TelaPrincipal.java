@@ -130,6 +130,10 @@ public class TelaPrincipal extends TipoTela {
 	private int posicaoMenu = 0;
 
 	private List<Group> botoes;
+
+	private Button esquerda;
+
+	private Button direita;
 	
 	public TelaPrincipal(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
@@ -243,21 +247,19 @@ public class TelaPrincipal extends TipoTela {
 	 * Inicializando a barra superior(setas esq e dir, edificios, professor, etc) da tela de principal
 	 */
 	private void inicializarBarraSuperior() {
-		Button esquerda = new Button();
+		esquerda = new Button();
 		esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
 
-		Button direita = new Button();
+		direita = new Button();
 		direita.setIcon(assetManager().getImage("images/setaDireita.png"));
 		
-
 		Styles estiloLegenda = Styles.none().
 				add(tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
 						Font.Style.BOLD, 10)));
 		Stylesheet rootStyle = Stylesheet.builder().
 				add(Button.class, estiloLegenda).
 				create();
-		
-		
+	
 		botoes = new ArrayList<Group>();
 		botoes.add(inicializarBlocoEnsino());
 		botoes.add(inicializarSetorDados());
