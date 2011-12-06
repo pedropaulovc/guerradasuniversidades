@@ -134,6 +134,8 @@ public class TelaPrincipal extends TipoTela {
 	private Button esquerda;
 
 	private Button direita;
+
+	private Root root;
 	
 	public TelaPrincipal(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
@@ -248,17 +250,29 @@ public class TelaPrincipal extends TipoTela {
 	 */
 	private void inicializarBarraSuperior() {
 		esquerda = new Button();
-		esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
-
 		direita = new Button();
-		direita.setIcon(assetManager().getImage("images/setaDireita.png"));
 		
-		Styles estiloLegenda = Styles.none().
-				add(tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
-						Font.Style.BOLD, 10)));
-		Stylesheet rootStyle = Stylesheet.builder().
-				add(Button.class, estiloLegenda).
-				create();
+		direita.clicked().connect(new UnitSlot() {
+
+			@Override
+			public void onEmit() {
+				if(posicaoMenu < botoes.size()-4){
+					posicaoMenu++;
+					atualizaBarraSuperior();
+				}
+			}
+		});
+		
+		esquerda.clicked().connect(new UnitSlot() {
+
+			@Override
+			public void onEmit() {
+				if(posicaoMenu > 0){
+					posicaoMenu--;
+					atualizaBarraSuperior();
+				}
+			}
+		});
 	
 		botoes = new ArrayList<Group>();
 		botoes.add(inicializarBlocoEnsino());
@@ -275,20 +289,49 @@ public class TelaPrincipal extends TipoTela {
 		botoes.add(inicializarSeminario());
 		botoes.add(inicializarGuardaUniversitaria());
 
+		atualizaBarraSuperior();
+	}
+
+	private void atualizaBarraSuperior(){
+		
+		if(root != null){
+			base.remove(root.layer);
+			iface.removeRoot(root);
+		}
+		
+		Styles estiloLegenda = Styles.none().
+				add(tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
+						Font.Style.BOLD, 10)));
+		Stylesheet rootStyle = Stylesheet.builder().
+				add(Button.class, estiloLegenda).
+				create();
+		
 		Group barraSuperior = new Group(AxisLayout.horizontal().gap(-2));
+		
+		if(posicaoMenu == 0)
+			esquerda.setIcon(assetManager().getImage("images/setaEsquerdaCinza.png"));
+		if(posicaoMenu == 1)
+			esquerda.setIcon(assetManager().getImage("images/setaEsquerda.png"));
+			
+		if(posicaoMenu == botoes.size()-5 || direita.icon() == null)
+			direita.setIcon(assetManager().getImage("images/setaDireita.png"));
+		if(posicaoMenu == botoes.size()-4)
+			direita.setIcon(assetManager().getImage("images/setaDireitaCinza.png"));
+
+		
 		barraSuperior.add(esquerda);
-		for(int i = posicaoMenu; i < posicaoMenu + 4; i++){
+				for(int i = posicaoMenu; i < posicaoMenu + 4; i++){
 			barraSuperior.add(botoes.get(i));
 		}
 		barraSuperior.add(direita);
-
-		Root root = iface.createRoot(AxisLayout.horizontal().gap(-2), rootStyle);
+		
+		root = iface.createRoot(AxisLayout.horizontal().gap(-2), rootStyle);
 		root.setSize(graphics().width(), graphics().height());
 		root.layer.setTranslation(56, -190);
 		base.add(root.layer);
 		root.add(barraSuperior);
+		
 	}
-
 	//============= Inicializacao dos objetos contidos na barra superior do jogo=======================
 	private Group inicializarProfessor() {
 		Button itemProfessor = new Button();
