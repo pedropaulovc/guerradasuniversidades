@@ -3,7 +3,7 @@ package com.mac242.guerradasuniversidades.java;
 import playn.core.PlayN;
 import playn.java.JavaPlatform;
 
-import com.mac242.guerradasuniversidades.core.GuerraDasUniversidades;
+import com.mac242.guerradasuniversidades.core.visao.GuerraDasUniversidades;
 
 
 /**
