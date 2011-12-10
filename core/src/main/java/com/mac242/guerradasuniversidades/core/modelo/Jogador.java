@@ -202,4 +202,8 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 			notifyObservers(notificacao);
 		}
 	}
+
+	public float obterPontosEnsinoMaximo() {
+		return maxPE;
+	}
 }

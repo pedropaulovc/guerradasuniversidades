@@ -4,51 +4,41 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GuerraDasUniversidades extends Observable implements Observer {
 	private int segundos;
 	private int dia = 1;
-	private static final int duracaoDia = 1;
+	private static final int duracaoDia = 10;
 	
 	private Jogador jogador;
 	private Map<NomeUniversidade, TipoJogador> jogadores;
 	private Map<NomeUniversidade, TipoJogador> vivos;
 
-	public GuerraDasUniversidades() {
+	public GuerraDasUniversidades(ConstrutorJogador construtor) {
 		jogadores = new HashMap<NomeUniversidade, TipoJogador>();
 		vivos = new HashMap<NomeUniversidade, TipoJogador>();
+		
+		iniciar(construtor);
 	}
 
-	public void iniciar(ConstrutorJogador construtor) {
+	private void iniciar(ConstrutorJogador construtor) {
 		jogador = construtor.construir(this);
 		jogador.addObserver(this);
 		NomeUniversidade universidade = construtor.obterUniversidade();
 		jogadores.put(universidade, jogador);
 		vivos.put(universidade, jogador);
 
-		iniciarTimer();
 		for (JogadorMaquina j : JogadorMaquina.construirOponentes(universidade, this)) {
 			jogadores.put(j.obterNomeUniversidade(), j);
 			vivos.put(j.obterNomeUniversidade(), j);
 			j.addObserver(this);
 		}
 	}
-	
-	private void iniciarTimer() {
-		new Timer().scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				atualizarEventos();
-			}
-
-		}, 0, 1000);
-	}
 
 	/**
-	 * Invocado a cada segundo pelo timer.
+	 * Deve ser invocado a cada segundo após iniciado o jogo.
 	 */
-	private void atualizarEventos() {
+	public void atualizarEventos() {
 		segundos++;
 
 		for (TipoJogador j : jogadores.values()) {

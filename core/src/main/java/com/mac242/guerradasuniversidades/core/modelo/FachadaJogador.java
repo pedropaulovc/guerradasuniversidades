@@ -140,4 +140,8 @@ public class FachadaJogador {
 		return jogador.obterNomeUniversidade();
 	}
 
+	public float obterPontosEnsinoMaximo() {
+		return jogador.obterPontosEnsinoMaximo();
+	}
+
 }

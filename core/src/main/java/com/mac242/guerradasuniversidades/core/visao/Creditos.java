@@ -85,7 +85,7 @@ public class Creditos extends TipoTela {
 		voltar.clicked().connect(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				jogo.exibirTela(jogo.obterOpcoes());
+				visao.exibirTela(visao.obterOpcoes());
 			}
 		});
 		

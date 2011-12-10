@@ -90,7 +90,7 @@ public class Ajuda extends TipoTela {
 		voltar.clicked().connect(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				jogo.exibirTela(jogo.obterMenu());
+				visao.exibirTela(visao.obterMenu());
 			}
 		});
 		

@@ -45,9 +45,9 @@ public class Universidades extends TipoTela {
 
 		@Override
 		public void onEmit() {
-			jogo.getConstrutor().definirUniversidade(nome);
-			jogo.getJogo().iniciar(jogo.getConstrutor());
-			jogo.exibirTela(jogo.obterTelaPrincipal());
+			visao.obterConstrutor().definirUniversidade(nome);
+			visao.iniciarJogo();
+			visao.exibirTela(visao.obterTelaPrincipal());
 		}
 	}
 

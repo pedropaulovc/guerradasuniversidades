@@ -22,8 +22,7 @@ public class InterfaceUsuario implements Observer {
 				.definirFoco(FocoAdministracao.BIOMEDICAS)
 				.definirNome("Lorem")
 				.definirUniversidade(NomeUniversidade.USP);
-		jogo = new GuerraDasUniversidades();
-		jogo.iniciar(construtor);
+		jogo = new GuerraDasUniversidades(construtor);
 		jogador = jogo.obterJogador();
 		jogo.addObserver(this);
 	}
@@ -85,8 +84,7 @@ public class InterfaceUsuario implements Observer {
 				.definirFoco(foco)
 				.definirNome(nome)
 				.definirUniversidade(universidade);
-		jogo = new GuerraDasUniversidades();
-		jogo.iniciar(construtor);
+		jogo = new GuerraDasUniversidades(construtor);
 		jogador = jogo.obterJogador();
 	}
 

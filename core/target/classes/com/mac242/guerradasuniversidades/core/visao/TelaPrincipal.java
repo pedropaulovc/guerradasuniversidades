@@ -1,13 +1,21 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
+import static com.mac242.guerradasuniversidades.core.visao.ImagemEstrutura.*;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterConstrutor;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterJogador;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterJogo;
 import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Random;
 
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
@@ -26,6 +34,11 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
+import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoBlocoEnsino;
+import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoEstrutura;
+import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
+import com.mac242.guerradasuniversidades.core.modelo.Notificacao;
+
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
@@ -34,84 +47,8 @@ import tripleplay.ui.Stylesheet;
  * Classe responsavel pela tela principal do jogo( onde o usuario ira jogar mesmo).
  */
 
-enum Estrutura { // setando as imagens dos edificios que serao visiveis no jogo
-	B1(102, 0, "blocoEnsino.png"), B2(430, 0, "blocoEnsino.png"), 
-	B3(50, 150, "blocoEnsino.png"), B4(280, 150, "blocoEnsino.png"), B5(500, 150, "blocoEnsino.png"),
-	BANDEJAO(180, 80, "bandejao.png"), SETOR_DADOS(350, 80, "setorDados.png"), 
-	PRACA_CENTRAL(303, 111, "pracaCentral.jpg"), CENTRO_ESPORTES(148, 84, "centroEsportes.jpg"),
-	AUMENTO_SALARIAL(0, 0, "professor.jpg"),
-	CHURRASCO_DEBATE(0, 0, "professor.jpg"), FESTA(0, 0, "professor.jpg"), SOBREMESA_BANDEJAO(0, 0, "professor.jpg"),
-	SEMINARIO(0, 0, "professor.jpg"), GUARDA_UNIVERSITARIA(224, 190, "guarda.jpg"), PROFESSOR(0, 0, "professor.jpg"),
-	ALUNO(0, 0, "professor.jpg");
-
-	private int x;
-	private int y;
-	private Image imagem;
-	
-	Estrutura(int x, int y, String nome){// carregando a imagem de fundo
-		this.x = x;
-		this.y = y;
-		imagem = assetManager().getImage("images/" + nome);
-	}
-
-	//getter and setters
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setX(int x){
-		this.x = x;
-	}
-	
-	public void setY(int y){
-		this.y = y;
-	}
-	
-	public Image getImagem() {
-		return imagem;
-	}
-	
-};
-
-public class TelaPrincipal extends TipoTela {
-	
-	/**
-	 * 
-	 */
-	class TratadorBotaoEstrutura extends UnitSlot {
-
-		private Estrutura estrutura;
-
-		public TratadorBotaoEstrutura(Estrutura estrutura){
-			this.estrutura = estrutura;
-		}
-		
-		@Override
-		public void onEmit() {
-			estruturas.put(estrutura, true);
-		}
-	}
-	
+public class TelaPrincipal extends TipoTela implements Observer {
 	private Interface iface;
-	
-	private int contaUpdates = 0;
-	private int dia = 1;
-	private int segundos = 0;
-	
-	private String avisoAtual;
-	private int PE = 1000;
-	private int FO = 0;
-	private int HP = 10;
-	
-	private int taxaPE = 15;
-	private int taxaManutencao = 0;
-	private int taxaFuncionarios = 0;
-	
-	private int maxPE = 9000;
 	
 	private Canvas canvasFO;
 	private Canvas canvasTaxas;
@@ -119,29 +56,26 @@ public class TelaPrincipal extends TipoTela {
 	private Canvas canvasDia;
 	private Canvas canvasAvisos;
 	private Canvas canvasHP;
+	private Canvas canvasSalasAula;
+	private Canvas canvasPE;
 	
-	private Map<Estrutura, Boolean> estruturas;
+	private Map<ImagemEstrutura, Boolean> estruturas;
 	private static Map<Float, TextFormat> fontes;
 	
-	private String[] avisosExemplo = {
-			"Funcionários entraram em greve (Foco zerado)",
-			"Unicamp atacou você (-1 HP)", " ", "-- Avisos exemplo --",
-			"USP atacou UFSC (-1 HP)", };
 	private int posicaoMenu = 0;
-
 	private List<Group> botoes;
-
 	private Button esquerda;
-
 	private Button direita;
-
 	private Root root;
+
+	private List<String> avisos = new LinkedList<String>();
 	
-	public TelaPrincipal(VisaoGuerraDasUniversidades jogo) {
-		super(jogo);
+	
+	public TelaPrincipal(VisaoGuerraDasUniversidades visao) {
+		super(visao);
 		
-		estruturas = new HashMap<Estrutura, Boolean>();
-		for(Estrutura e : Estrutura.values()){
+		estruturas = new HashMap<ImagemEstrutura, Boolean>();
+		for(ImagemEstrutura e : ImagemEstrutura.values()){
 			estruturas.put(e, false);
 		}
 		
@@ -163,86 +97,19 @@ public class TelaPrincipal extends TipoTela {
 		inicializarBarraSuperior();
 		desenharLogo();
 
-		inicializarDia();
+		canvasDia = inicializarCanvas(71, 25, 505, 498);
+		canvasHP = inicializarCanvas(80, 20, 612, 498);
+		canvasAvisos = inicializarCanvas(500, 39, 32, 396);
+		canvasFO = inicializarCanvas(150, 15, 534, 473);
+		canvasPE = inicializarCanvas(150, 13, 534, 453);
+		canvasTaxas = inicializarCanvas(140, 51, 570, 395);
+		canvasCampus = inicializarCanvas(671, 290, 20, 154);
+		canvasSalasAula = inicializarCanvas(437,59,25,453);
+		
 		atualizarDia();
-		
-		inicializarHP();
-		inicializarAvisos();
-		inicializarFO();
-		
-		inicializarTaxas();
 		atualizarTaxas();
 		
-		inicializarCampus();
-	}
-
-	private void atualizarCampus() {
-		canvasCampus.clear();
-		for(Estrutura e : estruturas.keySet()){
-			if(estruturas.get(e)){
-				canvasCampus.drawImage(e.getImagem(), e.getX(), e.getY());
-			}
-		}
-	}
-
-	private void atualizarTaxas() {
-		String texto = "Manutenção: " + taxaManutencao + "/dia\nFuncionários: "
-				+ taxaFuncionarios + "/dia\nPE: " + taxaPE + "/seg";
-		atualizarTexto(texto, 10f, canvasTaxas);
-	}
-
-	private void atualizarFO() {
-		canvasFO.clear();
-		canvasFO.setFillColor(Color.rgb(255, 255, 255));
-		canvasFO.fillRect(10 * (segundos % 16), 0, canvasFO.width() - 10
-				* (segundos % 16), canvasFO.height());
-	}
-
-	
-	private void atualizarAviso(String aviso) {
-		if (aviso.length() == 0)
-			aviso = " ";
-		Font font = graphics().createFont("Helvetica",
-				playn.core.Font.Style.BOLD, 11f);
-		TextFormat format = new TextFormat().withFont(font).withTextColor(
-				Color.rgb(255, 255, 255));
-		TextLayout layout = graphics().layoutText(aviso, format);
-		canvasAvisos.clear();
-		canvasAvisos.drawText(layout, 0, 0);
-	}
-
-	private void atualizarDia() {
-		String texto = "Dia: " + dia;
-		atualizarTexto(texto, 15f, canvasDia);
-	}
-	
-	private void atualizarHP() {
-		String texto = "HP " + HP + "/10";
-		atualizarTexto(texto, 15f, canvasHP);
-	}
-	
-	private void inicializarCampus() {
-		canvasCampus = inicializarCanvas(671, 290, 20, 154);
-	}
-
-	private void inicializarTaxas() {
-		canvasTaxas = inicializarCanvas(140, 51, 570, 395);
-	}
-
-	private void inicializarFO() {
-		canvasFO = inicializarCanvas(150, 15, 534, 473);
-	}
-
-	private void inicializarAvisos() {
-		canvasAvisos = inicializarCanvas(500, 39, 32, 396);
-	}
-
-	private void inicializarDia() {
-		canvasDia = inicializarCanvas(71, 25, 505, 498);
-	}
-
-	private void inicializarHP() {
-		canvasHP = inicializarCanvas(80, 20, 612, 498);
+		obterJogo().addObserver(this);
 	}
 
 	/**
@@ -258,7 +125,7 @@ public class TelaPrincipal extends TipoTela {
 			public void onEmit() {
 				if(posicaoMenu < botoes.size()-4){
 					posicaoMenu++;
-					atualizaBarraSuperior();
+					atualizarBarraSuperior();
 				}
 			}
 		});
@@ -269,31 +136,122 @@ public class TelaPrincipal extends TipoTela {
 			public void onEmit() {
 				if(posicaoMenu > 0){
 					posicaoMenu--;
-					atualizaBarraSuperior();
+					atualizarBarraSuperior();
 				}
 			}
 		});
 	
 		botoes = new ArrayList<Group>();
-		botoes.add(inicializarBlocoEnsino());
-		botoes.add(inicializarSetorDados());
-		botoes.add(inicializarBandejao());
-		botoes.add(inicializarProfessor());
-		botoes.add(inicializarAluno());
-		botoes.add(inicializarPracaCentral());
-		botoes.add(inicializarCentroEsportes());
-		botoes.add(inicializarAumentoSalarial());
-		botoes.add(inicializarChurrascoDebate());
-		botoes.add(inicializarFesta());
-		botoes.add(inicializarSobremesaBandejao());
-		botoes.add(inicializarSeminario());
-		botoes.add(inicializarGuardaUniversitaria());
-
-		atualizaBarraSuperior();
+		botoes.add(inicializarEstrutura(B1, new TratadorBotaoBlocoEnsino(this)));
+		botoes.add(inicializarEstrutura(SETOR_DADOS));
+		botoes.add(inicializarEstrutura(BANDEJAO));
+		botoes.add(inicializarEstrutura(PROFESSOR));
+		botoes.add(inicializarEstrutura(ALUNO));
+		botoes.add(inicializarEstrutura(PRACA_CENTRAL));
+		botoes.add(inicializarEstrutura(CENTRO_ESPORTES));
+		botoes.add(inicializarEstrutura(AUMENTO_SALARIAL));
+		botoes.add(inicializarEstrutura(CHURRASCO_DEBATE));
+		botoes.add(inicializarEstrutura(FESTA));
+		botoes.add(inicializarEstrutura(SOBREMESA_BANDEJAO));
+		botoes.add(inicializarEstrutura(SEMINARIO));
+		botoes.add(inicializarEstrutura(GUARDA_UNIVERSITARIA));
+		
+		atualizarBarraSuperior();
 	}
 
-	private void atualizaBarraSuperior(){
+	//============= Inicializacao dos objetos contidos na barra superior do jogo=======================
+	private Group inicializarEstrutura(ImagemEstrutura img){
+		TratadorBotaoEstrutura tratador = new TratadorBotaoEstrutura(img, this);
+		return inicializarEstrutura(img, tratador);
+	}
+	
+	private Group inicializarEstrutura(ImagemEstrutura img, UnitSlot tratador){
+		Button item = new Button();
 		
+		item.setIcon(img.getImagem());
+		Button texto = new Button().setText(img.obterNome() 
+				+ "\n" + img.obterEfeito());
+		
+		item.clicked().connect(tratador);
+		texto.clicked().connect(tratador);
+		
+		Group grupo = new Group(AxisLayout.vertical());
+		grupo.add(item, texto);
+		return grupo;
+	}
+	
+	public void atualizarCampus() {
+		canvasCampus.clear();
+		for(ImagemEstrutura e : estruturas.keySet()){
+			if(estruturas.get(e)){
+				canvasCampus.drawImage(e.getImagem(), e.getX(), e.getY());
+			}
+		}
+	}
+
+	private void atualizarTaxas() {
+		FachadaJogador jogador = obterJogador();
+		String texto = 
+				"Manutenção: " + jogador.obterTaxaManutencao()
+				+ "/dia\nFuncionários: " + jogador.obterTaxaFuncionarios()
+				+ "/dia\nPE: " + jogador.obterTaxaPontosEnsino()
+				+ "/seg";
+		atualizarTexto(texto, 10f, canvasTaxas);
+	}
+
+	private void atualizarFO() {
+		float unidade = 1.0f * canvasFO.width() /
+				obterJogador().obterFocoMaximo();
+		canvasFO.clear();
+		canvasFO.setFillColor(Color.rgb(255, 255, 255));
+		canvasFO.fillRect(0, 0, obterJogador().obterFoco() * unidade,
+				canvasFO.height());
+	}
+	
+	private void atualizarPE() {
+		float unidade = 1.0f * canvasFO.width() /
+				obterJogador().obterPontosEnsinoMaximo();
+		canvasPE.clear();
+		canvasPE.setFillColor(Color.rgb(255, 255, 255));
+		canvasPE.fillRect(0, 0, obterJogador().obterPontosEnsino() * unidade,
+				canvasPE.height());
+	}
+	
+	public void atualizarAviso(String aviso) {
+		StringBuilder sb = new StringBuilder();
+
+		if (aviso.length() == 0)
+			aviso = " ";		
+		
+		if(avisos.size() == 3)
+			avisos.remove(0);
+		avisos.add(aviso);
+		
+		for(int i = 0; i < avisos.size() - 1; i++){
+			sb.append(avisos.get(i) + "\n");
+		}
+		sb.append(avisos.get(avisos.size() - 1));
+		
+		Font font = graphics().createFont("Helvetica",
+				playn.core.Font.Style.BOLD, 11f);
+		TextFormat format = new TextFormat().withFont(font).withTextColor(
+				Color.rgb(255, 255, 255));
+		TextLayout layout = graphics().layoutText(sb.toString(), format);
+		canvasAvisos.clear();
+		canvasAvisos.drawText(layout, 0, 0);
+	}
+
+	private void atualizarDia() {
+		String texto = "Dia: " + obterJogo().obterDia();
+		atualizarTexto(texto, 15f, canvasDia);
+	}
+	
+	private void atualizarHP() {
+		String texto = "HP " + obterJogador().obterHP() + "/10";
+		atualizarTexto(texto, 15f, canvasHP);
+	}
+
+	private void atualizarBarraSuperior(){
 		if(root != null){
 			base.remove(root.layer);
 			iface.removeRoot(root);
@@ -330,179 +288,25 @@ public class TelaPrincipal extends TipoTela {
 		root.layer.setTranslation(56, -190);
 		base.add(root.layer);
 		root.add(barraSuperior);
-		
-	}
-	//============= Inicializacao dos objetos contidos na barra superior do jogo=======================
-	private Group inicializarProfessor() {
-		Button itemProfessor = new Button();
-		
-		itemProfessor.setIcon(Estrutura.PROFESSOR.getImagem());
-		Button textoProfessor = new Button().setText("Professor\n$600");
-		
-		Group professor = new Group(AxisLayout.vertical());
-		professor.add(itemProfessor, textoProfessor);
-		return professor;
-	}
-
-	private Group inicializarPracaCentral() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.PRACA_CENTRAL.getImagem());
-		Button texto = new Button().setText("PRACA_CENTRAL\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarAluno() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.ALUNO.getImagem());
-		Button texto = new Button().setText("ALUNO\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
 	}
 	
-	private Group inicializarCentroEsportes() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.CENTRO_ESPORTES.getImagem());
-		Button texto = new Button().setText("CENTRO_ESPORTES\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarAumentoSalarial() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.AUMENTO_SALARIAL.getImagem());
-		Button texto = new Button().setText("AUMENTO_SALARIAL\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarChurrascoDebate() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.CHURRASCO_DEBATE.getImagem());
-		Button texto = new Button().setText("CHURRASCO_DEBATE\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarFesta() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.FESTA.getImagem());
-		Button texto = new Button().setText("FESTA\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarSobremesaBandejao() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.SOBREMESA_BANDEJAO.getImagem());
-		Button texto = new Button().setText("SOBREMESA_BANDEJAO\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
+	private void atualizarSalasAula(){
+		int[] posSalas = {0, 90, 180, 270, 360};
+		canvasSalasAula.clear();
+		canvasSalasAula.setFillColor(0xFFFFFFFF);
+//		canvasSalasAula.fillRect(posSalas[4], 0, 76, canvasSalasAula.height());
+		for(int pos : posSalas){
+			canvasSalasAula.fillRect(pos, 0, 76, canvasSalasAula.height());
+		}
 	}
 	
-	private Group inicializarSeminario() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.SEMINARIO.getImagem());
-		Button texto = new Button().setText("SEMINARIO\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-	private Group inicializarGuardaUniversitaria() {
-		Button item = new Button();
-		
-		item.setIcon(Estrutura.GUARDA_UNIVERSITARIA.getImagem());
-		Button texto = new Button().setText("GUARDA_UNIVERSITARIA\n$600");
-		
-		Group grupo = new Group(AxisLayout.vertical());
-		grupo.add(item, texto);
-		return grupo;
-	}
-
-
-	
-	private Group inicializarBandejao() {
-		Button itemBandejao = new Button();
-		itemBandejao.setIcon(Estrutura.BANDEJAO.getImagem());
-		Button textoBandejao = new Button().setText("Bandejão\n$600 / FO MAX +3");
-		
-		itemBandejao.clicked().connect(new TratadorBotaoEstrutura(Estrutura.BANDEJAO));
-		textoBandejao.clicked().connect(new TratadorBotaoEstrutura(Estrutura.BANDEJAO));
-		
-		Group bandejao = new Group(AxisLayout.vertical());
-		bandejao.add(itemBandejao, textoBandejao);
-		return bandejao;
-	}
-
-	private Group inicializarSetorDados() {
-		Button itemSetorDados = new Button();
-		
-		itemSetorDados.setIcon(Estrutura.SETOR_DADOS.getImagem());
-		Button textoSetorDados = new Button().setText("Setor Dados\n$500 / PE +4/seg");
-		
-		itemSetorDados.clicked().connect(new TratadorBotaoEstrutura(Estrutura.SETOR_DADOS));
-		textoSetorDados.clicked().connect(new TratadorBotaoEstrutura(Estrutura.SETOR_DADOS));
-		
-		Group setorDados = new Group(AxisLayout.vertical());
-		setorDados.add(itemSetorDados, textoSetorDados);
-		return setorDados;
-	}
-
-	private Group inicializarBlocoEnsino() {
-		Button itemBlocoEnsino = new Button();
-		itemBlocoEnsino.setIcon(Estrutura.B1.getImagem());
-		Button textoBlocoEnsino = new Button().setText("Bloco Ensino\n$400 / Salas +1");
-		
-		UnitSlot tratadorBlocoEnsino = new UnitSlot() {
-			@Override
-			public void onEmit() {
-				for(int i = 0; i < 5; i++){
-					if(!estruturas.get(Estrutura.values()[i])){
-						estruturas.put(Estrutura.values()[i], true);
-						return;
-					}
-				}
-			}
-		};
-		
-		itemBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
-		textoBlocoEnsino.clicked().connect(tratadorBlocoEnsino);
-		
-		Group blocoEnsino = new Group(AxisLayout.vertical());
-		blocoEnsino.add(itemBlocoEnsino, textoBlocoEnsino);
-		return blocoEnsino;
-	}
 	//============================================================================================================
 	/**
 	 * Desenha as varias imagens na tela de jogo principal, seta fonte, ajust a posicao.
 	 */
 	private void desenharLogo() {
-		String nomejogador = jogo.getConstrutor().obterNome();
-		String nomeuniversidade = jogo.getConstrutor().obterUniversidade().toString().toLowerCase();
+		String nomejogador = obterConstrutor().obterNome();
+		String nomeuniversidade = obterConstrutor().obterUniversidade().toString().toLowerCase();
 		Image logo = assetManager().getImage("images/" + nomeuniversidade + ".jpg");
 		ImageLayer layerLogo = graphics().createImageLayer(logo);
 		layerLogo.setTranslation(14, 15);
@@ -529,8 +333,8 @@ public class TelaPrincipal extends TipoTela {
 		base.add(layerFundo);
 	}
 	
-	private Canvas inicializarCanvas(int h, int l, int x, int y) {
-		CanvasLayer layerCanvas = graphics().createCanvasLayer(h, l);
+	private Canvas inicializarCanvas(int l, int h, int x, int y) {
+		CanvasLayer layerCanvas = graphics().createCanvasLayer(l, h);
 		layerCanvas.setTranslation(x, y);
 		base.add(layerCanvas);
 		return layerCanvas.canvas();
@@ -563,28 +367,36 @@ public class TelaPrincipal extends TipoTela {
 			iface.update(delta);
 		}
 
-		contaUpdates++;
-
-		if (contaUpdates == 10) {
-			contaUpdates = 0;
-			segundos++;
-
-			if (segundos % 240 == 0) {
-				dia++;
-				atualizarDia();
-			}
-
-			if (segundos % 3 == 0) {
-				atualizarAviso(avisosExemplo[segundos % avisosExemplo.length]);
-			}
-
-		}
-
+		atualizarDia();
+		atualizarPE();
 		atualizarFO();
 		atualizarHP();
-		atualizarCampus();
-
+		atualizarTaxas();
+		atualizarSalasAula();
 	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		Notificacao notificacao = (Notificacao) arg1;
+		
+		switch (notificacao.getTipo()) {
+		case PERDA_HP:
+			atualizarAviso(notificacao.getUniversidade() + " perdeu HP");
+			break;
+		case GREVE:
+			atualizarAviso("Funcionários da " + notificacao.getUniversidade()
+					+ " entraram em greve (Foco zerado)");
+			break;
+		case COMPRA:
+			atualizarAviso(notificacao.getUniversidade() + " comprou "
+					+ notificacao.getEstrutura().obterNome());
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
 	/**
 	 * redesenha as animacoes, para refletir o estado atual do joog
 	 */
@@ -600,6 +412,7 @@ public class TelaPrincipal extends TipoTela {
 		if (iface != null) {
 			pointer().setListener(null);
 			iface = null;
+			root = null;
 		}
 
 		destruirBase();
@@ -608,4 +421,9 @@ public class TelaPrincipal extends TipoTela {
 	public String toString() {
 		return "Tela Principal";
 	}
+
+	public Map<ImagemEstrutura, Boolean> obterEstruturas() {
+		return estruturas;
+	}
+	
 }

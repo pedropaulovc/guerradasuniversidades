@@ -49,13 +49,13 @@ public class Menu extends TipoTela {
 		Group buttons = new Group(AxisLayout.vertical().offStretch());
 		root.add(buttons);
 
-		for (final TipoTela tela : new TipoTela[] { jogo.obterIniciar(),
-				jogo.obterOpcoes(), jogo.obterRecordes(), jogo.obterAjuda() }) {
+		for (final TipoTela tela : new TipoTela[] { visao.obterIniciar(),
+				visao.obterOpcoes(), visao.obterRecordes(), visao.obterAjuda() }) {
 			Button button = new Button().setText(tela.toString());
 			buttons.add(button);
 			button.clicked().connect(new UnitSlot() {
 				public void onEmit() {
-					jogo.exibirTela(tela);
+					visao.exibirTela(tela);
 				}
 			});
 		}
