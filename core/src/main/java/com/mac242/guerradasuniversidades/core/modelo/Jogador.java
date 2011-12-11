@@ -160,7 +160,7 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		List<StatusSalaAula> salas = gerente.obterInfoSalas();
 		if(salas.size() > 0){
 			StatusSalaAula exercito = salas.get(0);
-			if(exercito.possuiProfessor() && exercito.estaCheia())
+			if(exercito.estaCompleta())
 				return FO;
 		}
 		return 0;

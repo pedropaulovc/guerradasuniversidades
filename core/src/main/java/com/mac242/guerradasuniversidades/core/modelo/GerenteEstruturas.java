@@ -8,6 +8,8 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.*;
+
 public class GerenteEstruturas extends Observable {
 	private List<SalaAula> salas = new ArrayList<SalaAula>();
 
@@ -28,49 +30,49 @@ public class GerenteEstruturas extends Observable {
 
 	private void calcularCustos(FocoAdministracao foco) {
 		custos = new HashMap<Estrutura, Integer>();
-		custos.put(Estrutura.SALA_AULA, 400);
-		custos.put(Estrutura.PROFESSOR, 200);
-		custos.put(Estrutura.ALUNO, 75);
-		custos.put(Estrutura.BANDEJAO, 600);
-		custos.put(Estrutura.SETOR_DADOS, 500);
-		custos.put(Estrutura.PRACA_CENTRAL, 400);
-		custos.put(Estrutura.CENTRO_ESPORTES, 700);
-		custos.put(Estrutura.AUMENTO_SALARIAL, 700);
+		custos.put(SALA_AULA, 400);
+		custos.put(PROFESSOR, 200);
+		custos.put(ALUNO, 75);
+		custos.put(BANDEJAO, 600);
+		custos.put(SETOR_DADOS, 500);
+		custos.put(PRACA_CENTRAL, 400);
+		custos.put(CENTRO_ESPORTES, 700);
+		custos.put(AUMENTO_SALARIAL, 700);
 
-		custos.put(Estrutura.CHURRASCO_DEBATE, 400);
+		custos.put(CHURRASCO_DEBATE, 400);
 		if (foco == FocoAdministracao.HUMANAS)
-			custos.put(Estrutura.CHURRASCO_DEBATE, 275);
+			custos.put(CHURRASCO_DEBATE, 275);
 
-		custos.put(Estrutura.FESTA, 400);
+		custos.put(FESTA, 400);
 		if (foco == FocoAdministracao.BIOMEDICAS)
-			custos.put(Estrutura.FESTA, 300);
+			custos.put(FESTA, 300);
 
-		custos.put(Estrutura.SOBREMESA_BANDEJAO, 250);
+		custos.put(SOBREMESA_BANDEJAO, 250);
 		if (foco == FocoAdministracao.BIOMEDICAS)
-			custos.put(Estrutura.SOBREMESA_BANDEJAO, 140);
+			custos.put(SOBREMESA_BANDEJAO, 140);
 
-		custos.put(Estrutura.SEMINARIO, 300);
+		custos.put(SEMINARIO, 300);
 		if (foco == FocoAdministracao.BIOMEDICAS)
-			custos.put(Estrutura.SEMINARIO, 200);
+			custos.put(SEMINARIO, 200);
 		
-		custos.put(Estrutura.GUARDA_UNIVERSITARIA, 1500);
+		custos.put(GUARDA_UNIVERSITARIA, 1500);
 	}
 
 	private void calcularLimites() {
 		disp = new HashMap<Estrutura, Integer>();
-		disp.put(Estrutura.SALA_AULA, 5);
-		disp.put(Estrutura.PROFESSOR, 0);
-		disp.put(Estrutura.ALUNO, 0);
-		disp.put(Estrutura.BANDEJAO, 1);
-		disp.put(Estrutura.SETOR_DADOS, -1);
-		disp.put(Estrutura.PRACA_CENTRAL, 1);
-		disp.put(Estrutura.CENTRO_ESPORTES, 1);
-		disp.put(Estrutura.AUMENTO_SALARIAL, -1);
-		disp.put(Estrutura.CHURRASCO_DEBATE, 15);
-		disp.put(Estrutura.FESTA, Integer.MAX_VALUE);
-		disp.put(Estrutura.SOBREMESA_BANDEJAO, 0);
-		disp.put(Estrutura.SEMINARIO, -1);
-		disp.put(Estrutura.GUARDA_UNIVERSITARIA, 1);
+		disp.put(SALA_AULA, 5);
+		disp.put(PROFESSOR, 0);
+		disp.put(ALUNO, 0);
+		disp.put(BANDEJAO, 1);
+		disp.put(SETOR_DADOS, -1);
+		disp.put(PRACA_CENTRAL, 1);
+		disp.put(CENTRO_ESPORTES, 1);
+		disp.put(AUMENTO_SALARIAL, -1);
+		disp.put(CHURRASCO_DEBATE, 15);
+		disp.put(FESTA, Integer.MAX_VALUE);
+		disp.put(SOBREMESA_BANDEJAO, 0);
+		disp.put(SEMINARIO, -1);
+		disp.put(GUARDA_UNIVERSITARIA, 1);
 	}
 
 	/**
@@ -81,19 +83,19 @@ public class GerenteEstruturas extends Observable {
 		salas.add(new SalaAula());
 		deltaTaxaManutencao++;
 
-		int profDisp = disp.get(Estrutura.PROFESSOR);
-		int alunoDisp = disp.get(Estrutura.ALUNO);
-		disp.put(Estrutura.PROFESSOR, profDisp + 1);
-		disp.put(Estrutura.ALUNO, alunoDisp + 10);
+		int profDisp = disp.get(PROFESSOR);
+		int alunoDisp = disp.get(ALUNO);
+		disp.put(PROFESSOR, profDisp + 1);
+		disp.put(ALUNO, alunoDisp + 10);
 
-		if (disp.get(Estrutura.SETOR_DADOS) == -1)
-			disp.put(Estrutura.SETOR_DADOS, 1);
-		if (disp.get(Estrutura.AUMENTO_SALARIAL) == -1)
-			disp.put(Estrutura.AUMENTO_SALARIAL, 10);
-		if (disp.get(Estrutura.SEMINARIO) == -1)
-			disp.put(Estrutura.SEMINARIO, Integer.MAX_VALUE);
+		if (disp.get(SETOR_DADOS) == -1)
+			disp.put(SETOR_DADOS, 1);
+		if (disp.get(AUMENTO_SALARIAL) == -1)
+			disp.put(AUMENTO_SALARIAL, 10);
+		if (disp.get(SEMINARIO) == -1)
+			disp.put(SEMINARIO, Integer.MAX_VALUE);
 
-		comprarEstrutura(Estrutura.SALA_AULA);
+		comprarEstrutura(SALA_AULA);
 	}
 
 	public int obterQtdSalas() {
@@ -110,7 +112,7 @@ public class GerenteEstruturas extends Observable {
 			i++;
 		salas.get(i).alterarProfessor(true);
 
-		comprarEstrutura(Estrutura.PROFESSOR);
+		comprarEstrutura(PROFESSOR);
 	}
 
 	public int obterQtdProfessores() {
@@ -134,7 +136,7 @@ public class GerenteEstruturas extends Observable {
 			i++;
 		salas.get(i).adicionarAluno();
 
-		comprarEstrutura(Estrutura.ALUNO);
+		comprarEstrutura(ALUNO);
 	}
 
 	public int obterQtdAlunos() {
@@ -151,85 +153,85 @@ public class GerenteEstruturas extends Observable {
 		deltaTaxaManutencao += 2;
 		deltaFOMax += 3;
 
-		disp.put(Estrutura.SOBREMESA_BANDEJAO, Integer.MAX_VALUE);
+		disp.put(SOBREMESA_BANDEJAO, Integer.MAX_VALUE);
 
-		comprarEstrutura(Estrutura.BANDEJAO);
+		comprarEstrutura(BANDEJAO);
 	}
 	
 	public void destruirBandejao() {
 		deltaTaxaManutencao -= 2;
 		deltaFOMax -= 3;
 
-		disp.put(Estrutura.SOBREMESA_BANDEJAO, 0);
+		disp.put(SOBREMESA_BANDEJAO, 0);
 
-		destruirEstrutura(Estrutura.BANDEJAO);
+		destruirEstrutura(BANDEJAO);
 	}
 
 	public void comprarSetorDados() {
 		deltaTaxaManutencao += 3;
 		deltaTaxaPE += 10;
 
-		comprarEstrutura(Estrutura.SETOR_DADOS);
+		comprarEstrutura(SETOR_DADOS);
 	}
 	
 	public void destruirSetorDados() {
 		deltaTaxaManutencao -= 3;
 		deltaTaxaPE -= 10;
 
-		destruirEstrutura(Estrutura.SETOR_DADOS);
+		destruirEstrutura(SETOR_DADOS);
 	}
 
 	public void comprarPracaCentral() {
 		deltaTaxaManutencao += 2;
 		deltaTaxaFO++;
 
-		comprarEstrutura(Estrutura.PRACA_CENTRAL);
+		comprarEstrutura(PRACA_CENTRAL);
 	}
 	
 	public void destruirPracaCentral() {
 		deltaTaxaManutencao -= 2;
 		deltaTaxaFO--;
 
-		destruirEstrutura(Estrutura.PRACA_CENTRAL);
+		destruirEstrutura(PRACA_CENTRAL);
 	}
 
 	public void comprarCentroEsportes() {
 		deltaTaxaManutencao += 2;
 		deltaTaxaFO++;
 
-		comprarEstrutura(Estrutura.CENTRO_ESPORTES);
+		comprarEstrutura(CENTRO_ESPORTES);
 	}
 	
 	public void destruirCentroEsportes() {
 		deltaTaxaManutencao -= 2;
 		deltaTaxaFO--;
 
-		destruirEstrutura(Estrutura.CENTRO_ESPORTES);
+		destruirEstrutura(CENTRO_ESPORTES);
 	}
 
 	public void concederAumentoSalarial() {
 		deltaTaxaFuncionarios += 2;
 		deltaTaxaPE += 3;
 
-		comprarEstrutura(Estrutura.AUMENTO_SALARIAL);
+		comprarEstrutura(AUMENTO_SALARIAL);
 	}
 
 	public void promoverChurrascoDebate() {
 		deltaTaxaPE++; 
 		
-		comprarEstrutura(Estrutura.CHURRASCO_DEBATE);
+		comprarEstrutura(CHURRASCO_DEBATE);
 	}
 
 	public void promoverFesta() {
 		deltaFO += 2;
 
-		comprarEstrutura(Estrutura.FESTA);
+		comprarEstrutura(FESTA);
 	}
 
 	public void servirSobremesaBandejao() {
 		deltaFO++;
 
-		comprarEstrutura(Estrutura.SOBREMESA_BANDEJAO);
+		comprarEstrutura(SOBREMESA_BANDEJAO);
 	}
 
 	public void promoverSeminario() {
@@ -240,26 +242,26 @@ public class GerenteEstruturas extends Observable {
 				deltaTaxaPE -= 7;
 				setChanged();
 				Notificacao notificacao = new Notificacao()
-					.setEstrutura(Estrutura.SEMINARIO)
+					.setEstrutura(SEMINARIO)
 					.setTipo(TipoNotificacao.ATUALIZACAO);
 				notifyObservers(notificacao);
 			}
 		}, 7000 * GuerraDasUniversidades.obterDuracaoDia());
 
-		comprarEstrutura(Estrutura.SEMINARIO);
+		comprarEstrutura(SEMINARIO);
 	}
 	
 	public void comprarGuardaUniversitaria(){
 		deltaTaxaManutencao += 2;
 		
-		comprarEstrutura(Estrutura.GUARDA_UNIVERSITARIA);
+		comprarEstrutura(GUARDA_UNIVERSITARIA);
 	}
 
 	public void destruirGuardaUniversitaria() {
 		deltaTaxaManutencao -= 2;
 		
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(Estrutura.GUARDA_UNIVERSITARIA)
+			.setEstrutura(GUARDA_UNIVERSITARIA)
 			.setTipo(TipoNotificacao.DESTRUICAO);
 		setChanged();
 		notifyObservers(notificacao);
@@ -353,10 +355,10 @@ public class GerenteEstruturas extends Observable {
 
 	public void quebrarEstruturaAleatoria() {
 		List<Estrutura> possiveis = new ArrayList<Estrutura>();
-		possiveis.add(Estrutura.BANDEJAO);
-		possiveis.add(Estrutura.SETOR_DADOS);
-		possiveis.add(Estrutura.CENTRO_ESPORTES);
-		possiveis.add(Estrutura.PRACA_CENTRAL);
+		possiveis.add(BANDEJAO);
+		possiveis.add(SETOR_DADOS);
+		possiveis.add(CENTRO_ESPORTES);
+		possiveis.add(PRACA_CENTRAL);
 		
 		Collections.shuffle(possiveis);
 		Estrutura candidato = null;
@@ -408,22 +410,22 @@ public class GerenteEstruturas extends Observable {
 		vazia.definirQtdAlunos(0);
 		salas.add(vazia);
 		
-		int dispProf = disp.get(Estrutura.PROFESSOR);
-		int dispAluno = disp.get(Estrutura.ALUNO);
+		int dispProf = disp.get(PROFESSOR);
+		int dispAluno = disp.get(ALUNO);
 		
-		disp.put(Estrutura.PROFESSOR, dispProf + 1);
-		disp.put(Estrutura.ALUNO, dispAluno + 10);
+		disp.put(PROFESSOR, dispProf + 1);
+		disp.put(ALUNO, dispAluno + 10);
 		
 		
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(Estrutura.SALA_AULA)
+			.setEstrutura(SALA_AULA)
 			.setTipo(TipoNotificacao.ATUALIZACAO);
 		setChanged();
 		notifyObservers(notificacao);
 	}
 
 	public boolean possuiGuardaUniversitaria() {
-		return disp.get(Estrutura.GUARDA_UNIVERSITARIA) == 0;
+		return disp.get(GUARDA_UNIVERSITARIA) == 0;
 	}
 	
 }

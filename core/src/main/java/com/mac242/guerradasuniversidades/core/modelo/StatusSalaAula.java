@@ -14,12 +14,19 @@ public class StatusSalaAula {
 		return sala.obterQtdAlunos();
 	}
 
-	
-	public boolean estaCheia(){
-		return sala.obterQtdAlunos() == SalaAula.obterCapacidade();
+	public boolean estaCompleta(){
+		return sala.obterQtdAlunos() == SalaAula.obterCapacidade() && possuiProfessor();
 	}
 	
 	public static int obterCapacidade(){
 		return SalaAula.obterCapacidade();
+	}
+	
+	public String toString(){
+		int qtdProf = possuiProfessor() ? 1 : 0;
+		int qtdAlunos = obterQtdAlunos();
+		int capacidade = obterCapacidade();
+		
+		return qtdProf + "P " + qtdAlunos + "/" + capacidade + "A"; 
 	}
 }

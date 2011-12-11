@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
@@ -34,10 +33,12 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
+import com.mac242.guerradasuniversidades.core.controle.TratadorAtacarOponente;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoBlocoEnsino;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoEstrutura;
 import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
 import com.mac242.guerradasuniversidades.core.modelo.Notificacao;
+import com.mac242.guerradasuniversidades.core.modelo.StatusSalaAula;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -102,9 +103,11 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		canvasAvisos = inicializarCanvas(500, 39, 32, 396);
 		canvasFO = inicializarCanvas(150, 15, 534, 473);
 		canvasPE = inicializarCanvas(150, 13, 534, 453);
-		canvasTaxas = inicializarCanvas(140, 51, 570, 395);
+		canvasTaxas = inicializarCanvas(140, 51, 570, 385);
 		canvasCampus = inicializarCanvas(671, 290, 20, 154);
 		canvasSalasAula = inicializarCanvas(437,59,25,453);
+		
+		inicializarSalasAula();
 		
 		atualizarDia();
 		atualizarTaxas();
@@ -183,7 +186,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	public void atualizarCampus() {
 		canvasCampus.clear();
 		for(ImagemEstrutura e : estruturas.keySet()){
-			if(estruturas.get(e)){
+			if(estruturas.get(e) && e.getX() >= 0 && e.getY() >= 0){
 				canvasCampus.drawImage(e.getImagem(), e.getX(), e.getY());
 			}
 		}
@@ -195,7 +198,8 @@ public class TelaPrincipal extends TipoTela implements Observer {
 				"Manutenção: " + jogador.obterTaxaManutencao()
 				+ "/dia\nFuncionários: " + jogador.obterTaxaFuncionarios()
 				+ "/dia\nPE: " + jogador.obterTaxaPontosEnsino()
-				+ "/seg";
+				+ "/seg\nFO: " + jogador.obterTaxaFoco()
+				+ "/dia";
 		atualizarTexto(texto, 10f, canvasTaxas);
 	}
 
@@ -251,6 +255,18 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		atualizarTexto(texto, 15f, canvasHP);
 	}
 
+	private void inicializarSalasAula(){
+		Root root = iface.createRoot(AxisLayout.vertical().offStretch());
+		root.setSize(437,59);
+		root.layer.setTranslation(25,453);
+		base.add(root.layer);
+		
+		Button botao = new Button().setConstraint(AxisLayout.stretched());
+		botao.clicked().connect(new TratadorAtacarOponente());
+		
+		root.add(botao);
+	}
+	
 	private void atualizarBarraSuperior(){
 		if(root != null){
 			base.remove(root.layer);
@@ -292,11 +308,30 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	
 	private void atualizarSalasAula(){
 		int[] posSalas = {0, 90, 180, 270, 360};
+		List<StatusSalaAula> status = obterJogador().obterInfoSalas();
+		int i = 0;
+		Font font = graphics().createFont("Helvetica", Font.Style.BOLD, 12);
+		TextFormat formato = new TextFormat().withFont(font);
+		TextLayout layout;
+		int hSala = canvasSalasAula.height();
+		int lSala = 76;
+		
 		canvasSalasAula.clear();
-		canvasSalasAula.setFillColor(0xFFFFFFFF);
-//		canvasSalasAula.fillRect(posSalas[4], 0, 76, canvasSalasAula.height());
-		for(int pos : posSalas){
-			canvasSalasAula.fillRect(pos, 0, 76, canvasSalasAula.height());
+
+		canvasSalasAula.setFillColor(Color.rgb(0, 255, 0));
+		while(i < status.size() && status.get(i).estaCompleta()){
+			canvasSalasAula.fillRect(posSalas[i], 0, lSala, hSala);
+			layout = graphics().layoutText("Clique\npara\natacar", formato);
+			canvasSalasAula.drawText(layout, posSalas[i] + lSala/2 - layout.width()/2, hSala/2 - layout.height()/2);
+			i++;
+		}
+		
+		canvasSalasAula.setFillColor(Color.rgb(255, 255, 0));
+		while(i < status.size()){
+			canvasSalasAula.fillRect(posSalas[i], 0, lSala, hSala);
+			layout = graphics().layoutText(status.get(i).toString(), formato);
+			canvasSalasAula.drawText(layout, posSalas[i] + lSala/2 - layout.width()/2, hSala/2 - layout.height()/2);
+			i++;
 		}
 	}
 	
@@ -379,22 +414,27 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		Notificacao notificacao = (Notificacao) arg1;
 		
+		String jogador = notificacao.getNome() + " (" + notificacao.getUniversidade() + ")";
+		
 		switch (notificacao.getTipo()) {
 		case PERDA_HP:
-			atualizarAviso(notificacao.getUniversidade() + " perdeu HP");
+			atualizarAviso(jogador + " perdeu HP");
 			break;
 		case GREVE:
 			atualizarAviso("Funcionários da " + notificacao.getUniversidade()
 					+ " entraram em greve (Foco zerado)");
 			break;
 		case COMPRA:
-			atualizarAviso(notificacao.getUniversidade() + " comprou "
+			atualizarAviso(jogador + " comprou "
 					+ notificacao.getEstrutura().obterNome());
 			break;
+		case DESTRUICAO:
+			atualizarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
+			if(notificacao.getUniversidade().equals(obterJogador().obterNomeUniversidade()))
+				atualizarCampus();
 		default:
 			break;
 		}
-		
 	}
 	
 	/**

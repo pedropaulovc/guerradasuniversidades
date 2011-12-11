@@ -41,10 +41,6 @@ public class FachadaJogador {
 		return gerente.obterInfoSalas();
 	}
 
-	public void observarInformes() {
-
-	}
-
 	public int obterTaxaManutencao() {
 		return jogador.obterTaxaManutencao();
 	}
@@ -61,10 +57,6 @@ public class FachadaJogador {
 		return jogador.obterTaxaPontosEnsino();
 	}
 	
-	public void obterInfoOponentes() {
-
-	}
-
 	public boolean comprarEstrutura(Estrutura e){
 		if(!gerente.estruturaDisponivel(e, jogador.obterPontosEnsino()))
 			return false;

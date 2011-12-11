@@ -15,14 +15,14 @@ public enum ImagemEstrutura { // setando as imagens dos edificios que serao visi
 	SETOR_DADOS(350, 80, "setorDados.png", Estrutura.SETOR_DADOS), 
 	PRACA_CENTRAL(303, 111, "pracaCentral.jpg", Estrutura.PRACA_CENTRAL),
 	CENTRO_ESPORTES(148, 84, "centroEsportes.jpg", Estrutura.CENTRO_ESPORTES),
-	AUMENTO_SALARIAL(0, 0, "professor.jpg", Estrutura.AUMENTO_SALARIAL),
-	CHURRASCO_DEBATE(0, 0, "professor.jpg", Estrutura.CHURRASCO_DEBATE), 
-	FESTA(0, 0, "professor.jpg", Estrutura.FESTA), 
-	SOBREMESA_BANDEJAO(0, 0, "professor.jpg", Estrutura.SOBREMESA_BANDEJAO),
-	SEMINARIO(0, 0, "professor.jpg", Estrutura.SEMINARIO), 
+	AUMENTO_SALARIAL(-1, -1, "professor.jpg", Estrutura.AUMENTO_SALARIAL),
+	CHURRASCO_DEBATE(-1, -1, "professor.jpg", Estrutura.CHURRASCO_DEBATE), 
+	FESTA(-1, -1, "professor.jpg", Estrutura.FESTA), 
+	SOBREMESA_BANDEJAO(-1, -1, "professor.jpg", Estrutura.SOBREMESA_BANDEJAO),
+	SEMINARIO(-1, -1, "professor.jpg", Estrutura.SEMINARIO), 
 	GUARDA_UNIVERSITARIA(224, 190, "guarda.jpg", Estrutura.GUARDA_UNIVERSITARIA), 
-	PROFESSOR(0, 0, "professor.jpg", Estrutura.PROFESSOR),
-	ALUNO(0, 0, "professor.jpg", Estrutura.ALUNO);
+	PROFESSOR(-1, -1, "professor.jpg", Estrutura.PROFESSOR),
+	ALUNO(-1, -1, "aluno.png", Estrutura.ALUNO);
 
 	private int x;
 	private int y;

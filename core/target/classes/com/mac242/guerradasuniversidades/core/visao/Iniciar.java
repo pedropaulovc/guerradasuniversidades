@@ -4,6 +4,7 @@ import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
 
 import com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterConstrutor;
 
 import playn.core.Color;
 import playn.core.Font;
@@ -39,7 +40,7 @@ public class Iniciar extends TipoTela{
 		}
 		@Override
 		public void onEmit() {
-			visao.obterConstrutor().definirFoco(foco).definirNome(nomejogador);
+			obterConstrutor().definirFoco(foco).definirNome(nomejogador);
 			visao.exibirTela(visao.obterUniversidades());
 		}
 		
