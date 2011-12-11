@@ -13,7 +13,7 @@ public enum ImagemEstrutura { // setando as imagens dos edificios que serao visi
 	B5(500, 150, "blocoEnsino.png", Estrutura.SALA_AULA),
 	BANDEJAO(180, 80, "bandejao.png", Estrutura.BANDEJAO),
 	SETOR_DADOS(350, 80, "setorDados.png", Estrutura.SETOR_DADOS), 
-	PRACA_CENTRAL(303, 111, "pracaCentral.jpg", Estrutura.PRACA_CENTRAL),
+	PRACA_CENTRAL(303, 111, "praca.png", Estrutura.PRACA_CENTRAL),
 	CENTRO_ESPORTES(148, 84, "centroEsportes.jpg", Estrutura.CENTRO_ESPORTES),
 	AUMENTO_SALARIAL(-1, -1, "professor.jpg", Estrutura.AUMENTO_SALARIAL),
 	CHURRASCO_DEBATE(-1, -1, "professor.jpg", Estrutura.CHURRASCO_DEBATE), 

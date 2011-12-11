@@ -17,7 +17,7 @@ public class TratadorBotaoBlocoEnsino extends UnitSlot {
 	
 	public void onEmit() {
 		if(!obterJogador().comprarEstrutura(Estrutura.SALA_AULA)){
-			tela.atualizarAviso("Estrutura indisponível!");
+			tela.adicionarAviso("Estrutura indisponível!");
 			return;
 		}
 		

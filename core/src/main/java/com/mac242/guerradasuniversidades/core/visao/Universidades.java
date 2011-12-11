@@ -1,12 +1,11 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.iniciarJogo;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterConstrutor;
 import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 import static playn.core.PlayN.pointer;
-
-import com.mac242.guerradasuniversidades.core.modelo.NomeUniversidade;
-
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;
@@ -22,6 +21,8 @@ import tripleplay.ui.Button;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
+
+import com.mac242.guerradasuniversidades.core.modelo.NomeUniversidade;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -45,8 +46,8 @@ public class Universidades extends TipoTela {
 
 		@Override
 		public void onEmit() {
-			visao.obterConstrutor().definirUniversidade(nome);
-			visao.iniciarJogo();
+			obterConstrutor().definirUniversidade(nome);
+			iniciarJogo();
 			visao.exibirTela(visao.obterTelaPrincipal());
 		}
 	}

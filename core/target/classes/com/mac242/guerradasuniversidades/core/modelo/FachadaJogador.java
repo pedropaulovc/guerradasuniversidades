@@ -114,7 +114,7 @@ public class FachadaJogador {
 			return ResultadoAtaque.FOCO_ZERO;
 		if(jogador.calcularPoderAtaque() == 0)
 			return ResultadoAtaque.SEM_SALA_COMPLETA;
-		if(alvo.equals(jogador))
+		if(alvo.equals(jogador.obterNomeUniversidade()))
 			return ResultadoAtaque.AUTO_ATAQUE;
 		if(!vivos.contains(alvo))
 			return ResultadoAtaque.ALVO_MORTO;

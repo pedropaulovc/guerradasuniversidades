@@ -259,6 +259,7 @@ public class GerenteEstruturas extends Observable {
 
 	public void destruirGuardaUniversitaria() {
 		deltaTaxaManutencao -= 2;
+		disp.put(GUARDA_UNIVERSITARIA, -2);
 		
 		Notificacao notificacao = new Notificacao()
 			.setEstrutura(GUARDA_UNIVERSITARIA)

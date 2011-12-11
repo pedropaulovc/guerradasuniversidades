@@ -22,7 +22,7 @@ public class TratadorBotaoEstrutura extends UnitSlot {
 			tela.obterEstruturas().put(imgEstrutura, true);
 			tela.atualizarCampus();
 		} else {
-			tela.atualizarAviso("Estrutura indisponível!");
+			tela.adicionarAviso("Estrutura indisponível!");
 		}
 	}
 }

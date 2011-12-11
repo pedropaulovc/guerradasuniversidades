@@ -31,6 +31,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 	private TelaPrincipal telaPrincipal;
 	private Ajuda ajuda;
 	private Creditos creditos;
+	private Oponentes oponentes;
 	private int contaUpdates;
 	private static GuerraDasUniversidades jogo;
 	private static ConstrutorJogador construtor;
@@ -45,6 +46,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 		telaPrincipal = new TelaPrincipal(this);
 		ajuda = new Ajuda(this);
 		creditos = new Creditos(this);
+		oponentes = new Oponentes(this);
 	}
 
 	public static ConstrutorJogador obterConstrutor() {
@@ -109,7 +111,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 	@Override
 	public void update(float delta) {
 		contaUpdates++;
-		if(contaUpdates == 1000/updateRate()){
+		if(contaUpdates == 1){
 			contaUpdates = 0;
 			if(jogo != null)
 				jogo.atualizarEventos();
@@ -158,5 +160,9 @@ public class VisaoGuerraDasUniversidades implements Game {
 
 	public Creditos obterCreditos() {
 		return creditos;
+	}
+
+	public Oponentes obterOponentes() {
+		return oponentes;
 	}
 }

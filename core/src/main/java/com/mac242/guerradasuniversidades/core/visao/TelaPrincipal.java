@@ -33,7 +33,7 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
-import com.mac242.guerradasuniversidades.core.controle.TratadorAtacarOponente;
+import com.mac242.guerradasuniversidades.core.controle.TratadorVisualizarOponentes;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoBlocoEnsino;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoEstrutura;
 import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
@@ -111,6 +111,8 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		
 		atualizarDia();
 		atualizarTaxas();
+		exibirAvisos();
+		atualizarCampus();
 		
 		obterJogo().addObserver(this);
 	}
@@ -119,6 +121,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	 * Inicializando a barra superior(setas esq e dir, edificios, professor, etc) da tela de principal
 	 */
 	private void inicializarBarraSuperior() {
+		posicaoMenu = 0;
 		esquerda = new Button();
 		direita = new Button();
 		
@@ -221,19 +224,24 @@ public class TelaPrincipal extends TipoTela implements Observer {
 				canvasPE.height());
 	}
 	
-	public void atualizarAviso(String aviso) {
-		StringBuilder sb = new StringBuilder();
-
+	public void adicionarAviso(String aviso) {
 		if (aviso.length() == 0)
-			aviso = " ";		
+			aviso = " ";
 		
 		if(avisos.size() == 3)
 			avisos.remove(0);
 		avisos.add(aviso);
+		exibirAvisos();
+	}
+	
+	public void exibirAvisos(){
+		StringBuilder sb = new StringBuilder();
 		
-		for(int i = 0; i < avisos.size() - 1; i++){
+		while(avisos.size() < 3)
+			avisos.add(" ");
+		
+		for(int i = 0; i < avisos.size() - 1; i++)
 			sb.append(avisos.get(i) + "\n");
-		}
 		sb.append(avisos.get(avisos.size() - 1));
 		
 		Font font = graphics().createFont("Helvetica",
@@ -244,7 +252,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		canvasAvisos.clear();
 		canvasAvisos.drawText(layout, 0, 0);
 	}
-
+	
 	private void atualizarDia() {
 		String texto = "Dia: " + obterJogo().obterDia();
 		atualizarTexto(texto, 15f, canvasDia);
@@ -262,7 +270,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		base.add(root.layer);
 		
 		Button botao = new Button().setConstraint(AxisLayout.stretched());
-		botao.clicked().connect(new TratadorAtacarOponente());
+		botao.clicked().connect(new TratadorVisualizarOponentes(visao));
 		
 		root.add(botao);
 	}
@@ -418,18 +426,18 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		
 		switch (notificacao.getTipo()) {
 		case PERDA_HP:
-			atualizarAviso(jogador + " perdeu HP");
+			adicionarAviso(jogador + " perdeu HP");
 			break;
 		case GREVE:
-			atualizarAviso("Funcionários da " + notificacao.getUniversidade()
+			adicionarAviso("Funcionários da " + notificacao.getUniversidade()
 					+ " entraram em greve (Foco zerado)");
 			break;
 		case COMPRA:
-			atualizarAviso(jogador + " comprou "
+			adicionarAviso(jogador + " comprou "
 					+ notificacao.getEstrutura().obterNome());
 			break;
 		case DESTRUICAO:
-			atualizarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
+			adicionarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
 			if(notificacao.getUniversidade().equals(obterJogador().obterNomeUniversidade()))
 				atualizarCampus();
 		default:
