@@ -9,21 +9,21 @@ public enum ImagemEstrutura { // setando as imagens dos edificios que serao visi
 	B1(102, 0, "blocoEnsino.png", Estrutura.SALA_AULA),
 	B2(430, 0, "blocoEnsino.png", Estrutura.SALA_AULA), 
 	B3(50, 150, "blocoEnsino.png", Estrutura.SALA_AULA),
-	B4(280, 150, "blocoEnsino.png", Estrutura.SALA_AULA),
+	B4(280, 180, "blocoEnsino.png", Estrutura.SALA_AULA),
 	B5(500, 150, "blocoEnsino.png", Estrutura.SALA_AULA),
-	BANDEJAO(180, 80, "bandejao.png", Estrutura.BANDEJAO),
-	SETOR_DADOS(350, 80, "setorDados.png", Estrutura.SETOR_DADOS), 
-	PRACA_CENTRAL(303, 111, "praca.png", Estrutura.PRACA_CENTRAL),
-	CENTRO_ESPORTES(148, 84, "centroEsportes.jpg", Estrutura.CENTRO_ESPORTES),
-	AUMENTO_SALARIAL(-1, -1, "professor.jpg", Estrutura.AUMENTO_SALARIAL),
-	CHURRASCO_DEBATE(-1, -1, "professor.jpg", Estrutura.CHURRASCO_DEBATE), 
-	FESTA(-1, -1, "professor.jpg", Estrutura.FESTA), 
-	SOBREMESA_BANDEJAO(-1, -1, "professor.jpg", Estrutura.SOBREMESA_BANDEJAO),
-	SEMINARIO(-1, -1, "professor.jpg", Estrutura.SEMINARIO), 
-	GUARDA_UNIVERSITARIA(224, 190, "guarda.jpg", Estrutura.GUARDA_UNIVERSITARIA), 
+	BANDEJAO(140, 80, "bandejao.png", Estrutura.BANDEJAO),
+	SETOR_DADOS(400, 80, "setorDados.png", Estrutura.SETOR_DADOS), 
+	PRACA_CENTRAL(280, 90, "praca.png", Estrutura.PRACA_CENTRAL),
+	CENTRO_ESPORTES(280, 0, "centroEsportes.png", Estrutura.CENTRO_ESPORTES),
+	AUMENTO_SALARIAL(-1, -1, "aumento.jpg", Estrutura.AUMENTO_SALARIAL),
+	CHURRASCO_DEBATE(-1, -1, "churrascoDebate.jpg", Estrutura.CHURRASCO_DEBATE), 
+	FESTA(-1, -1, "festa.jpg", Estrutura.FESTA), 
+	SOBREMESA_BANDEJAO(-1, -1, "sobremesa.jpg", Estrutura.SOBREMESA_BANDEJAO),
+	SEMINARIO(-1, -1, "seminario.jpg", Estrutura.SEMINARIO), 
+	GUARDA_UNIVERSITARIA(555, 0, "guarda.png", Estrutura.GUARDA_UNIVERSITARIA), 
 	PROFESSOR(-1, -1, "professor.jpg", Estrutura.PROFESSOR),
 	ALUNO(-1, -1, "aluno.png", Estrutura.ALUNO);
-
+	
 	private int x;
 	private int y;
 	private Image imagem;

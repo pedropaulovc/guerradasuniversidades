@@ -5,6 +5,10 @@ import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUnivers
 import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import playn.core.Color;
 import playn.core.Font;
 import playn.core.Image;
@@ -23,9 +27,11 @@ import com.mac242.guerradasuniversidades.core.modelo.StatusJogador;
 public class Oponentes extends TipoTela {
 
 	private Interface iface;
+	private Map<NomeUniversidade, Button> legendas;
 
 	public Oponentes(VisaoGuerraDasUniversidades jogo) {
 		super(jogo);
+		legendas = new HashMap<NomeUniversidade, Button>();
 	}
 
 	@Override
@@ -62,7 +68,6 @@ public class Oponentes extends TipoTela {
 	}
 
 	private Group gerarInfoOponente(NomeUniversidade nome) {
-		StatusJogador status = obterJogo().obterStatus(nome);
 		TratadorAtacarOponente tratador = new TratadorAtacarOponente(obterJogador(), nome);
 		
 		Button item = new Button();
@@ -74,19 +79,10 @@ public class Oponentes extends TipoTela {
 		Styles estiloLegenda = Styles.none().
 			add(tripleplay.ui.Style.FONT.is(graphics().createFont("Helvetica",
 				Font.Style.BOLD, 15)));
-		
-		String texto = 
-			status.nome + "\n" +
-			"HP: " + status.HP + "/10" + "\n" +
-			"PE: " + status.PE + "\n" +
-			"FO: " + status.FO + "\n" +
-			"FO Máximo: " + status.maxFO + "\n" +
-			"PE/seg: "	+ status.taxaPE + "\n" +
-			"FO/dia: " + status.taxaFO + "\n" +
-			"Manutenção/dia: " + status.taxaManutencao + "\n" +
-			"Funcionários/dia: "	+ status.taxaFuncionarios + "\n";
-		
-		Button legenda = new Button().setText(texto);
+	
+		Button legenda = new Button();
+		legendas.put(nome, legenda);
+		atualizarInfoOponente(nome);
 		legenda.addStyles(estiloLegenda);
 		legenda.clicked().connect(tratador);
 		
@@ -98,11 +94,32 @@ public class Oponentes extends TipoTela {
 		grupo.add(item, legenda, atacar);
 		return grupo;
 	}
+	
+	private void atualizarInfoOponente(NomeUniversidade nome){
+		StatusJogador status = obterJogo().obterStatus(nome);
+		Button legenda = legendas.get(nome);
+		
+		String texto = 
+			status.nome + "\n" +
+			"HP: " + status.HP + "/10" + "\n" +
+			"PE: " + status.PE + "\n" +
+			"FO: " + status.FO + "\n" +
+			"FO Máximo: " + status.maxFO + "\n" +
+			"PE/seg: "	+ status.taxaPE + "\n" +
+			"FO/dia: " + status.taxaFO + "\n" +
+			"Manutenção/dia: " + status.taxaManutencao + "\n" +
+			"Funcionários/dia: "	+ status.taxaFuncionarios + "\n";
+		legenda.setText(texto);
+	}
 
 	@Override
 	public void update(float delta) {
 		if (iface != null) {
 			iface.update(delta);
+		}
+		
+		for(NomeUniversidade nome : legendas.keySet()){
+			atualizarInfoOponente(nome);	
 		}
 	}
 

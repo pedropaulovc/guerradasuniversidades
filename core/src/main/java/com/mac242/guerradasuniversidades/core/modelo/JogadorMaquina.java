@@ -114,7 +114,6 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 		if(Math.random() < 0.9)
 			return;
 
-		fachada.comprarEstrutura(Estrutura.GUARDA_UNIVERSITARIA);
 //		Estrutura[] estruturas = Estrutura.values();
 //		fachada.comprarEstrutura(estruturas[rand.nextInt(estruturas.length)]);
 	}

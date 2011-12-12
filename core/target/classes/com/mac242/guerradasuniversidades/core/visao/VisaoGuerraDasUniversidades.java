@@ -32,6 +32,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 	private Ajuda ajuda;
 	private Creditos creditos;
 	private Oponentes oponentes;
+	private FimJogo fimJogo;
 	private int contaUpdates;
 	private static GuerraDasUniversidades jogo;
 	private static ConstrutorJogador construtor;
@@ -47,6 +48,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 		ajuda = new Ajuda(this);
 		creditos = new Creditos(this);
 		oponentes = new Oponentes(this);
+		fimJogo = new FimJogo(this);
 	}
 
 	public static ConstrutorJogador obterConstrutor() {
@@ -111,7 +113,7 @@ public class VisaoGuerraDasUniversidades implements Game {
 	@Override
 	public void update(float delta) {
 		contaUpdates++;
-		if(contaUpdates == 1){
+		if(contaUpdates == 1000/updateRate()){
 			contaUpdates = 0;
 			if(jogo != null)
 				jogo.atualizarEventos();
@@ -164,5 +166,9 @@ public class VisaoGuerraDasUniversidades implements Game {
 
 	public Oponentes obterOponentes() {
 		return oponentes;
+	}
+	
+	public FimJogo obterFimJogo(){
+		return fimJogo;
 	}
 }

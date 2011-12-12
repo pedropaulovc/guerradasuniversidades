@@ -440,6 +440,14 @@ public class TelaPrincipal extends TipoTela implements Observer {
 			adicionarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
 			if(notificacao.getUniversidade().equals(obterJogador().obterNomeUniversidade()))
 				atualizarCampus();
+			break;
+		case DERROTA:
+			visao.obterFimJogo().exibirDerrota();
+			visao.exibirTela(visao.obterFimJogo());
+			break;
+		case VITORIA:
+			visao.obterFimJogo().exibirVitoria();
+			visao.exibirTela(visao.obterFimJogo());
 		default:
 			break;
 		}

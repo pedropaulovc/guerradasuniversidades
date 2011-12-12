@@ -4,7 +4,7 @@ import playn.core.PlayN;
 import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
 
-import com.mac242.guerradasuniversidades.core.GuerraDasUniversidades;
+import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
 
 public class GuerraDasUniversidadesHtml extends HtmlGame {
 
@@ -12,6 +12,6 @@ public class GuerraDasUniversidadesHtml extends HtmlGame {
   public void start() {
     HtmlPlatform platform = HtmlPlatform.register();
     platform.assetManager().setPathPrefix("guerradasuniversidades/");
-    PlayN.run(new GuerraDasUniversidades());
+    PlayN.run(new VisaoGuerraDasUniversidades());
   }
 }
