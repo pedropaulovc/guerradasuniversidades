@@ -15,6 +15,8 @@ import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
+import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
+
 enum Dificuldade{FACIL, MEDIO, DIFICIL};
 
 /**
@@ -232,18 +234,8 @@ public class Opcoes extends TipoTela {
 		Group info = new Group(AxisLayout.horizontal().offStretch());
 		Button creditos = new Button().setText("Créditos");
 		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				visao.exibirTela(visao.obterMenu());
-			}
-		});
-		creditos.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				visao.exibirTela(visao.obterCreditos());
-			}
-		});
+		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterMenu()));
+		creditos.clicked().connect(new TratadorTrocarTela(visao, visao.obterCreditos()));
 		info.add(voltar, creditos);
 		return info;
 	}

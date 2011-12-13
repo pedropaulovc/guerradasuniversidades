@@ -5,16 +5,17 @@ import static playn.core.PlayN.pointer;
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;
+import playn.core.Font.Style;
 import playn.core.TextFormat;
 import playn.core.TextLayout;
-import playn.core.Font.Style;
-import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.Interface;
 import tripleplay.ui.Root;
 import tripleplay.ui.Stylesheet;
+
+import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -81,12 +82,7 @@ public class Recordes extends TipoTela {
 		
 		Group grupoVoltar = new Group(AxisLayout.horizontal());
 		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				visao.exibirTela(visao.obterMenu());
-			}
-		});
+		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterMenu()));
 		
 		root.add(grupoVoltar);
 		grupoVoltar.add(voltar);

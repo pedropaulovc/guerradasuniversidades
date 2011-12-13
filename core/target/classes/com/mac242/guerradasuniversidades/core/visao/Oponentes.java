@@ -1,7 +1,7 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
-import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterJogo;
 import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterJogador;
+import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterJogo;
 import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
@@ -12,7 +12,6 @@ import java.util.Map;
 import playn.core.Color;
 import playn.core.Font;
 import playn.core.Image;
-import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
@@ -21,6 +20,7 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 
 import com.mac242.guerradasuniversidades.core.controle.TratadorAtacarOponente;
+import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 import com.mac242.guerradasuniversidades.core.modelo.NomeUniversidade;
 import com.mac242.guerradasuniversidades.core.modelo.StatusJogador;
 
@@ -56,19 +56,17 @@ public class Oponentes extends TipoTela {
 		}
 		
 		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				visao.exibirTela(visao.obterTelaPrincipal());
-			}
-		});
+		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterTelaPrincipal()));
 		voltar.addStyles(obterEstiloBotao());
 		
 		root.add(oponentes, voltar);
 	}
 
 	private Group gerarInfoOponente(NomeUniversidade nome) {
-		TratadorAtacarOponente tratador = new TratadorAtacarOponente(obterJogador(), nome);
+		TratadorAtacarOponente tratador = new TratadorAtacarOponente()
+			.definirJogador(obterJogador())
+			.definirOponente(nome)
+			.definirVisao(visao);
 		
 		Button item = new Button();
 		String nomeuniversidade = nome.toString().toLowerCase();

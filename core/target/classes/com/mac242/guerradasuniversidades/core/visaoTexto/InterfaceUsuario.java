@@ -1,9 +1,27 @@
-package com.mac242.guerradasuniversidades.core.modelo;
+package com.mac242.guerradasuniversidades.core.visaoTexto;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+import com.mac242.guerradasuniversidades.core.modelo.ConstrutorJogador;
+import com.mac242.guerradasuniversidades.core.modelo.Estrutura;
+import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
+import com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao;
+import com.mac242.guerradasuniversidades.core.modelo.GuerraDasUniversidades;
+import com.mac242.guerradasuniversidades.core.modelo.NomeUniversidade;
+import com.mac242.guerradasuniversidades.core.modelo.Notificacao;
+import com.mac242.guerradasuniversidades.core.modelo.StatusJogador;
+import com.mac242.guerradasuniversidades.core.modelo.StatusSalaAula;
+import com.mac242.guerradasuniversidades.core.modelo.TipoNotificacao;
+
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe com uma implementação simples de interface em modo texto do jogo. 
+ */
 public class InterfaceUsuario implements Observer {
 	Scanner scanner = new Scanner(System.in);
 	String nome;

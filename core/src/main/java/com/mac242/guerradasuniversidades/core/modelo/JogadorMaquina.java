@@ -5,6 +5,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe representante de um jogador máquina no jogo. É uma fachada para um objeto
+ * Jogador segundo a interface TipoJogador. 
+ */
 public class JogadorMaquina extends Observable implements Observer, TipoJogador {
 	private Jogador jogador;
 	private FachadaJogador fachada;
@@ -19,6 +27,11 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 			"Hirata", "Marcondes", "Ronaldo", "Routo", "Siang", "Setzer",
 			"Yoshi", "Yoshiko" };
 	
+	/**
+	 * O construtor do jogador
+	 * @param construtor Os dados do jogador.
+	 * @param jogo O jogo ao qual está associado
+	 */
 	public JogadorMaquina(ConstrutorJogador construtor, GuerraDasUniversidades jogo) {
 		jogador = construtor.construir(jogo);
 		jogador.addObserver(this);
@@ -26,6 +39,12 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 		rand = new Random();
 	}
 
+	/**
+	 * Método responsável por construir uma lista de oponentes máquina
+	 * @param jogador O nome da universidade do jogador principal
+	 * @param jogo O jogo ao qual os jogadores estarão associados.
+	 * @return
+	 */
 	public static List<JogadorMaquina> construirOponentes(NomeUniversidade jogador, 
 			GuerraDasUniversidades jogo) {
 		ConstrutorJogador construtor = new ConstrutorJogador();
@@ -106,16 +125,40 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 		return jogador.obterNome();
 	}
 
-	/**
-	 * Implementação da IA das máquinas
-	 */
 	@Override
 	public void realizarJogada() {
-		if(Math.random() < 0.9)
+		double operacao = rand.nextDouble();
+		
+		if(operacao < 0.8)
 			return;
+		else if(operacao <= 0.96){
+			Estrutura aComprar = null; 
+			double opcao = rand.nextDouble();
 
-//		Estrutura[] estruturas = Estrutura.values();
-//		fachada.comprarEstrutura(estruturas[rand.nextInt(estruturas.length)]);
+			if(opcao < 0.2)
+				aComprar = Estrutura.SALA_AULA;
+			else if(opcao < 0.5)
+				aComprar = Estrutura.ALUNO;
+			else if(opcao < 0.7)
+				aComprar = Estrutura.PROFESSOR;
+			else if(opcao < 0.8)
+				aComprar = Estrutura.PRACA_CENTRAL;
+			else {
+				List<Estrutura> disp = fachada.obterEstruturasDisponiveis();
+				if(disp.size() > 0)
+					aComprar = disp.get(rand.nextInt(disp.size()));
+			}
+
+			if(aComprar != null)
+				fachada.comprarEstrutura(aComprar);
+		} else {
+			NomeUniversidade alvo;
+			do {
+				int escolhido = rand.nextInt(NomeUniversidade.values().length);
+				alvo = NomeUniversidade.values()[escolhido];
+			} while(alvo.equals(obterNomeUniversidade()));
+			fachada.atacar(alvo);
+		}
 	}
 
 	@Override
@@ -128,6 +171,10 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 		return jogador.obterNomeUniversidade();
 	}
 
+	/**
+	 * Método de atualização do padrão Observador-Observado, repassa para 
+	 * observadores a notificação.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		setChanged();
@@ -148,5 +195,8 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 	public void receberAtaque(int poder) {
 		jogador.receberAtaque(poder);
 	}
-
+	
+	public int obterPontosEnsinoMaximo(){
+		return jogador.obterPontosEnsinoMaximo();
+	}
 }

@@ -10,6 +10,15 @@ import java.util.TimerTask;
 
 import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.*;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe responsável por gerir as estruturas possuídas pelo jogador além
+ * de gastos relacionados a estas estruturas. Esta classe é interna ao modelo
+ * lógico do jogo, operando segundo o modelo de programação por contrato.
+ */
 public class GerenteEstruturas extends Observable {
 	private List<SalaAula> salas = new ArrayList<SalaAula>();
 
@@ -23,11 +32,21 @@ public class GerenteEstruturas extends Observable {
 	private Map<Estrutura, Integer> custos;
 	private Map<Estrutura, Integer> disp;
 
+	/**
+	 * Construtor do gerente.
+	 * @param foco O foco da administração do jogador.
+	 */
 	public GerenteEstruturas(FocoAdministracao foco) {
 		calcularCustos(foco);
 		calcularLimites();
 	}
 
+	/**
+	 * Método responsável por definir os custos de cada estrutura
+	 * para o jogador dependendo do foco da administração passado por
+	 * parâmetro.
+	 * @param foco O foco da administração do jogador
+	 */
 	private void calcularCustos(FocoAdministracao foco) {
 		custos = new HashMap<Estrutura, Integer>();
 		custos.put(SALA_AULA, 400);
@@ -58,6 +77,10 @@ public class GerenteEstruturas extends Observable {
 		custos.put(GUARDA_UNIVERSITARIA, 1500);
 	}
 
+	/**
+	 * Método responsável por definir os limites de estruturas compráveis pelo jogador
+	 * inicialmente.
+	 */
 	private void calcularLimites() {
 		disp = new HashMap<Estrutura, Integer>();
 		disp.put(SALA_AULA, 5);
@@ -76,8 +99,11 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * Supõe que usuário possui PE >= 500 e pelo menos um espaço vago. Libera
-	 * uma nova sala para ser populada com professor e alunos.
+	 * Precondição:Supõe que usuário possui PE >= 500 e pelo menos 
+	 * um espaço vago.
+	 * Efeito: Libera uma nova sala para ser populada 
+	 * com professor e alunos. Atualiza limites de compras de estruturas
+	 * relacionadas.
 	 */
 	public void comprarSala() {
 		salas.add(new SalaAula());
@@ -98,13 +124,17 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(SALA_AULA);
 	}
 
+	/**
+	 * @return Retorna a quantidade de salas que o jogador possui no
+	 * momento.
+	 */
 	public int obterQtdSalas() {
 		return salas.size();
 	}
 
 	/**
-	 * Supõe que haja uma sala sem professor. Adiciona um professor à primeira
-	 * sala sem professor.
+	 * Precondição: Supõe que haja uma sala sem professor.
+	 * Efeito: Adiciona um professor à primeira sala sem professor.
 	 */
 	public void contratarProfessor() {
 		int i = 0;
@@ -127,7 +157,8 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * Supõe que haja uma sala não cheia (10 alunos) Adiciona um aluno à
+	 * Precondição: Supõe que haja uma sala não cheia (10 alunos)
+	 * Efeito: Adiciona um aluno à
 	 * primeira sala que atender ao requisito.
 	 */
 	public void matricularAluno() {
@@ -139,6 +170,9 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(ALUNO);
 	}
 
+	/**
+	 * @return O número total de alunos matriculados na universidade.
+	 */
 	public int obterQtdAlunos() {
 		int qtdAlunos = 0;
 
@@ -149,6 +183,11 @@ public class GerenteEstruturas extends Observable {
 		return qtdAlunos;
 	}
 
+	/**
+	 * Precondição: Não há bandejão no momento
+	 * Efeito: Insere um bandejão ao campus e atualiza o limite 
+	 * de compra de sobremesas e custos relacionados.
+	 */
 	public void comprarBandejao() {
 		deltaTaxaManutencao += 2;
 		deltaFOMax += 3;
@@ -158,6 +197,11 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(BANDEJAO);
 	}
 	
+	/**
+	 * Precondição: Há um bandejão no campus
+	 * Efeito: Atualiza o limite de compra de sobremesas
+	 * e custos relacionados.
+	 */
 	public void destruirBandejao() {
 		deltaTaxaManutencao -= 2;
 		deltaFOMax -= 3;
@@ -167,6 +211,11 @@ public class GerenteEstruturas extends Observable {
 		destruirEstrutura(BANDEJAO);
 	}
 
+	/**
+	 * Precondição: Não há setor de dados no campus
+	 * Efeito: Insere um setor de dados no campus e atualiza 
+	 * custos relacionados
+	 */
 	public void comprarSetorDados() {
 		deltaTaxaManutencao += 3;
 		deltaTaxaPE += 10;
@@ -174,6 +223,11 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(SETOR_DADOS);
 	}
 	
+	/**
+	 * Precondição: Há setor de dados no campus
+	 * Efeito: Remove um setor de dados no campus e atualiza 
+	 * custos relacionados
+	 */
 	public void destruirSetorDados() {
 		deltaTaxaManutencao -= 3;
 		deltaTaxaPE -= 10;
@@ -181,6 +235,11 @@ public class GerenteEstruturas extends Observable {
 		destruirEstrutura(SETOR_DADOS);
 	}
 
+	/**
+	 * Precondição: Não há praça central no campus.
+	 * Efeito: Insere uma praça central no campus e atualiza 
+	 * custos relacionados
+	 */
 	public void comprarPracaCentral() {
 		deltaTaxaManutencao += 2;
 		deltaTaxaFO++;
@@ -188,6 +247,11 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(PRACA_CENTRAL);
 	}
 	
+	/**
+	 * Precondição: Não há praça central no campus
+	 * Efeito: Remove a praça no campus e atualiza 
+	 * custos relacionados
+	 */
 	public void destruirPracaCentral() {
 		deltaTaxaManutencao -= 2;
 		deltaTaxaFO--;
@@ -195,6 +259,11 @@ public class GerenteEstruturas extends Observable {
 		destruirEstrutura(PRACA_CENTRAL);
 	}
 
+	/**
+	 * Precondição: Não há centro de esportes no campus.
+	 * Efeito: Insere um centro de esportes no campus e atualiza 
+	 * custos relacionados
+	 */
 	public void comprarCentroEsportes() {
 		deltaTaxaManutencao += 2;
 		deltaTaxaFO++;
@@ -202,6 +271,11 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(CENTRO_ESPORTES);
 	}
 	
+	/**
+	 * Precondição: Há centro de esportes no campus
+	 * Efeito: Remove o centro de esportes do campus e atualiza 
+	 * custos relacionados
+	 */
 	public void destruirCentroEsportes() {
 		deltaTaxaManutencao -= 2;
 		deltaTaxaFO--;
@@ -209,6 +283,10 @@ public class GerenteEstruturas extends Observable {
 		destruirEstrutura(CENTRO_ESPORTES);
 	}
 
+	/**
+	 * Precondição: Há uma sala de aula no campus
+	 * Efeito: Concede o aumento e atualiza custos relacionados.
+	 */
 	public void concederAumentoSalarial() {
 		deltaTaxaFuncionarios += 2;
 		deltaTaxaPE += 3;
@@ -216,24 +294,40 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(AUMENTO_SALARIAL);
 	}
 
+	/**
+	 * Precondição: Houve menos de 15 churrascos debate
+	 * Efeito: Realiza o churrasco e atualiza custos relacionados.
+	 */
 	public void promoverChurrascoDebate() {
 		deltaTaxaPE++; 
 		
 		comprarEstrutura(CHURRASCO_DEBATE);
 	}
 
+	/**
+	 * Precondição: Não há
+	 * Efeito: Promove a festa e atualiza custos relacionados.
+	 */
 	public void promoverFesta() {
 		deltaFO += 2;
 
 		comprarEstrutura(FESTA);
 	}
 
+	/**
+	 * Precondição: Há um bandejão
+	 * Efeito: Serve a sobremesa e atualiza custos relacionados.
+	 */
 	public void servirSobremesaBandejao() {
 		deltaFO++;
 
 		comprarEstrutura(SOBREMESA_BANDEJAO);
 	}
 
+	/**
+	 * Precondição: Há um bloco de ensino
+	 * Efeito: Promove o seminário e atualiza custos relacionados.
+	 */
 	public void promoverSeminario() {
 		deltaTaxaPE += 7;
 
@@ -251,12 +345,20 @@ public class GerenteEstruturas extends Observable {
 		comprarEstrutura(SEMINARIO);
 	}
 	
+	/**
+	 * Precondição: Nunca foi comprada uma guarda universitária.
+	 * Efeito: Compra a guarda e atualiza custos relacionados.
+	 */
 	public void comprarGuardaUniversitaria(){
 		deltaTaxaManutencao += 2;
 		
 		comprarEstrutura(GUARDA_UNIVERSITARIA);
 	}
 
+	/**
+	 * Precondição: Há uma guarda universitária no campus.
+	 * Efeito: Remove a guarda e atualiza custos relacionados.
+	 */
 	public void destruirGuardaUniversitaria() {
 		deltaTaxaManutencao -= 2;
 		disp.put(GUARDA_UNIVERSITARIA, -2);
@@ -268,6 +370,11 @@ public class GerenteEstruturas extends Observable {
 		notifyObservers(notificacao);
 	}
 	
+	/**
+	 * Método para a compra de uma estrutura arbitrária definida via parâmetro.
+	 * Atualiza os gastos e notifica observadores da compra.
+	 * @param e A estrutura a ser comprada.
+	 */
 	private void comprarEstrutura(Estrutura e) {
 		gastos += custos.get(e);
 
@@ -281,6 +388,11 @@ public class GerenteEstruturas extends Observable {
 		notifyObservers(notificacao);
 	}
 	
+	/**
+	 * Método para a destruição de uma estrutura arbitrária definida via parâmetro.
+	 * Atualiza os gastos e notifica observadores da destruição.
+	 * @param e A estrutura a ser destruída.
+	 */
 	private void destruirEstrutura(Estrutura e) {
 		int disponibilidade = disp.get(e);
 		disp.put(e, disponibilidade + 1);
@@ -293,7 +405,7 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * @return a variação da taxa de manutenção desde a última chamada ao
+	 * @return A variação da taxa de manutenção desde a última chamada ao
 	 *         método.
 	 */
 	public int obterDeltaTaxaManutencao() {
@@ -303,7 +415,7 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * @return a variação da taxa de PE/seg desde a última chamada ao método.
+	 * @return A variação da taxa de PE/seg desde a última chamada ao método.
 	 */
 	public int obterDeltaTaxaPE() {
 		int PE = deltaTaxaPE;
@@ -331,7 +443,7 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * @return a variação da taxa do foco desde a última chamada ao método.
+	 * @return A variação da taxa do foco desde a última chamada ao método.
 	 */
 	public int obterDeltaTaxaFO() {
 		int FO = deltaTaxaFO;
@@ -340,7 +452,7 @@ public class GerenteEstruturas extends Observable {
 	}
 
 	/**
-	 * @return a variação da taxa do foco desde a última chamada ao método.
+	 * @return A variação da taxa do foco desde a última chamada ao método.
 	 */
 	public int obterDeltaFOMax() {
 		int FOMax = deltaFOMax;
@@ -348,12 +460,20 @@ public class GerenteEstruturas extends Observable {
 		return FOMax;
 	}
 	
+	/**
+	 * A variação do foco desde a última chamada ao método.
+	 * @return
+	 */
 	public int obterDeltaFO() {
 		int varFO = deltaFO;
 		deltaFO = 0;
 		return varFO;
 	}
 
+	/**
+	 * Método responsável por quebrar uma estrutura aleatória dentre uma lista de 
+	 * possíveis.
+	 */
 	public void quebrarEstruturaAleatoria() {
 		List<Estrutura> possiveis = new ArrayList<Estrutura>();
 		possiveis.add(BANDEJAO);
@@ -391,10 +511,22 @@ public class GerenteEstruturas extends Observable {
 		}
 	}
 
+	/**
+	 * Método responsável por retornar se uma estrutura pode ser comprada.
+	 * @param e A estrutura a ser analisada.
+	 * @param PE O saldo de pontos de ensino do jogador no momento.
+	 * @return true caso a estrutura possa ser comprada ou false em caso contrário.
+	 */
 	public boolean estruturaDisponivel(Estrutura e, int PE) {
 		return disp.get(e) > 0 && PE >= custos.get(e);
 	}
 
+	/**
+	 * Método responsável por retornar uma lista contendo em cada posição
+	 * o status de uma sala de aula que o jogador possui, informando se ela 
+	 * possui professor e o número de alunos na sala.
+	 * @return A lista com o status das salas da universidade.
+	 */
 	public List<StatusSalaAula> obterInfoSalas() {
 		List<StatusSalaAula> lista = new ArrayList<StatusSalaAula>();
 
@@ -405,6 +537,10 @@ public class GerenteEstruturas extends Observable {
 		return lista;
 	}
 	
+	/**
+	 * Método por remover professor e alunos da primeira sala da fila de salas
+	 * da universidade. Insere a sala vazia ao fim da fila.
+	 */
 	public void esvaziarSala(){
 		SalaAula vazia = salas.remove(0);
 		vazia.alterarProfessor(false);
@@ -425,6 +561,10 @@ public class GerenteEstruturas extends Observable {
 		notifyObservers(notificacao);
 	}
 
+	/**
+	 * @return true caso possua guarda universitária ou false
+	 * caso contrário.
+	 */
 	public boolean possuiGuardaUniversitaria() {
 		return disp.get(GUARDA_UNIVERSITARIA) == 0;
 	}

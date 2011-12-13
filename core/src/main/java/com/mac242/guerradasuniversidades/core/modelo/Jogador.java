@@ -3,6 +3,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+ * Classe representante de um jogador no jogo. Implementa a interface TipoJogador.
+ */
 public class Jogador extends Observable implements Observer, TipoJogador {
 	private String nome;
 	private FocoAdministracao foco;
@@ -20,6 +27,11 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	private int taxaManutencao = 0;
 	private int taxaFuncionarios = 0;
 
+	/**
+	 * Construtor do jogador
+	 * @param construtor Informações do jogador
+	 * @param jogo O jogo ao qual está relacionado
+	 */
 	public Jogador(ConstrutorJogador construtor, GuerraDasUniversidades jogo) {
 		this.nome = construtor.obterNome();
 		this.foco = construtor.obterFoco();
@@ -27,6 +39,7 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		this.gerente = new GerenteEstruturas(foco);
 		this.gerente.addObserver(this);
 	}
+
 
 	public void atualizarPE() {
 		PE = Math.min(PE + taxaPE, maxPE);
@@ -42,6 +55,10 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		}
 	}
 
+	/**
+	 * Método de atualização do padrão Observador-Observado, incrementa informações
+	 * recebidas e notifica observadores.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		taxaPE += gerente.obterDeltaTaxaPE();
@@ -62,6 +79,7 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	}
 
 	/**
+	 * Método responsável por gerar um possível problema.
 	 * Nesse cenário, existe uma probabilidade de 10% de chance de funcionarios
 	 * entrarem em greve (o que zera o foco dos alunos) ou uma estrutura
 	 * aleatória quebrar, e 90% de nada acontecer.
@@ -167,6 +185,13 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	}
 	
 	public void atacar(TipoJogador alvo){
+		Notificacao notificacao = new Notificacao()
+			.setNome(nome)
+			.setUniversidade(universidade)
+			.setTipo(TipoNotificacao.ATAQUE);
+		setChanged();
+		notifyObservers(notificacao);
+		
 		alvo.receberAtaque(calcularPoderAtaque());
 		FO /= 2;
 		gerente.esvaziarSala();
@@ -175,6 +200,12 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	@Override
 	public void receberAtaque(int poder) {
 		if(FO - poder >= 0){
+			Notificacao notificacao = new Notificacao()
+				.setNome(nome)
+				.setUniversidade(universidade)
+				.setTipo(TipoNotificacao.SUPORTAR_ATAQUE);
+			setChanged();
+			notifyObservers(notificacao);
 			FO -= poder;
 			return;
 		}
@@ -203,7 +234,7 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		}
 	}
 
-	public float obterPontosEnsinoMaximo() {
+	public int obterPontosEnsinoMaximo() {
 		return maxPE;
 	}
 }

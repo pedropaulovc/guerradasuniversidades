@@ -1,6 +1,6 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
-import static playn.core.PlayN.graphics; 
+import static playn.core.PlayN.graphics;
 import playn.core.CanvasLayer;
 import playn.core.Color;
 import playn.core.Font;

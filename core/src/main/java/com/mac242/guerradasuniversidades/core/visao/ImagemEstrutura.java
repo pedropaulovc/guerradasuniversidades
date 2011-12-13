@@ -68,4 +68,10 @@ public enum ImagemEstrutura { // setando as imagens dos edificios que serao visi
 	public String obterEfeito(){
 		return estrutura.obterEfeito();
 	}
+	
+	public static ImagemEstrutura mapearParaImagemEstrutura(Estrutura estrutura){
+		if(!estrutura.equals(Estrutura.SALA_AULA))
+			return ImagemEstrutura.valueOf(estrutura.toString());
+		return ImagemEstrutura.B1;
+	}
 };

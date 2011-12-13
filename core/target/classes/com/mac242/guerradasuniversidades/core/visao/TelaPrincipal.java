@@ -33,7 +33,7 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
 
-import com.mac242.guerradasuniversidades.core.controle.TratadorVisualizarOponentes;
+import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoBlocoEnsino;
 import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoEstrutura;
 import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
@@ -203,25 +203,32 @@ public class TelaPrincipal extends TipoTela implements Observer {
 				+ "/dia\nPE: " + jogador.obterTaxaPontosEnsino()
 				+ "/seg\nFO: " + jogador.obterTaxaFoco()
 				+ "/dia";
+		canvasTaxas.clear();
 		atualizarTexto(texto, 10f, canvasTaxas);
 	}
 
 	private void atualizarFO() {
-		float unidade = 1.0f * canvasFO.width() /
-				obterJogador().obterFocoMaximo();
+		int FOatual = obterJogador().obterFoco();
+		int FOmax = obterJogador().obterFocoMaximo();
+		float unidade = 1.0f * canvasFO.width() / FOmax;
+		
 		canvasFO.clear();
 		canvasFO.setFillColor(Color.rgb(255, 255, 255));
-		canvasFO.fillRect(0, 0, obterJogador().obterFoco() * unidade,
+		canvasFO.fillRect(0, 0, FOatual * unidade,
 				canvasFO.height());
+		atualizarTexto(FOatual + "/" + FOmax, 12, canvasFO);
 	}
 	
 	private void atualizarPE() {
-		float unidade = 1.0f * canvasFO.width() /
-				obterJogador().obterPontosEnsinoMaximo();
+		int PEatual = obterJogador().obterPontosEnsino();
+		int PEmax = obterJogador().obterPontosEnsinoMaximo();
+		float unidade = 1.0f * canvasFO.width() / PEmax;
+		
 		canvasPE.clear();
 		canvasPE.setFillColor(Color.rgb(255, 255, 255));
-		canvasPE.fillRect(0, 0, obterJogador().obterPontosEnsino() * unidade,
+		canvasPE.fillRect(0, 0, PEatual * unidade,
 				canvasPE.height());
+		atualizarTexto(PEatual + "/" + PEmax, 12, canvasPE);
 	}
 	
 	public void adicionarAviso(String aviso) {
@@ -255,11 +262,13 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	
 	private void atualizarDia() {
 		String texto = "Dia: " + obterJogo().obterDia();
+		canvasDia.clear();
 		atualizarTexto(texto, 15f, canvasDia);
 	}
 	
 	private void atualizarHP() {
 		String texto = "HP " + obterJogador().obterHP() + "/10";
+		canvasHP.clear();
 		atualizarTexto(texto, 15f, canvasHP);
 	}
 
@@ -270,7 +279,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		base.add(root.layer);
 		
 		Button botao = new Button().setConstraint(AxisLayout.stretched());
-		botao.clicked().connect(new TratadorVisualizarOponentes(visao));
+		botao.clicked().connect(new TratadorTrocarTela(visao, visao.obterOponentes()));
 		
 		root.add(botao);
 	}
@@ -397,7 +406,6 @@ public class TelaPrincipal extends TipoTela implements Observer {
 			fontes.put(tamanho, formato);
 		}
 		
-		canvas.clear();
 		canvas.drawText(graphics().layoutText(texto, formato), 0, 0);
 	}
 	
@@ -437,9 +445,17 @@ public class TelaPrincipal extends TipoTela implements Observer {
 					+ notificacao.getEstrutura().obterNome());
 			break;
 		case DESTRUICAO:
+			ImagemEstrutura destruida = mapearParaImagemEstrutura(notificacao.getEstrutura());
+			estruturas.put(destruida, false);
 			adicionarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
 			if(notificacao.getUniversidade().equals(obterJogador().obterNomeUniversidade()))
 				atualizarCampus();
+			break;
+		case ATAQUE:
+			adicionarAviso(jogador + " realizou um ataque.");
+			break;
+		case SUPORTAR_ATAQUE:
+			adicionarAviso(jogador + " suportou o ataque (FO >= poder ataque)");
 			break;
 		case DERROTA:
 			visao.obterFimJogo().exibirDerrota();

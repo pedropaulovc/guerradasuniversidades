@@ -1,14 +1,13 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
+import static com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao.BIOMEDICAS;
+import static com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao.ESPORTES;
+import static com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao.EXATAS;
+import static com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao.HUMANAS;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
-
-import com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao;
-import static com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades.obterConstrutor;
-
 import playn.core.Color;
 import playn.core.Font;
-import react.UnitSlot;
 import tripleplay.ui.AxisLayout;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
@@ -18,6 +17,9 @@ import tripleplay.ui.Root;
 import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
 import tripleplay.ui.Stylesheet;
+
+import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoFoco;
+import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -30,21 +32,7 @@ import tripleplay.ui.Stylesheet;
 public class Iniciar extends TipoTela{
 
 	private Interface iface;
-	private String nomejogador = "Lorem";
-	
-	
-	class TratadorBotaoFoco extends UnitSlot{
-		private FocoAdministracao foco;
-		public TratadorBotaoFoco(FocoAdministracao foco){
-			this.foco = foco;
-		}
-		@Override
-		public void onEmit() {
-			obterConstrutor().definirFoco(foco).definirNome(nomejogador);
-			visao.exibirTela(visao.obterUniversidades());
-		}
-		
-	}
+	private String nome = "Lorem";
 	
 	/**
 	* String que sera exibida num dos botoes da tela menu 
@@ -117,20 +105,14 @@ public class Iniciar extends TipoTela{
 		Group biomedicas = new Group(AxisLayout.vertical());
 		biomedicas.add(botaoBiomedicas, infoBiomedicas);
 		
-		
-		botaoEsportes.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.ESPORTES));
-		botaoHumanas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.HUMANAS));
-		botaoExatas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.EXATAS));
-		botaoBiomedicas.clicked().connect(new TratadorBotaoFoco(FocoAdministracao.BIOMEDICAS));
+		botaoEsportes.clicked().connect(new TratadorBotaoFoco(ESPORTES, visao, nome));
+		botaoHumanas.clicked().connect(new TratadorBotaoFoco(HUMANAS, visao, nome));
+		botaoExatas.clicked().connect(new TratadorBotaoFoco(EXATAS, visao, nome));
+		botaoBiomedicas.clicked().connect(new TratadorBotaoFoco(BIOMEDICAS, visao, nome));
 	
 		// voltar ao menu
 		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				visao.exibirTela(visao.obterMenu());
-			}
-		});
+		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterMenu()));
 		
 		root.add(titulo, nomeReitor, esportes, humanas, exatas, biomedicas, voltar);
 	}
