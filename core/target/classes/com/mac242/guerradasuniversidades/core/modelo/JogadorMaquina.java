@@ -1,9 +1,10 @@
 package com.mac242.guerradasuniversidades.core.modelo;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
+
+import com.mac242.guerradasuniversidades.core.util.Observable;
+import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -66,13 +67,13 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 	}
 
 	@Override
-	public void atualizarPE() {
-		jogador.atualizarPE();
+	public void atualizarSegundo() {
+		jogador.atualizarSegundo();
 	}
 
 	@Override
-	public void atualizarTaxas() {
-		jogador.atualizarTaxas();
+	public void atualizarDia() {
+		jogador.atualizarDia();
 	}
 
 	@Override

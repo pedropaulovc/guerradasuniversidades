@@ -19,7 +19,7 @@ public enum Estrutura {
 	CHURRASCO_DEBATE("Churrasco Debate", "$400(H275)/PE +1/seg"), 
 	FESTA("Festa", "$400(B300)/FO +2"), 
 	SOBREMESA_BANDEJAO("Sobremesa Bandejão", "$250(B150) / FO +1"),
-	SEMINARIO("Seminário", "$300(X200)/PE +3/seg"), 
+	SEMINARIO("Seminário", "$300(X200)/PE +7/seg"), 
 	GUARDA_UNIVERSITARIA("Guarda Universitária", "$1500 / Evita -1 HP");
 	
 	private String nome;
@@ -51,8 +51,3 @@ public enum Estrutura {
 		return efeito;
 	}
 }
-
-
-
-
-

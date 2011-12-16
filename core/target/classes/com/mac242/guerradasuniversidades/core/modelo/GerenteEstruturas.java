@@ -1,14 +1,25 @@
 package com.mac242.guerradasuniversidades.core.modelo;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.ALUNO;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.AUMENTO_SALARIAL;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.BANDEJAO;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.CENTRO_ESPORTES;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.CHURRASCO_DEBATE;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.FESTA;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.GUARDA_UNIVERSITARIA;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.PRACA_CENTRAL;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.PROFESSOR;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.SALA_AULA;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.SEMINARIO;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.SETOR_DADOS;
+import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.SOBREMESA_BANDEJAO;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Random;
 
-import static com.mac242.guerradasuniversidades.core.modelo.Estrutura.*;
+import com.mac242.guerradasuniversidades.core.util.Observable;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -31,6 +42,7 @@ public class GerenteEstruturas extends Observable {
 	private int gastos;
 	private Map<Estrutura, Integer> custos;
 	private Map<Estrutura, Integer> disp;
+	private List<Integer> seminariosEmAndamento;
 
 	/**
 	 * Construtor do gerente.
@@ -39,6 +51,7 @@ public class GerenteEstruturas extends Observable {
 	public GerenteEstruturas(FocoAdministracao foco) {
 		calcularCustos(foco);
 		calcularLimites();
+		seminariosEmAndamento = new ArrayList<Integer>();
 	}
 
 	/**
@@ -97,6 +110,21 @@ public class GerenteEstruturas extends Observable {
 		disp.put(SEMINARIO, -1);
 		disp.put(GUARDA_UNIVERSITARIA, 1);
 	}
+
+	public void atualizarDia(){
+		int encerrados = 0;
+		
+		for(int i = 0; i < seminariosEmAndamento.size(); i++){
+			int tempo = seminariosEmAndamento.remove(i) - 1;
+			seminariosEmAndamento.add(i, tempo);
+			if(tempo == 0)
+				encerrados++;
+		}
+		
+		for(int i = 0; i < encerrados; i++)
+			encerrarSeminario();
+	}
+
 
 	/**
 	 * Precondição:Supõe que usuário possui PE >= 500 e pelo menos 
@@ -330,19 +358,24 @@ public class GerenteEstruturas extends Observable {
 	 */
 	public void promoverSeminario() {
 		deltaTaxaPE += 7;
-
-		new Timer().schedule(new TimerTask() {
-			public void run() {
-				deltaTaxaPE -= 7;
-				setChanged();
-				Notificacao notificacao = new Notificacao()
-					.setEstrutura(SEMINARIO)
-					.setTipo(TipoNotificacao.ATUALIZACAO);
-				notifyObservers(notificacao);
-			}
-		}, 7000 * GuerraDasUniversidades.obterDuracaoDia());
-
+		seminariosEmAndamento.add(7);
+		
 		comprarEstrutura(SEMINARIO);
+	}
+	
+	/**
+	 * Precondição: Há um seminário em andamento que chegou ao fim
+	 * Efeito: Encerra o seminário e atualiza custos relacionados.
+	 */
+	private void encerrarSeminario() {
+		deltaTaxaPE -= 7;
+		seminariosEmAndamento.remove(0);
+		
+		setChanged();
+		Notificacao notificacao = new Notificacao()
+			.setEstrutura(SEMINARIO)
+			.setTipo(TipoNotificacao.ATUALIZACAO);
+		notifyObservers(notificacao);
 	}
 	
 	/**
@@ -476,22 +509,17 @@ public class GerenteEstruturas extends Observable {
 	 */
 	public void quebrarEstruturaAleatoria() {
 		List<Estrutura> possiveis = new ArrayList<Estrutura>();
-		possiveis.add(BANDEJAO);
-		possiveis.add(SETOR_DADOS);
-		possiveis.add(CENTRO_ESPORTES);
-		possiveis.add(PRACA_CENTRAL);
 		
-		Collections.shuffle(possiveis);
-		Estrutura candidato = null;
-		for(Estrutura e : possiveis) {
-			if(disp.get(e) == 0){
-				candidato = e;
-				break;
-			}
+		for(Estrutura e : new Estrutura[] {BANDEJAO, SETOR_DADOS, 
+				CENTRO_ESPORTES, PRACA_CENTRAL}){
+			if(disp.get(e) == 0)
+				possiveis.add(e);
 		}
 		
-		if(candidato == null)
+		if(possiveis.size() == 0)
 			return;
+		
+		Estrutura candidato = possiveis.get(new Random().nextInt(possiveis.size()));
 		
 		switch (candidato) {
 		case BANDEJAO:

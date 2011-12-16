@@ -13,12 +13,12 @@ public interface TipoJogador {
 	/**
 	 * Incrementa o PE do jogador com a taxa. Chamado uma vez por segundo.
 	 */
-	public void atualizarPE();
+	public void atualizarSegundo();
 
 	/**
 	 * Atualiza o foco e os gastos diários.
 	 */
-	public void atualizarTaxas();
+	public void atualizarDia();
 
 	/**
 	 * @return Os pontos de ensino atuais do jogador.

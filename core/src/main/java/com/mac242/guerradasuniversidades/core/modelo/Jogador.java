@@ -1,7 +1,8 @@
 package com.mac242.guerradasuniversidades.core.modelo;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+
+import com.mac242.guerradasuniversidades.core.util.Observable;
+import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -41,14 +42,16 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	}
 
 
-	public void atualizarPE() {
+	public void atualizarSegundo() {
 		PE = Math.min(PE + taxaPE, maxPE);
 	}
 
-	public void atualizarTaxas() {
+	public void atualizarDia() {
 		PE = PE - taxaFuncionarios - taxaManutencao;
 		FO = Math.min(FO + taxaFO, maxFO);
 
+		gerente.atualizarDia();
+		
 		if (PE <= 0){
 			gerarPossivelProblema();
 			PE = 0;

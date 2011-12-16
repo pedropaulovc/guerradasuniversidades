@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
@@ -39,6 +37,9 @@ import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoEstrutura;
 import com.mac242.guerradasuniversidades.core.modelo.FachadaJogador;
 import com.mac242.guerradasuniversidades.core.modelo.Notificacao;
 import com.mac242.guerradasuniversidades.core.modelo.StatusSalaAula;
+
+import com.mac242.guerradasuniversidades.core.util.Observable;
+import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743

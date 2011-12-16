@@ -1,9 +1,10 @@
 package com.mac242.guerradasuniversidades.core.modelo;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
+
+import com.mac242.guerradasuniversidades.core.util.Observable;
+import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
@@ -60,14 +61,14 @@ public class GuerraDasUniversidades extends Observable implements Observer {
 		segundos++;
 
 		for (TipoJogador j : jogadores.values()) {
-			j.atualizarPE();
+			j.atualizarSegundo();
 			j.realizarJogada();
 		}
 
 		if (segundos % duracaoDia == 0){
 			dia++;
 			for (TipoJogador j : jogadores.values())
-				j.atualizarTaxas();
+				j.atualizarDia();
 		}
 	}
 

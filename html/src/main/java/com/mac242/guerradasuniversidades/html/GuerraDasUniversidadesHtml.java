@@ -1,10 +1,10 @@
 package com.mac242.guerradasuniversidades.html;
 
+import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
+
 import playn.core.PlayN;
 import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
-
-import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
 
 public class GuerraDasUniversidadesHtml extends HtmlGame {
 
