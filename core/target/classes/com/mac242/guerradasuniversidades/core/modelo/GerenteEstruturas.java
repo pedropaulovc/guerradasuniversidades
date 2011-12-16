@@ -373,8 +373,8 @@ public class GerenteEstruturas extends Observable {
 		
 		setChanged();
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(SEMINARIO)
-			.setTipo(TipoNotificacao.ATUALIZACAO);
+			.obterEstrutura(SEMINARIO)
+			.definirTipo(TipoNotificacao.ATUALIZACAO);
 		notifyObservers(notificacao);
 	}
 	
@@ -397,8 +397,8 @@ public class GerenteEstruturas extends Observable {
 		disp.put(GUARDA_UNIVERSITARIA, -2);
 		
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(GUARDA_UNIVERSITARIA)
-			.setTipo(TipoNotificacao.DESTRUICAO);
+			.obterEstrutura(GUARDA_UNIVERSITARIA)
+			.definirTipo(TipoNotificacao.DESTRUICAO);
 		setChanged();
 		notifyObservers(notificacao);
 	}
@@ -416,8 +416,8 @@ public class GerenteEstruturas extends Observable {
 
 		setChanged();
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(e)
-			.setTipo(TipoNotificacao.COMPRA);
+			.obterEstrutura(e)
+			.definirTipo(TipoNotificacao.COMPRA);
 		notifyObservers(notificacao);
 	}
 	
@@ -432,8 +432,8 @@ public class GerenteEstruturas extends Observable {
 		
 		setChanged();
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(e)
-			.setTipo(TipoNotificacao.DESTRUICAO);
+			.obterEstrutura(e)
+			.definirTipo(TipoNotificacao.DESTRUICAO);
 		notifyObservers(notificacao);
 	}
 
@@ -583,8 +583,8 @@ public class GerenteEstruturas extends Observable {
 		
 		
 		Notificacao notificacao = new Notificacao()
-			.setEstrutura(SALA_AULA)
-			.setTipo(TipoNotificacao.ATUALIZACAO);
+			.obterEstrutura(SALA_AULA)
+			.definirTipo(TipoNotificacao.ATUALIZACAO);
 		setChanged();
 		notifyObservers(notificacao);
 	}

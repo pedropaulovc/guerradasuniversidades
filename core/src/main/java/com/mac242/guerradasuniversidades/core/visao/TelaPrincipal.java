@@ -71,7 +71,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	private Root root;
 
 	private List<String> avisos = new LinkedList<String>();
-	
+	private static final int qtdAvisos = 5;
 	
 	public TelaPrincipal(VisaoGuerraDasUniversidades visao) {
 		super(visao);
@@ -101,7 +101,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 
 		canvasDia = inicializarCanvas(71, 25, 505, 498);
 		canvasHP = inicializarCanvas(80, 20, 612, 498);
-		canvasAvisos = inicializarCanvas(500, 39, 32, 396);
+		canvasAvisos = inicializarCanvas(500, 80, 32, 370);
 		canvasFO = inicializarCanvas(150, 15, 534, 473);
 		canvasPE = inicializarCanvas(150, 13, 534, 453);
 		canvasTaxas = inicializarCanvas(140, 51, 570, 385);
@@ -175,7 +175,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	private Group inicializarEstrutura(ImagemEstrutura img, UnitSlot tratador){
 		Button item = new Button();
 		
-		item.setIcon(img.getImagem());
+		item.setIcon(img.obterImagem());
 		Button texto = new Button().setText(img.obterNome() 
 				+ "\n" + img.obterEfeito());
 		
@@ -190,8 +190,8 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	public void atualizarCampus() {
 		canvasCampus.clear();
 		for(ImagemEstrutura e : estruturas.keySet()){
-			if(estruturas.get(e) && e.getX() >= 0 && e.getY() >= 0){
-				canvasCampus.drawImage(e.getImagem(), e.getX(), e.getY());
+			if(estruturas.get(e) && e.obterX() >= 0 && e.obterY() >= 0){
+				canvasCampus.drawImage(e.obterImagem(), e.obterX(), e.obterY());
 			}
 		}
 	}
@@ -236,7 +236,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 		if (aviso.length() == 0)
 			aviso = " ";
 		
-		if(avisos.size() == 3)
+		if(avisos.size() == qtdAvisos)
 			avisos.remove(0);
 		avisos.add(aviso);
 		exibirAvisos();
@@ -245,7 +245,7 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	public void exibirAvisos(){
 		StringBuilder sb = new StringBuilder();
 		
-		while(avisos.size() < 3)
+		while(avisos.size() < qtdAvisos)
 			avisos.add(" ");
 		
 		for(int i = 0; i < avisos.size() - 1; i++)
@@ -431,25 +431,25 @@ public class TelaPrincipal extends TipoTela implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		Notificacao notificacao = (Notificacao) arg1;
 		
-		String jogador = notificacao.getNome() + " (" + notificacao.getUniversidade() + ")";
+		String jogador = notificacao.obterNome() + " (" + notificacao.obterUniversidade() + ")";
 		
-		switch (notificacao.getTipo()) {
+		switch (notificacao.obterTipo()) {
 		case PERDA_HP:
 			adicionarAviso(jogador + " perdeu HP");
 			break;
 		case GREVE:
-			adicionarAviso("Funcionários da " + notificacao.getUniversidade()
+			adicionarAviso("Funcionários da " + notificacao.obterUniversidade()
 					+ " entraram em greve (Foco zerado)");
 			break;
 		case COMPRA:
 			adicionarAviso(jogador + " comprou "
-					+ notificacao.getEstrutura().obterNome());
+					+ notificacao.obterEstrutura().obterNome());
 			break;
 		case DESTRUICAO:
-			ImagemEstrutura destruida = mapearParaImagemEstrutura(notificacao.getEstrutura());
+			ImagemEstrutura destruida = mapearParaImagemEstrutura(notificacao.obterEstrutura());
 			estruturas.put(destruida, false);
-			adicionarAviso(jogador + " perdeu " + notificacao.getEstrutura().obterNome());
-			if(notificacao.getUniversidade().equals(obterJogador().obterNomeUniversidade()))
+			adicionarAviso(jogador + " perdeu " + notificacao.obterEstrutura().obterNome());
+			if(notificacao.obterUniversidade().equals(obterJogador().obterNomeUniversidade()))
 				atualizarCampus();
 			break;
 		case ATAQUE:

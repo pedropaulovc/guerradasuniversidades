@@ -45,23 +45,23 @@ public enum ImagemEstrutura { // setando as imagens dos edificios que serao visi
 	}
 
 	//getter and setters
-	public int getX() {
+	public int obterX() {
 		return x;
 	}
 
-	public int getY() {
+	public int obterY() {
 		return y;
 	}
 
-	public void setX(int x){
+	public void definirX(int x){
 		this.x = x;
 	}
 	
-	public void setY(int y){
+	public void definirY(int y){
 		this.y = y;
 	}
 	
-	public Image getImagem() {
+	public Image obterImagem() {
 		return imagem;
 	}
 	

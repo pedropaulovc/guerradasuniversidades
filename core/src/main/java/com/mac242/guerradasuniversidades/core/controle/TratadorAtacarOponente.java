@@ -71,13 +71,11 @@ public class TratadorAtacarOponente extends UnitSlot {
 		case SEM_SALA_COMPLETA:
 			aviso = "Você não tem uma sala completa. Ataque falhou.";
 			break;
-		case SUCESSO:
-			aviso = "Ataque realizado.";
-			break;
 		default:
 			break;
 		}
-		visao.obterTelaPrincipal().adicionarAviso(aviso);
+		if(aviso != "")
+			visao.obterTelaPrincipal().adicionarAviso(aviso);
 		visao.exibirTela(visao.obterTelaPrincipal());
 	}
 

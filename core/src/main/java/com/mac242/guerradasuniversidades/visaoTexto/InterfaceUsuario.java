@@ -187,16 +187,16 @@ public class InterfaceUsuario implements Observer {
 	private void exibirStatus(NomeUniversidade nome) {
 		StatusJogador status = jogo.obterStatus(nome);
 		
-		System.out.println("Nome (Uni):       " + status.nome + " (" + nome + ")");
+		System.out.println("Nome (Uni):       " + status.obterNome() + " (" + nome + ")");
 		System.out.println("Dia:              " + jogo.obterDia());
-		System.out.println("HP:               " + status.HP + "/10");
-		System.out.println("PE:               " + status.PE);
-		System.out.println("FO:               " + status.FO);
-		System.out.println("FO Máximo:        " + status.maxFO);
-		System.out.println("PE/seg:           "	+ status.taxaPE);
-		System.out.println("FO/dia:           " + status.taxaFO);
-		System.out.println("Manutenção/dia:   " + status.taxaManutencao);
-		System.out.println("Funcionários/dia: "	+ status.taxaFuncionarios);
+		System.out.println("HP:               " + status.obterHP() + "/10");
+		System.out.println("PE:               " + status.obterPE());
+		System.out.println("FO:               " + status.obterFO());
+		System.out.println("FO Máximo:        " + status.obterMaxFO());
+		System.out.println("PE/seg:           "	+ status.obterTaxaPE());
+		System.out.println("FO/dia:           " + status.obterTaxaFO());
+		System.out.println("Manutenção/dia:   " + status.obterTaxaManutencao());
+		System.out.println("Funcionários/dia: "	+ status.obterTaxaFuncionarios());
 		System.out.println();
 	}
 
@@ -253,7 +253,7 @@ public class InterfaceUsuario implements Observer {
 		Notificacao notificacao = (Notificacao) arg;
 		if(arg == null)
 			return;
-		if(TipoNotificacao.ATUALIZACAO.equals(notificacao.getTipo()))
+		if(TipoNotificacao.ATUALIZACAO.equals(notificacao.obterTipo()))
 			System.out.print("*");
 		System.out.println("=== " + arg + " ===");
 	}

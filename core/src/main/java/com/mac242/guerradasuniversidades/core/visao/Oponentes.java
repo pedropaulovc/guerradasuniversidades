@@ -105,15 +105,15 @@ public class Oponentes extends TipoTela {
 		Button legenda = legendas.get(nome);
 		
 		String texto = 
-			status.nome + "\n" +
-			"HP: " + status.HP + "/10" + "\n" +
-			"PE: " + status.PE + "\n" +
-			"FO: " + status.FO + "\n" +
-			"FO Máximo: " + status.maxFO + "\n" +
-			"PE/seg: "	+ status.taxaPE + "\n" +
-			"FO/dia: " + status.taxaFO + "\n" +
-			"Manutenção/dia: " + status.taxaManutencao + "\n" +
-			"Funcionários/dia: "	+ status.taxaFuncionarios + "\n";
+			status.obterNome() + "\n" +
+			"HP: " + status.obterHP() + "/10" + "\n" +
+			"PE: " + status.obterPE() + "\n" +
+			"FO: " + status.obterFO() + "\n" +
+			"FO Máximo: " + status.obterMaxFO() + "\n" +
+			"PE/seg: "	+ status.obterTaxaPE() + "\n" +
+			"FO/dia: " + status.obterTaxaFO() + "\n" +
+			"Manutenção/dia: " + status.obterTaxaManutencao() + "\n" +
+			"Funcionários/dia: " + status.obterTaxaFuncionarios() + "\n";
 		legenda.setText(texto);
 	}
 

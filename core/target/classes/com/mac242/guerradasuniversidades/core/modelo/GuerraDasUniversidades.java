@@ -109,12 +109,12 @@ public class GuerraDasUniversidades extends Observable implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Notificacao notificacao = (Notificacao) arg;
-		if(notificacao.getTipo().equals(TipoNotificacao.MORTE)) {
-			vivos.remove(notificacao.getUniversidade());
-			if(notificacao.getUniversidade().equals(jogador.obterNomeUniversidade()))
-				notificacao.setTipo(TipoNotificacao.DERROTA);
+		if(notificacao.obterTipo().equals(TipoNotificacao.MORTE)) {
+			vivos.remove(notificacao.obterUniversidade());
+			if(notificacao.obterUniversidade().equals(jogador.obterNomeUniversidade()))
+				notificacao.definirTipo(TipoNotificacao.DERROTA);
 			else if(vivos.size() == 1)
-				notificacao.setTipo(TipoNotificacao.VITORIA);
+				notificacao.definirTipo(TipoNotificacao.VITORIA);
 		}
 
 		setChanged();

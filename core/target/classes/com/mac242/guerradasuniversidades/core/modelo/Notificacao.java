@@ -16,7 +16,7 @@ public class Notificacao {
 	/**
 	 * @return O nome do jogador gerador da notificação
 	 */
-	public String getNome() {
+	public String obterNome() {
 		return nome;
 	}
 
@@ -24,7 +24,7 @@ public class Notificacao {
 	 * @param nome O nome do jogador gerador da notificação
 	 * @return this para encadeamento de métodos
 	 */
-	public Notificacao setNome(String nome) {
+	public Notificacao definirNome(String nome) {
 		this.nome = nome;
 		return this;
 	}
@@ -32,7 +32,7 @@ public class Notificacao {
 	/**
 	 * @return O nome da universidade do jogador gerador da notificação
 	 */
-	public NomeUniversidade getUniversidade() {
+	public NomeUniversidade obterUniversidade() {
 		return universidade;
 	}
 
@@ -40,7 +40,7 @@ public class Notificacao {
 	 * @param nome O nome da universidade do jogador gerador da notificação
 	 * @return this para encadeamento de métodos
 	 */
-	public Notificacao setUniversidade(NomeUniversidade universidade) {
+	public Notificacao definirUniversidade(NomeUniversidade universidade) {
 		this.universidade = universidade;
 		return this;
 	}
@@ -48,7 +48,7 @@ public class Notificacao {
 	/**
 	 * @return O tipo da notificação
 	 */
-	public TipoNotificacao getTipo() {
+	public TipoNotificacao obterTipo() {
 		return tipo;
 	}
 
@@ -56,7 +56,7 @@ public class Notificacao {
 	 * @param nome O tipo da notificação
 	 * @return this para encadeamento de métodos
 	 */
-	public Notificacao setTipo(TipoNotificacao tipo) {
+	public Notificacao definirTipo(TipoNotificacao tipo) {
 		this.tipo = tipo;
 		return this;
 	}
@@ -64,7 +64,7 @@ public class Notificacao {
 	/**
 	 * @return A estrutura relacionada à notificação
 	 */
-	public Estrutura getEstrutura() {
+	public Estrutura obterEstrutura() {
 		return estrutura;
 	}
 
@@ -72,7 +72,7 @@ public class Notificacao {
 	 * @param nome A estrutura relacionada à notificação
 	 * @return this para encadeamento de métodos
 	 */
-	public Notificacao setEstrutura(Estrutura estrutura) {
+	public Notificacao obterEstrutura(Estrutura estrutura) {
 		this.estrutura = estrutura;
 		return this;
 	}

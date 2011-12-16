@@ -75,8 +75,8 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		setChanged();
 		Notificacao notificacao = (Notificacao) arg;
 		notificacao
-			.setNome(nome)
-			.setUniversidade(universidade);
+			.definirNome(nome)
+			.definirUniversidade(universidade);
 		
 		notifyObservers(notificacao);
 	}
@@ -90,9 +90,9 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	private void gerarPossivelProblema() {
 		double rand = Math.random();
 		Notificacao notificacao = new Notificacao()
-			.setNome(nome)
-			.setTipo(TipoNotificacao.GREVE)
-			.setUniversidade(universidade);
+			.definirNome(nome)
+			.definirTipo(TipoNotificacao.GREVE)
+			.definirUniversidade(universidade);
 			
 		if(rand > 0.1)
 			return;
@@ -158,16 +158,16 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 
 	@Override
 	public StatusJogador obterStatus() {
-		StatusJogador status = new StatusJogador();
-		status.FO = FO;
-		status.maxFO = maxFO;
-		status.HP = HP;
-		status.nome = nome;
-		status.PE = PE;
-		status.taxaFO = taxaFO;
-		status.taxaFuncionarios = taxaFuncionarios;
-		status.taxaManutencao = taxaManutencao;
-		status.taxaPE = taxaPE;
+		StatusJogador status = new StatusJogador()
+			.definirFO(FO)
+			.definirHP(HP)
+			.definirMaxFO(maxFO)
+			.definirNome(nome)
+			.definirPE(PE)
+			.definirTaxaFO(taxaFO)
+			.definirTaxaFuncionarios(taxaFuncionarios)
+			.definirTaxaManutencao(taxaManutencao)
+			.definirTaxaPE(taxaPE);
 		
 		return status;
 	}
@@ -189,9 +189,9 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	
 	public void atacar(TipoJogador alvo){
 		Notificacao notificacao = new Notificacao()
-			.setNome(nome)
-			.setUniversidade(universidade)
-			.setTipo(TipoNotificacao.ATAQUE);
+			.definirNome(nome)
+			.definirUniversidade(universidade)
+			.definirTipo(TipoNotificacao.ATAQUE);
 		setChanged();
 		notifyObservers(notificacao);
 		
@@ -204,9 +204,9 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 	public void receberAtaque(int poder) {
 		if(FO - poder >= 0){
 			Notificacao notificacao = new Notificacao()
-				.setNome(nome)
-				.setUniversidade(universidade)
-				.setTipo(TipoNotificacao.SUPORTAR_ATAQUE);
+				.definirNome(nome)
+				.definirUniversidade(universidade)
+				.definirTipo(TipoNotificacao.SUPORTAR_ATAQUE);
 			setChanged();
 			notifyObservers(notificacao);
 			FO -= poder;
@@ -221,17 +221,17 @@ public class Jogador extends Observable implements Observer, TipoJogador {
 		HP--;
 		FO = 0;
 		Notificacao notificacao = new Notificacao()
-			.setNome(nome)
-			.setUniversidade(universidade)
-			.setTipo(TipoNotificacao.PERDA_HP);
+			.definirNome(nome)
+			.definirUniversidade(universidade)
+			.definirTipo(TipoNotificacao.PERDA_HP);
 		setChanged();
 		notifyObservers(notificacao);
 		
 		if(HP == 0){
 			notificacao = new Notificacao()
-				.setNome(nome)
-				.setUniversidade(universidade)
-				.setTipo(TipoNotificacao.MORTE);
+				.definirNome(nome)
+				.definirUniversidade(universidade)
+				.definirTipo(TipoNotificacao.MORTE);
 			setChanged();
 			notifyObservers(notificacao);
 		}
