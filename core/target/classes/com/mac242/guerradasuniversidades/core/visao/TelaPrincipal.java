@@ -101,12 +101,12 @@ public class TelaPrincipal extends TipoTela implements Observer {
 
 		canvasDia = inicializarCanvas(71, 25, 505, 498);
 		canvasHP = inicializarCanvas(80, 20, 612, 498);
-		canvasAvisos = inicializarCanvas(500, 80, 32, 370);
 		canvasFO = inicializarCanvas(150, 15, 534, 473);
 		canvasPE = inicializarCanvas(150, 13, 534, 453);
 		canvasTaxas = inicializarCanvas(140, 51, 570, 385);
 		canvasCampus = inicializarCanvas(671, 290, 20, 154);
 		canvasSalasAula = inicializarCanvas(437,59,25,453);
+		canvasAvisos = inicializarCanvas(500, 80, 32, 370);
 		
 		inicializarSalasAula();
 		

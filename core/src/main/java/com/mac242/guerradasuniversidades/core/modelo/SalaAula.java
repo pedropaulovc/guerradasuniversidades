@@ -61,6 +61,38 @@ public class SalaAula {
 	 * @param i A quantidade de alunos na sala.
 	 */
 	public void definirQtdAlunos(int i) {
-		this.qtdAlunos = 0;
+		this.qtdAlunos = i;
 	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + qtdAlunos;
+		result = prime * result + (temProfessor ? 1231 : 1237);
+		return result;
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SalaAula other = (SalaAula) obj;
+		if (qtdAlunos != other.qtdAlunos)
+			return false;
+		if (temProfessor != other.temProfessor)
+			return false;
+		return true;
+	}
+	
 }

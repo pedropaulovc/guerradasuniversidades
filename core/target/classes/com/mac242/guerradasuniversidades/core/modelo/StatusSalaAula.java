@@ -54,4 +54,36 @@ public class StatusSalaAula {
 		
 		return qtdProf + "P " + qtdAlunos + "/" + capacidade + "A"; 
 	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sala == null) ? 0 : sala.hashCode());
+		return result;
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StatusSalaAula other = (StatusSalaAula) obj;
+		if (sala == null) {
+			if (other.sala != null)
+				return false;
+		} else if (!sala.equals(other.sala))
+			return false;
+		return true;
+	}
+	
 }

@@ -118,8 +118,8 @@ public class Opcoes extends TipoTela {
 	
 	private Interface iface;
 	private Dificuldade dificuldade = Dificuldade.MEDIO;
-	private boolean musica = true;
-	private boolean efeitos = true;
+	private boolean musica = false;
+	private boolean efeitos = false;
 	private Button dificuldadeAtual, musicaAtual, efeitoAtual;
 	
 	public Opcoes(VisaoGuerraDasUniversidades jogo){
