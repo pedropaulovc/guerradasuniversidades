@@ -44,7 +44,7 @@ public class JogadorMaquina extends Observable implements Observer, TipoJogador 
 	 * Método responsável por construir uma lista de oponentes máquina
 	 * @param jogador O nome da universidade do jogador principal
 	 * @param jogo O jogo ao qual os jogadores estarão associados.
-	 * @return
+	 * @return Uma lista de JogadoresMaquina prontos para serem utilizados no jogo
 	 */
 	public static List<JogadorMaquina> construirOponentes(NomeUniversidade jogador, 
 			GuerraDasUniversidades jogo) {

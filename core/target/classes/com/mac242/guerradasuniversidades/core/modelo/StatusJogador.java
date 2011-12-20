@@ -19,7 +19,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param nome the nome do jogador a ser definidor
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirNome(String nome) {
 		this.nome = nome;
@@ -32,8 +32,8 @@ public class StatusJogador {
 		return HP;
 	}
 	/**
-	 * @param O HP a ser definido
-	 * @return 
+	 * @param HP O HP a ser definido
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirHP(int HP) {
 		this.HP = HP;
@@ -47,7 +47,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param PE the pE a ser definido
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirPE(int PE) {
 		this.PE = PE;
@@ -61,7 +61,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param FO O FO a ser definido
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirFO(int FO) {
 		this.FO = FO;
@@ -75,7 +75,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param maxFO O maxFO a ser definido
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirMaxFO(int maxFO) {
 		this.maxFO = maxFO;
@@ -89,7 +89,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param taxaPE A taxaPE a ser definida
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirTaxaPE(int taxaPE) {
 		this.taxaPE = taxaPE;
@@ -103,7 +103,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param taxaFO A taxaFO a ser definida
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirTaxaFO(int taxaFO) {
 		this.taxaFO = taxaFO;
@@ -117,7 +117,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param taxaManutencao A taxaManutencao a ser definida
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirTaxaManutencao(int taxaManutencao) {
 		this.taxaManutencao = taxaManutencao;
@@ -131,7 +131,7 @@ public class StatusJogador {
 	}
 	/**
 	 * @param taxaFuncionarios A taxaFuncionarios a ser definida
-	 * @return 
+	 * @return this para encadeamento de métodos
 	 */
 	public StatusJogador definirTaxaFuncionarios(int taxaFuncionarios) {
 		this.taxaFuncionarios = taxaFuncionarios;

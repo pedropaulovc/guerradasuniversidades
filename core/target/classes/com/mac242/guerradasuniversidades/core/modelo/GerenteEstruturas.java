@@ -495,7 +495,7 @@ public class GerenteEstruturas extends Observable {
 	
 	/**
 	 * A variação do foco desde a última chamada ao método.
-	 * @return
+	 * @return A variação do foco desde a última chamada ao método.
 	 */
 	public int obterDeltaFO() {
 		int varFO = deltaFO;

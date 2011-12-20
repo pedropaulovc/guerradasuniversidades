@@ -37,7 +37,7 @@ public class Notificacao {
 	}
 
 	/**
-	 * @param nome O nome da universidade do jogador gerador da notificação
+	 * @param universidade O nome da universidade do jogador gerador da notificação
 	 * @return this para encadeamento de métodos
 	 */
 	public Notificacao definirUniversidade(NomeUniversidade universidade) {
@@ -53,7 +53,7 @@ public class Notificacao {
 	}
 
 	/**
-	 * @param nome O tipo da notificação
+	 * @param tipo O tipo da notificação
 	 * @return this para encadeamento de métodos
 	 */
 	public Notificacao definirTipo(TipoNotificacao tipo) {
@@ -69,7 +69,7 @@ public class Notificacao {
 	}
 
 	/**
-	 * @param nome A estrutura relacionada à notificação
+	 * @param estrutura A estrutura relacionada à notificação
 	 * @return this para encadeamento de métodos
 	 */
 	public Notificacao obterEstrutura(Estrutura estrutura) {
