@@ -51,7 +51,7 @@ public class Menu extends TipoTela {
 		root.add(buttons);
 
 		for (final TipoTela tela : new TipoTela[] { visao.obterIniciar(),
-				visao.obterOpcoes(), visao.obterRecordes(), visao.obterAjuda() }) {
+				visao.obterOpcoes(), visao.obterAjuda(), visao.obterCreditos() }) {
 			Button button = new Button().setText(tela.toString());
 			buttons.add(button);
 			button.clicked().connect(new TratadorTrocarTela(visao, tela));

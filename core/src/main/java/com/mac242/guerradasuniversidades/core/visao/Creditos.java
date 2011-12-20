@@ -41,18 +41,23 @@ public class Creditos extends TipoTela {
 	public void init() {
 		iniciarBase();
 		desenharFundo(Color.rgb(255, 255, 255));
-		desenharRecordes();
+		desenharCreditos();
 		desenharVoltar();
 	}
 
 	/**
 	* Desenha os recordes do jogo 
 	*/
-	private void desenharRecordes() {
+	private void desenharCreditos() {
+		String texto = "Guerra das Universidades\n" +
+				"foi uma produção da Equipe Knuth:\n\n" +
+				"Pedro Paulo Vezzá Campos\n" +
+				"Daniel Moraes Huguenin\n" +
+				"Antonio Rui Castro Junior";
+		
 		Font font = graphics().createFont("Helvetica", Style.BOLD, 20f);
 		TextFormat format = new TextFormat().withFont(font);
-		TextLayout layout = graphics().layoutText(
-				"Neque porro nullam adisplicing elit.", format);
+		TextLayout layout = graphics().layoutText(texto, format);
 
 		int width = (int) Math.ceil(layout.width());
         int height = (int) Math.ceil(layout.height());
@@ -83,7 +88,7 @@ public class Creditos extends TipoTela {
 		
 		Group grupoVoltar = new Group(AxisLayout.horizontal());
 		Button voltar = new Button().setText("Voltar");
-		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterOpcoes()));
+		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterMenu()));
 		
 		root.add(grupoVoltar);
 		grupoVoltar.add(voltar);

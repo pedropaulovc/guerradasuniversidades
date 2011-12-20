@@ -1,13 +1,11 @@
 package com.mac242.guerradasuniversidades.core.visao;
 
+import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.pointer;
-import playn.core.CanvasLayer;
 import playn.core.Color;
-import playn.core.Font;
-import playn.core.Font.Style;
-import playn.core.TextFormat;
-import playn.core.TextLayout;
+import playn.core.Image;
+import playn.core.ImageLayer;
 import tripleplay.ui.AxisLayout;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
@@ -52,20 +50,9 @@ public class Ajuda extends TipoTela {
 	* Setando o formato, fonte tamanho... 
 	*/
 	private void desenharAjuda() {
-		Font font = graphics().createFont("Helvetica", Style.BOLD, 20f);
-		TextFormat format = new TextFormat().withFont(font);
-		TextLayout layout = graphics().layoutText(
-				"Consectetur adisplicing elit.", format);
-
-		int width = (int) Math.ceil(layout.width());
-        int height = (int) Math.ceil(layout.height());
-		
-		CanvasLayer layerAjuda = graphics().createCanvasLayer(width, height);
+		Image ajuda = assetManager().getImage("images/ajuda.png");
+		ImageLayer layerAjuda = graphics().createImageLayer(ajuda);
 		base.add(layerAjuda);
-		
-		layerAjuda.canvas().drawText(layout, 0, 0);
-        layerAjuda.setTranslation(graphics().width()/2 - width/2,
-        		graphics().height()/2 - height/2);
 	}
 
 	/**

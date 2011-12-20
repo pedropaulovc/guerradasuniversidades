@@ -93,34 +93,11 @@ public class Opcoes extends TipoTela {
 		}
 	}
 	
-	/**
-	 * Classe que trata os eventos dos botoes de efeitos do jogo  
-	 */
-	class TratadorEfeitos extends TratadorBotaoOpcao {
-		
-		private boolean efeitosSelec;
 
-		public TratadorEfeitos(Button botaoSelec, boolean efeitosSelec){
-			super(botaoSelec);
-			this.efeitosSelec = efeitosSelec;
-		}
-		
-		/**
-		 * Atualiza para o botao selecionado  
-		 */
-		@Override
-		public void onEmit() {
-			atualizarBotoes(efeitoAtual);
-			efeitoAtual = novo;
-			efeitos = efeitosSelec;
-		}
-	}
-	
 	private Interface iface;
 	private Dificuldade dificuldade = Dificuldade.MEDIO;
 	private boolean musica = false;
-	private boolean efeitos = false;
-	private Button dificuldadeAtual, musicaAtual, efeitoAtual;
+	private Button dificuldadeAtual, musicaAtual;
 	
 	public Opcoes(VisaoGuerraDasUniversidades jogo){
 		super(jogo);
@@ -154,8 +131,7 @@ public class Opcoes extends TipoTela {
 		root.setSize(graphics().width(), graphics().height());
 		base.add(root.layer);
 
-		root.add(gerarMenuDificuldade(), gerarMenuMusica(), 
-				gerarMenuEfeitos(), gerarMenuInfo());
+		root.add(gerarMenuDificuldade(), gerarMenuMusica(), gerarMenuInfo());
 	}
 
 	/**
@@ -193,37 +169,15 @@ public class Opcoes extends TipoTela {
 		Button ligada = new Button().setText("Ligada");
 		Button desligada = new Button().setText("Desligada");
 
-		musicaAtual = ligada;
+		musicaAtual = desligada;
 		
 		ligada.clicked().connect(new TratadorMusica(ligada, true));		
 		desligada.clicked().connect(new TratadorMusica(desligada, false));		
 		
-		ligada.addStyles(obterEstiloBotaoSelecionado());
+		desligada.addStyles(obterEstiloBotaoSelecionado());
 		
 		musica.add(ligada, desligada);
 		return musica;
-	}
-	
-	/**
-	 * Gera o menu(opcoes de efeitos) de efeitos do jogo 
-	 * @return  efeitos
-	 */
-	private Group gerarMenuEfeitos() {
-		Group efeitos = new Group(AxisLayout.horizontal().offStretch());
-		efeitos.add(new Label("Efeitos: "));
-		
-		Button ligados = new Button().setText("Ligados");
-		final Button desligados = new Button().setText("Desligados");
-		
-		efeitoAtual = ligados;
-		
-		ligados.clicked().connect(new TratadorEfeitos(ligados, true));
-		desligados.clicked().connect(new TratadorEfeitos(desligados, false));
-		
-		ligados.addStyles(obterEstiloBotaoSelecionado());
-		
-		efeitos.add(ligados, desligados);
-		return efeitos;
 	}
 	
 	/**
@@ -232,11 +186,9 @@ public class Opcoes extends TipoTela {
 	 */
 	private Group gerarMenuInfo() {
 		Group info = new Group(AxisLayout.horizontal().offStretch());
-		Button creditos = new Button().setText("Créditos");
 		Button voltar = new Button().setText("Voltar");
 		voltar.clicked().connect(new TratadorTrocarTela(visao, visao.obterMenu()));
-		creditos.clicked().connect(new TratadorTrocarTela(visao, visao.obterCreditos()));
-		info.add(voltar, creditos);
+		info.add(voltar);
 		return info;
 	}
 

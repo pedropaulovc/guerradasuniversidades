@@ -24,7 +24,6 @@ public class VisaoGuerraDasUniversidades implements Game {
 	private TipoTela atual;
 	private Menu menu;
 	private Opcoes opcoes;
-	private Recordes recordes;
 	private KonamiCode kc;
 	private Iniciar iniciar;
 	private Universidades universidades;
@@ -40,7 +39,6 @@ public class VisaoGuerraDasUniversidades implements Game {
 	public VisaoGuerraDasUniversidades() {
 		menu = new Menu(this);
 		opcoes = new Opcoes(this);
-		recordes = new Recordes(this);
 		kc = new KonamiCode(this);
 		iniciar = new Iniciar(this);
 		universidades = new Universidades(this);
@@ -138,10 +136,6 @@ public class VisaoGuerraDasUniversidades implements Game {
 
 	public Opcoes obterOpcoes() {
 		return opcoes;
-	}
-
-	public Recordes obterRecordes() {
-		return recordes;
 	}
 
 	public Iniciar obterIniciar() {
