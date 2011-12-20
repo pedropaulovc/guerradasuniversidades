@@ -11,11 +11,11 @@ import playn.core.ResourceCallback;
 import tripleplay.ui.Interface;
 
 /**
+ * Classe responsavel pela tela de fim de jogo.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsavel pela tela de fim de jogo.
  */
 public class FimJogo extends TipoTela {
 

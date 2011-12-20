@@ -1,12 +1,12 @@
 package com.mac242.guerradasuniversidades.core.modelo;
 
 /**
+ * Interface de um jogador no jogo, implementada por diferentes tipo de jogador como
+ * humano ou máquina.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Interface de um jogador no jogo, implementada por diferentes tipo de jogador como
- * humano ou máquina.
  */
 public interface TipoJogador {
 
@@ -21,51 +21,61 @@ public interface TipoJogador {
 	public void atualizarDia();
 
 	/**
+	 * Método getter dos pontos de ensino do jogador.
 	 * @return Os pontos de ensino atuais do jogador.
 	 */
 	public int obterPontosEnsino();
 
 	/**
+	 * Método getter do foco do jogador.
 	 * @return O foco atual do jogador
 	 */
 	public int obterFoco();
 
 	/**
+	 * Método getter dos HP do jogador.
 	 * @return Os pontos de vida atuais do jogador.
 	 */
 	public int obterHP();
 
 	/**
+	 * Método getter da taxa de manutenção do jogador.
 	 * @return A taxa de manutenção atual do jogador por dia.
 	 */
 	public int obterTaxaManutencao();
 
 	/**
+	 * Método getter da taxa de manutenção do jogador.
 	 * @return A taxa de folha de pagamento do jogador por dia
 	 */
 	public int obterTaxaFuncionarios();
 
 	/**
+	 * Método getter da taxa de foco do jogador.
 	 * @return A taxa de foco do jogador por dia
 	 */
 	public int obterTaxaFoco();
 
 	/**
+	 * Método getter do gerente de estruturas do jogador.
 	 * @return O gerente de estruturas associado ao jogador.
 	 */
 	public GerenteEstruturas obterGerenteEstruturas();
 
 	/**
+	 * Método getter da taxa de pontos de ensino do jogador.
 	 * @return A taxa de pontos de ensino do jogador por segundo
 	 */
 	public int obterTaxaPontosEnsino();
 
 	/**
+	 * Método getter do foco máximo do jogador.
 	 * @return O limite de foco do jogador
 	 */
 	public int obterFocoMaximo();
 
 	/**
+	 * Método getter do nome do jogador.
 	 * @return O nome do jogador
 	 */
 	public String obterNome();
@@ -76,19 +86,24 @@ public interface TipoJogador {
 	public void realizarJogada();
 
 	/**
+	 * Método getter do status do jogador.
 	 * @return Um objeto apresentando as informações do jogador
 	 */
 	public StatusJogador obterStatus();
 
 	/**
+	 * Método getter do nome da universidade do jogador.
 	 * @return O nome da universidade do jogador.
 	 */
 	public NomeUniversidade obterNomeUniversidade();
 
 	/**
-	 * @return O poder de um ataque segundo a fórmula:
-	 * se possui pelo menos uma classe completa : FO 
-	 * senão : 0;
+	 * Método que calcula o poder de um ataque do jogador
+	 * 
+	 * O poder é calculado com a fórmula
+	 * 		se possui pelo menos uma classe completa : FO 
+	 * 		senão : 0;
+	 * @return O poder de um ataque
 	 */
 	public int calcularPoderAtaque();
 
@@ -106,6 +121,7 @@ public interface TipoJogador {
 	public void receberAtaque(int poder);
 
 	/**
+	 * Método getter do número máximo de pontos de ensino do jogador
 	 * @return O máximo de pontos de ensino que o jogador pode ter.
 	 */
 	public int obterPontosEnsinoMaximo();

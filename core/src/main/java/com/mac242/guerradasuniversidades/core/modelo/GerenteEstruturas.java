@@ -22,13 +22,13 @@ import java.util.Random;
 import com.mac242.guerradasuniversidades.core.util.Observable;
 
 /**
- * @author Pedro Paulo Vezza Campos    NUSP: 7538743
- * @author Daniel Huguenin             NUSP: 5118403
- * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
  * Classe responsável por gerir as estruturas possuídas pelo jogador além
  * de gastos relacionados a estas estruturas. Esta classe é interna ao modelo
  * lógico do jogo, operando segundo o modelo de programação por contrato.
+ * 
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
  */
 public class GerenteEstruturas extends Observable {
 	private List<SalaAula> salas = new ArrayList<SalaAula>();
@@ -111,6 +111,10 @@ public class GerenteEstruturas extends Observable {
 		disp.put(GUARDA_UNIVERSITARIA, 1);
 	}
 
+	/**
+	 * Método que atualiza acontecimentos de tempo finito, tais como
+	 * seminários. Deve ser chamado a cada dia passado no jogo.
+	 */
 	public void atualizarDia(){
 		int encerrados = 0;
 		

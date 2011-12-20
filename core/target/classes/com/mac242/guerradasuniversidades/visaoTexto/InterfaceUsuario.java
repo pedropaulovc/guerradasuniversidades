@@ -16,11 +16,11 @@ import com.mac242.guerradasuniversidades.core.modelo.TipoNotificacao;
 import com.mac242.guerradasuniversidades.core.util.Observable;
 import com.mac242.guerradasuniversidades.core.util.Observer;
 /**
+ * Classe com uma implementação simples de interface em modo texto do jogo.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe com uma implementação simples de interface em modo texto do jogo. 
  */
 public class InterfaceUsuario implements Observer {
 	Scanner scanner = new Scanner(System.in);

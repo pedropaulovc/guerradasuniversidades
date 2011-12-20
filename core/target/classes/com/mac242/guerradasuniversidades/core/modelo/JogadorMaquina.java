@@ -7,12 +7,12 @@ import com.mac242.guerradasuniversidades.core.util.Observable;
 import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
+ * Classe representante de um jogador máquina no jogo. É uma fachada para um objeto
+ * Jogador segundo a interface TipoJogador. 
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe representante de um jogador máquina no jogo. É uma fachada para um objeto
- * Jogador segundo a interface TipoJogador. 
  */
 public class JogadorMaquina extends Observable implements Observer, TipoJogador {
 	private Jogador jogador;

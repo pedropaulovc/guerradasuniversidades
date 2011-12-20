@@ -7,11 +7,11 @@ import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
 import react.UnitSlot;
 
 /**
+ * Classe responsável por tratar eventos de ataque de oponentes na tela Oponentes.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsável por tratar eventos de ataque de oponentes na tela Oponentes.
  */
 public class TratadorAtacarOponente extends UnitSlot {
 	
@@ -32,7 +32,7 @@ public class TratadorAtacarOponente extends UnitSlot {
 	
 	/**
 	 * Método setter do alvo do ataque
-	 * @param jogador O nome da universidade alvo do ataque.
+	 * @param oponente O nome da universidade alvo do ataque.
 	 * @return this para encadeamento de métodos.
 	 */
 	public TratadorAtacarOponente definirOponente(NomeUniversidade oponente){
@@ -42,7 +42,7 @@ public class TratadorAtacarOponente extends UnitSlot {
 	
 	/**
 	 * Método setter da classe principal da visão do jogo
-	 * @param jogador A instância da classe principal da visão do jogo. 
+	 * @param visao A instância da classe principal da visão do jogo. 
 	 * @return this para encadeamento de métodos.
 	 */
 	public TratadorAtacarOponente definirVisao(VisaoGuerraDasUniversidades visao){

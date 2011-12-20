@@ -7,12 +7,12 @@ import com.mac242.guerradasuniversidades.core.util.Observable;
 import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
+ * Classe principal do modelo lógico do jogo. Responsável por informações
+ * comuns a todos os jogadores.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe principal do modelo lógico do jogo. Responsável por informações
- * comuns a todos os jogadores.
  */
 public class GuerraDasUniversidades extends Observable implements Observer {
 	private int segundos;

@@ -11,12 +11,12 @@ import playn.core.Game;
 import playn.core.Keyboard;
 
 /**
+ * Classe responsavel pelo main loop do jogo, setando o display e a
+ * atualizacao dos graficos.
+ * 
  * @author Pedro Paulo Vezza Campos NUSP: 7538743
  * @author Daniel Huguenin NUSP: 5118403
  * @author Antonio Rui Castro Junior NUSP: 5984327
- * 
- *         Classe responsavel pelo main loop do jogo, setando o display e a
- *         atualizacao dos graficos.
  */
 
 public class VisaoGuerraDasUniversidades implements Game {

@@ -7,11 +7,11 @@ import com.mac242.guerradasuniversidades.core.modelo.FocoAdministracao;
 import com.mac242.guerradasuniversidades.core.visao.VisaoGuerraDasUniversidades;
 
 /**
+ * Classe responsável por tratar eventos de definição do foco da administração na tela Iniciar.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsável por tratar eventos de definição do foco da administração na tela Iniciar. 
  */
 public class TratadorBotaoFoco extends UnitSlot{
 	private FocoAdministracao foco;

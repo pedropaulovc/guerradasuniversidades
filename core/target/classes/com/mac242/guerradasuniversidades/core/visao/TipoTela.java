@@ -9,11 +9,11 @@ import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
 
 /**
+ * Classe responsavel pelo style das telas.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsavel pelo style das telas.
  */
 
 public abstract class TipoTela {

@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Pedro Paulo Vezza Campos    NUSP: 7538743
- * @author Daniel Huguenin             NUSP: 5118403
- * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
  * Classe fachada do objeto Jogador, responsável por permitir o acesso 
  * apenas a métodos autorizados a serem executados externamente ao modelo lógico
  * do jogo. Realiza todas as checagens antes executar um método, retornando informações
  * sobre o sucesso ou não de uma operação.
+ * 
+ * @author Pedro Paulo Vezza Campos    NUSP: 7538743
+ * @author Daniel Huguenin             NUSP: 5118403
+ * @author Antonio Rui Castro Junior   NUSP: 5984327
+ * 
+
  */
 public class FachadaJogador {
 	private Jogador jogador;
@@ -169,7 +171,7 @@ public class FachadaJogador {
 	 * Método responsável por tentar realizar um ataque a um alvo definido no
 	 * parâmetro. 
 	 * @param alvo O alvo do ataque.
-	 * @returno O resultado do ataque dependendo das condições atuais do jogador.
+	 * @return O resultado do ataque dependendo das condições atuais do jogador.
 	 */
 	public ResultadoAtaque atacar(NomeUniversidade alvo){
 		Set<NomeUniversidade> vivos = jogo.obterVivos();

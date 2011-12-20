@@ -42,11 +42,11 @@ import com.mac242.guerradasuniversidades.core.util.Observable;
 import com.mac242.guerradasuniversidades.core.util.Observer;
 
 /**
+ * Classe responsavel pela tela principal do jogo( onde o usuario ira jogar mesmo).
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsavel pela tela principal do jogo( onde o usuario ira jogar mesmo).
  */
 
 public class TelaPrincipal extends TipoTela implements Observer {

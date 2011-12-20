@@ -22,11 +22,10 @@ import com.mac242.guerradasuniversidades.core.controle.TratadorBotaoFoco;
 import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 
 /**
+ * Classe responsavel pela tela iniciar(escolha de personagem).
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe responsavel pela tela iniciar(escolha de personagem).
  */
 
 public class Iniciar extends TipoTela{

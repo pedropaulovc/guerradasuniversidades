@@ -1,11 +1,11 @@
 package com.mac242.guerradasuniversidades.core.modelo;
 
 /**
+ * Classe representante das configurações iniciais do jogador.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe representante das configurações iniciais do jogador.
  */
 public class ConstrutorJogador {
 	private String nome;
@@ -34,7 +34,7 @@ public class ConstrutorJogador {
 	
 	/**
 	 * Método setter da universidade do jogador.
-	 * @param nome A universidade escolhida pelo jogador.
+	 * @param universidade A universidade escolhida pelo jogador.
 	 * @return this para encademento de métodos.
 	 */
 	public ConstrutorJogador definirUniversidade(NomeUniversidade universidade){

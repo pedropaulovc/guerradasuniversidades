@@ -16,11 +16,11 @@ import tripleplay.ui.Stylesheet;
 import com.mac242.guerradasuniversidades.core.controle.TratadorTrocarTela;
 
 /**
+ * Classe reponsavel pela tela de menu do jogo.
+ * 
  * @author Pedro Paulo Vezza Campos    NUSP: 7538743
  * @author Daniel Huguenin             NUSP: 5118403
  * @author Antonio Rui Castro Junior   NUSP: 5984327
- * 
- * Classe reponsavel pela tela de menu do jogo.
  */
 
 public class Menu extends TipoTela {
